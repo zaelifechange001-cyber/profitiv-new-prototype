@@ -2,41 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Profitiv Design System - Modern glass morphism with purple/teal gradients */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark theme base colors */
+    --background: 222 84% 5%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Glass morphism cards */
+    --card: 222 84% 5%;
+    --card-foreground: 210 40% 98%;
+    --card-glass: 222 47% 11% / 0.6;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Popover styles */
+    --popover: 222 84% 5%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary purple theme */
+    --primary: 258 90% 66%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 258 90% 76%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary teal accents */
+    --secondary: 174 60% 51%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 174 60% 61%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted backgrounds */
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent colors */
+    --accent: 258 90% 66%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    /* Status colors */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 84% 5%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders and inputs */
+    --border: 258 90% 66% / 0.2;
+    --input: 217 33% 18%;
+    --ring: 258 90% 66%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Custom Profitiv colors */
+    --profitiv-purple: 258 90% 66%;
+    --profitiv-purple-light: 258 90% 76%;
+    --profitiv-purple-dark: 258 90% 56%;
+    --profitiv-teal: 174 60% 51%;
+    --profitiv-teal-light: 174 60% 61%;
+    --profitiv-teal-dark: 174 60% 41%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(222 84% 5%), hsl(258 90% 56%));
+    --gradient-secondary: linear-gradient(135deg, hsl(258 90% 66%), hsl(174 60% 51%));
+    --gradient-hero: linear-gradient(135deg, hsl(222 84% 5%) 0%, hsl(258 90% 56%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(222 47% 11% / 0.6), hsl(258 90% 56% / 0.6));
+    --gradient-button: linear-gradient(135deg, hsl(258 90% 66%), hsl(174 60% 51%));
+    --gradient-button-hover: linear-gradient(135deg, hsl(258 90% 56%), hsl(174 60% 41%));
+
+    /* Glass effects */
+    --glass-bg: hsl(222 47% 11% / 0.6);
+    --glass-border: hsl(258 90% 66% / 0.2);
+    --glass-blur: blur(16px);
+
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(258 90% 66% / 0.4);
+    --shadow-card: 0 10px 30px -10px hsl(258 90% 66% / 0.3);
+    --shadow-button: 0 10px 25px hsl(258 90% 66% / 0.5);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -52,45 +96,6 @@ All colors MUST be HSL.
 
     --sidebar-border: 220 13% 91%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -101,5 +106,164 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background: var(--gradient-hero);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Glass morphism components */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    transition: var(--transition-smooth);
+  }
+
+  .glass-card:hover {
+    border-color: hsl(var(--profitiv-purple) / 0.4);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Button variants */
+  .btn-gradient {
+    background: var(--gradient-button);
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-card);
+  }
+
+  .btn-gradient:hover {
+    background: var(--gradient-button-hover);
+    box-shadow: var(--shadow-button);
+    transform: translateY(-1px);
+  }
+
+  .btn-glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    transition: var(--transition-smooth);
+  }
+
+  .btn-glass:hover {
+    background: hsl(var(--profitiv-purple) / 0.2);
+    border-color: hsl(var(--profitiv-purple) / 0.4);
+  }
+
+  /* Text gradients */
+  .text-gradient {
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-hero {
+    background: linear-gradient(135deg, hsl(var(--profitiv-teal)), hsl(var(--profitiv-purple)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Hover lift effect */
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Progress bars */
+  .progress-bar {
+    background: var(--gradient-secondary);
+    border-radius: 4px;
+    height: 8px;
+    transition: width 0.3s ease;
+  }
+
+  /* Earning cards */
+  .earning-card {
+    background: var(--gradient-card);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    transition: var(--transition-smooth);
+  }
+
+  .earning-card:hover {
+    border-color: hsl(var(--profitiv-purple) / 0.4);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Status badges */
+  .badge-success {
+    background: hsl(var(--success) / 0.2);
+    color: hsl(var(--success));
+    border: 1px solid hsl(var(--success) / 0.3);
+  }
+
+  .badge-warning {
+    background: hsl(var(--warning) / 0.2);
+    color: hsl(var(--warning));
+    border: 1px solid hsl(var(--warning) / 0.3);
+  }
+
+  .badge-info {
+    background: hsl(var(--profitiv-purple) / 0.2);
+    color: hsl(var(--profitiv-purple-light));
+    border: 1px solid hsl(var(--profitiv-purple) / 0.3);
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    position: relative;
+    transition: var(--transition-smooth);
+  }
+
+  .nav-link:hover {
+    color: hsl(var(--profitiv-teal));
+  }
+
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient-secondary);
+    border-radius: 1px;
+  }
+
+  /* Loading spinner */
+  .loading-spinner {
+    border: 2px solid hsl(var(--profitiv-purple) / 0.3);
+    border-top: 2px solid hsl(var(--profitiv-purple));
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Glow animations */
+  .glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow-pulse {
+    from {
+      box-shadow: 0 0 20px hsl(var(--profitiv-purple) / 0.5);
+    }
+    to {
+      box-shadow: 0 0 30px hsl(var(--profitiv-purple) / 0.8), 0 0 40px hsl(var(--profitiv-teal) / 0.5);
+    }
   }
 }
