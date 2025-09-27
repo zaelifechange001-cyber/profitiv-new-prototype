@@ -2,7 +2,6 @@ import HeroSection from "@/components/HeroSection";
 import EarningMethods from "@/components/EarningMethods";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Navigation from "@/components/Navigation";
-import YourEarningsToday from "@/components/YourEarningsToday";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, CheckCircle } from "lucide-react";
 
@@ -40,9 +39,6 @@ const Index = () => {
       
       {/* Hero Section */}
       <HeroSection />
-
-      {/* Your Earnings Today */}
-      <YourEarningsToday />
 
       {/* Earning Methods */}
       <EarningMethods />
