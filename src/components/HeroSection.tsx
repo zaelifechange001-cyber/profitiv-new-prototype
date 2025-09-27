@@ -62,11 +62,11 @@ const HeroSection = () => {
 
           {/* Right Column - Your Earnings Today */}
           <div className="flex justify-center lg:justify-end">
-            <div className="max-w-md w-full">
+            <div className="max-w-md w-full mt-8">
               <div className="glass-card p-6 glow-pulse">
                 {/* Header */}
                 <h2 className="text-2xl font-bold text-white mb-6">
-                  Your Earnings<span className="text-foreground/60">Today</span>
+                  Your Earnings <span className="text-foreground/60">Today</span>
                 </h2>
 
                 {/* Available Balance */}
