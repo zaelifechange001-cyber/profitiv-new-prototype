@@ -108,32 +108,6 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Feature Cards - Full Width Below */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-4xl mx-auto">
-          <div className="glass-card p-6 hover-lift">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center mb-4">
-              <Play className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold mb-2">Watch & Earn</h3>
-            <p className="text-foreground/70">Earn $0.01-$0.30 per video by watching sponsored content and advertisements.</p>
-          </div>
-
-          <div className="glass-card p-6 hover-lift">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-profitiv-teal to-profitiv-purple flex items-center justify-center mb-4">
-              <DollarSign className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold mb-2">Game Rewards</h3>
-            <p className="text-foreground/70">Play casual games and earn $0.05-$0.50 per completed level or achievement.</p>
-          </div>
-
-          <div className="glass-card p-6 hover-lift">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center mb-4">
-              <Users className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold mb-2">Affiliate Network</h3>
-            <p className="text-foreground/70">Build your network and earn up to 20% commission on referral activities.</p>
-          </div>
-        </div>
       </div>
     </section>
   );
