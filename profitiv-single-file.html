@@ -1,0 +1,2583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profitiv - Earn Money Online</title>
+    <meta name="description" content="Transform your spare time into real income. Watch videos, play games, and build your affiliate network with Profitiv's revolutionary earning platform." />
+    <meta name="author" content="Profitiv" />
+
+    <meta property="og:title" content="Profitiv - Earn Money Online" />
+    <meta property="og:description" content="Transform your spare time into real income. Watch videos, play games, and build your affiliate network with Profitiv's revolutionary earning platform." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@profitiv" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <style>
+        /* Profitiv Design System - Glassmorphism Theme */
+        :root {
+            /* Base Dark Theme Colors */
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --card: 222.2 84% 4.9%;
+            --card-foreground: 210 40% 98%;
+            --card-glass: 222.2 84% 4.9% / 0.3;
+            --popover: 222.2 84% 4.9%;
+            --popover-foreground: 210 40% 98%;
+            --primary: 262.1 83.3% 57.8%;
+            --primary-foreground: 210 40% 98%;
+            --primary-glow: 262.1 83.3% 67.8%;
+            --secondary: 217.2 32.6% 17.5%;
+            --secondary-foreground: 210 40% 98%;
+            --secondary-glow: 217.2 32.6% 27.5%;
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --accent: 217.2 32.6% 17.5%;
+            --accent-foreground: 210 40% 98%;
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 210 40% 98%;
+            --success: 142 76% 36%;
+            --success-foreground: 210 40% 98%;
+            --warning: 47 96% 53%;
+            --warning-foreground: 0 0% 0%;
+            --border: 217.2 32.6% 17.5%;
+            --input: 217.2 32.6% 17.5%;
+            --ring: 262.1 83.3% 57.8%;
+            --radius: 0.75rem;
+
+            /* Custom Profitiv Colors */
+            --profitiv-purple: 262.1 83.3% 57.8%;
+            --profitiv-purple-light: 262.1 83.3% 67.8%;
+            --profitiv-purple-dark: 262.1 83.3% 47.8%;
+            --profitiv-teal: 180 100% 40%;
+            --profitiv-teal-light: 180 100% 50%;
+            --profitiv-teal-dark: 180 100% 30%;
+
+            /* Gradients */
+            --gradient-hero: linear-gradient(135deg, hsl(var(--profitiv-purple)), hsl(var(--profitiv-teal)));
+            --gradient-card: linear-gradient(135deg, hsl(var(--background)), hsl(var(--profitiv-purple) / 0.1));
+            --gradient-button: linear-gradient(135deg, hsl(var(--profitiv-purple)), hsl(var(--profitiv-teal)));
+            --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+
+            /* Glass Effects */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-blur: blur(20px);
+
+            /* Shadows */
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 40px hsl(var(--profitiv-purple) / 0.4);
+
+            /* Transitions */
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gradient-hero);
+            color: hsl(var(--foreground));
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Glass Card Effect */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            transition: var(--transition-smooth);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            border-radius: calc(var(--radius) - 2px);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-gradient {
+            background: var(--gradient-button);
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            padding: 0.75rem 1.5rem;
+        }
+
+        .btn-gradient:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-1px);
+        }
+
+        .btn-glass {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            color: hsl(var(--foreground));
+            padding: 0.75rem 1.5rem;
+        }
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-hero {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            height: 3.5rem;
+            border-radius: var(--radius);
+        }
+
+        .btn-lg {
+            padding: 0.875rem 2rem;
+            height: 2.75rem;
+            border-radius: calc(var(--radius) - 2px);
+        }
+
+        /* Text Gradients */
+        .text-gradient-hero {
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Earning Card */
+        .earning-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            transition: var(--transition-smooth);
+        }
+
+        .earning-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Navigation */
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            border-radius: calc(var(--radius) - 2px);
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            color: hsl(var(--foreground) / 0.8);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: hsl(var(--profitiv-teal));
+        }
+
+        .nav-link.active {
+            color: hsl(var(--profitiv-teal));
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Badge Styles */
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: hsl(var(--success) / 0.2);
+            color: hsl(var(--success));
+        }
+
+        .badge-warning {
+            background: hsl(var(--warning) / 0.2);
+            color: hsl(var(--warning));
+        }
+
+        /* Glow Pulse Animation */
+        .glow-pulse {
+            animation: glow-pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            from {
+                box-shadow: 0 0 20px hsl(var(--profitiv-purple) / 0.3);
+            }
+            to {
+                box-shadow: 0 0 40px hsl(var(--profitiv-purple) / 0.6);
+            }
+        }
+
+        /* Hover Lift */
+        .hover-lift {
+            transition: var(--transition-smooth);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Responsive Grid */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .grid-cols-4 {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        @media (min-width: 768px) {
+            .md\\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .md\\:grid-cols-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+            .md\\:grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .lg\\:grid-cols-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+            .lg\\:grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+        }
+
+        .text-4xl {
+            font-size: 2.25rem;
+        }
+
+        .text-5xl {
+            font-size: 3rem;
+        }
+
+        .text-6xl {
+            font-size: 3.75rem;
+        }
+
+        .text-7xl {
+            font-size: 4.5rem;
+        }
+
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mb-16 { margin-bottom: 4rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mt-16 { margin-top: 4rem; }
+
+        .p-3 { padding: 0.75rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .p-12 { padding: 3rem; }
+
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .space-y-3 > * + * { margin-top: 0.75rem; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .space-y-6 > * + * { margin-top: 1.5rem; }
+        .space-y-8 > * + * { margin-top: 2rem; }
+
+        .space-x-2 > * + * { margin-left: 0.5rem; }
+        .space-x-3 > * + * { margin-left: 0.75rem; }
+        .space-x-4 > * + * { margin-left: 1rem; }
+        .space-x-6 > * + * { margin-left: 1.5rem; }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .items-start {
+            align-items: flex-start;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-end {
+            justify-content: flex-end;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .h-full {
+            height: 100%;
+        }
+
+        .min-h-screen {
+            min-height: 100vh;
+        }
+
+        .max-w-7xl {
+            max-width: 80rem;
+        }
+
+        .max-w-3xl {
+            max-width: 48rem;
+        }
+
+        .max-w-2xl {
+            max-width: 42rem;
+        }
+
+        .max-w-md {
+            max-width: 28rem;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .top-0 {
+            top: 0;
+        }
+
+        .left-0 {
+            left: 0;
+        }
+
+        .right-0 {
+            right: 0;
+        }
+
+        .z-50 {
+            z-index: 50;
+        }
+
+        .z-10 {
+            z-index: 10;
+        }
+
+        .overflow-hidden {
+            overflow: hidden;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .block {
+            display: block;
+        }
+
+        .rounded-full {
+            border-radius: 9999px;
+        }
+
+        .rounded-lg {
+            border-radius: var(--radius);
+        }
+
+        .rounded-2xl {
+            border-radius: 1rem;
+        }
+
+        .leading-tight {
+            line-height: 1.25;
+        }
+
+        .leading-relaxed {
+            line-height: 1.625;
+        }
+
+        .opacity-60 {
+            opacity: 0.6;
+        }
+
+        .opacity-80 {
+            opacity: 0.8;
+        }
+
+        .border-b {
+            border-bottom-width: 1px;
+            border-color: hsl(var(--border));
+        }
+
+        .h-16 {
+            height: 4rem;
+        }
+
+        .w-8 {
+            width: 2rem;
+        }
+
+        .h-8 {
+            height: 2rem;
+        }
+
+        .w-5 {
+            width: 1.25rem;
+        }
+
+        .h-5 {
+            height: 1.25rem;
+        }
+
+        .w-4 {
+            width: 1rem;
+        }
+
+        .h-4 {
+            height: 1rem;
+        }
+
+        .w-16 {
+            width: 4rem;
+        }
+
+        .h-16 {
+            height: 4rem;
+        }
+
+        .w-10 {
+            width: 2.5rem;
+        }
+
+        .h-10 {
+            height: 2.5rem;
+        }
+
+        .w-2 {
+            width: 0.5rem;
+        }
+
+        .h-2 {
+            height: 0.5rem;
+        }
+
+        .w-1\\.5 {
+            width: 0.375rem;
+        }
+
+        .h-1\\.5 {
+            height: 0.375rem;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+
+        /* Responsive Classes */
+        @media (min-width: 640px) {
+            .sm\\:text-6xl {
+                font-size: 3.75rem;
+            }
+            .sm\\:text-2xl {
+                font-size: 1.5rem;
+            }
+            .sm\\:flex-row {
+                flex-direction: row;
+            }
+            .sm\\:space-y-0 > * + * {
+                margin-top: 0;
+            }
+            .sm\\:space-x-6 > * + * {
+                margin-left: 1.5rem;
+            }
+            .sm\\:space-x-12 > * + * {
+                margin-left: 3rem;
+            }
+            .sm\\:px-6 {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .md\\:flex {
+                display: flex;
+            }
+            .md\\:hidden {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\\:text-7xl {
+                font-size: 4.5rem;
+            }
+            .lg\\:text-left {
+                text-align: left;
+            }
+            .lg\\:justify-start {
+                justify-content: flex-start;
+            }
+            .lg\\:justify-end {
+                justify-content: flex-end;
+            }
+            .lg\\:px-8 {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-top: none;
+        }
+
+        .mobile-menu.show {
+            display: block;
+        }
+
+        @media (max-width: 767px) {
+            .text-4xl {
+                font-size: 2rem;
+            }
+            .text-6xl {
+                font-size: 2.5rem;
+            }
+            .text-7xl {
+                font-size: 3rem;
+            }
+        }
+
+        /* Icon colors */
+        .text-profitiv-teal {
+            color: hsl(var(--profitiv-teal));
+        }
+
+        .text-profitiv-purple {
+            color: hsl(var(--profitiv-purple));
+        }
+
+        .text-success {
+            color: hsl(var(--success));
+        }
+
+        .text-warning {
+            color: hsl(var(--warning));
+        }
+
+        .text-secondary {
+            color: hsl(var(--secondary));
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        .bg-success {
+            background-color: hsl(var(--success));
+        }
+
+        .bg-profitiv-teal {
+            background-color: hsl(var(--profitiv-teal));
+        }
+
+        /* Background gradients */
+        .bg-gradient-to-br {
+            background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+        }
+
+        .from-profitiv-purple {
+            --tw-gradient-from: hsl(var(--profitiv-purple));
+            --tw-gradient-to: hsl(var(--profitiv-purple) / 0);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+
+        .to-profitiv-teal {
+            --tw-gradient-to: hsl(var(--profitiv-teal));
+        }
+
+        .from-blue-500 {
+            --tw-gradient-from: hsl(217 91% 60%);
+            --tw-gradient-to: hsl(217 91% 60% / 0);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+
+        .to-purple-600 {
+            --tw-gradient-to: hsl(271 81% 56%);
+        }
+
+        .from-green-500 {
+            --tw-gradient-from: hsl(142 76% 36%);
+            --tw-gradient-to: hsl(142 76% 36% / 0);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+
+        .to-teal-600 {
+            --tw-gradient-to: hsl(175 84% 32%);
+        }
+
+        .from-purple-500 {
+            --tw-gradient-from: hsl(271 91% 65%);
+            --tw-gradient-to: hsl(271 91% 65% / 0);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+
+        .to-pink-600 {
+            --tw-gradient-to: hsl(336 84% 57%);
+        }
+
+        .from-orange-500 {
+            --tw-gradient-from: hsl(25 95% 53%);
+            --tw-gradient-to: hsl(25 95% 53% / 0);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+
+        .to-red-600 {
+            --tw-gradient-to: hsl(0 84% 60%);
+        }
+
+        /* Page specific styling */
+        .pt-20 {
+            padding-top: 5rem;
+        }
+
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .bg-gradient-to-br.from-background {
+            background-image: linear-gradient(to bottom right, hsl(var(--background)), var(--tw-gradient-to));
+        }
+
+        .via-profitiv-purple\\/10 {
+            --tw-gradient-stops: var(--tw-gradient-from), hsl(var(--profitiv-purple) / 0.1), var(--tw-gradient-to);
+        }
+
+        .to-profitiv-teal\\/10 {
+            --tw-gradient-to: hsl(var(--profitiv-teal) / 0.1);
+        }
+
+        .top-20 {
+            top: 5rem;
+        }
+
+        .left-10 {
+            left: 2.5rem;
+        }
+
+        .bottom-20 {
+            bottom: 5rem;
+        }
+
+        .right-10 {
+            right: 2.5rem;
+        }
+
+        .w-72 {
+            width: 18rem;
+        }
+
+        .h-72 {
+            height: 18rem;
+        }
+
+        .w-96 {
+            width: 24rem;
+        }
+
+        .h-96 {
+            height: 24rem;
+        }
+
+        .bg-profitiv-purple\\/20 {
+            background-color: hsl(var(--profitiv-purple) / 0.2);
+        }
+
+        .bg-profitiv-teal\\/20 {
+            background-color: hsl(var(--profitiv-teal) / 0.2);
+        }
+
+        .blur-3xl {
+            filter: blur(64px);
+        }
+
+        .delay-1000 {
+            animation-delay: 1000ms;
+        }
+
+        .py-20 {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+
+        .inline-flex {
+            display: inline-flex;
+        }
+
+        .ring-2 {
+            box-shadow: 0 0 0 2px var(--tw-ring-color);
+        }
+
+        .ring-profitiv-teal {
+            --tw-ring-color: hsl(var(--profitiv-teal));
+        }
+
+        .flex-shrink-0 {
+            flex-shrink: 0;
+        }
+
+        .mt-0\\.5 {
+            margin-top: 0.125rem;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
+        .hover\\:underline:hover {
+            text-decoration: underline;
+        }
+
+        .text-blue-500 {
+            color: hsl(217 91% 60%);
+        }
+
+        .hover\\:text-blue-700:hover {
+            color: hsl(217 91% 45%);
+        }
+
+        .bg-gray-100 {
+            background-color: hsl(210 20% 98%);
+        }
+
+        .text-gray-600 {
+            color: hsl(215 16% 47%);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <a href="#" class="flex items-center space-x-2" onclick="showPage('home')">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold text-gradient-hero">Profitiv</span>
+                    </a>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#" class="nav-link" data-page="dashboard" onclick="showPage('dashboard')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="nav-link" data-page="earn" onclick="showPage('earn')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            </svg>
+                            <span>Earn</span>
+                        </a>
+                        <a href="#" class="nav-link" data-page="videos" onclick="showPage('videos')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                            </svg>
+                            <span>Videos</span>
+                        </a>
+                        <a href="#" class="nav-link" data-page="games" onclick="showPage('games')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                            </svg>
+                            <span>Games</span>
+                        </a>
+                        <a href="#" class="nav-link" data-page="affiliate" onclick="showPage('affiliate')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                            </svg>
+                            <span>Affiliate</span>
+                        </a>
+                    </div>
+
+                    <!-- Desktop Actions -->
+                    <div class="hidden md:flex items-center space-x-4">
+                        <button class="btn btn-glass" onclick="showLoginModal()">Login</button>
+                        <button class="btn btn-gradient" onclick="showSignupModal()">Sign Up</button>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-btn" class="btn btn-glass" onclick="toggleMobileMenu()">
+                            <svg id="menu-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                            <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="#" class="nav-link block" onclick="showPage('dashboard'); toggleMobileMenu();">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-link block" onclick="showPage('earn'); toggleMobileMenu();">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                        <span>Earn</span>
+                    </a>
+                    <a href="#" class="nav-link block" onclick="showPage('videos'); toggleMobileMenu();">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                        </svg>
+                        <span>Videos</span>
+                    </a>
+                    <a href="#" class="nav-link block" onclick="showPage('games'); toggleMobileMenu();">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                        </svg>
+                        <span>Games</span>
+                    </a>
+                    <a href="#" class="nav-link block" onclick="showPage('affiliate'); toggleMobileMenu();">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                        </svg>
+                        <span>Affiliate</span>
+                    </a>
+                    <div class="pt-4 space-y-2">
+                        <button class="btn btn-glass w-full" onclick="showLoginModal()">Login</button>
+                        <button class="btn btn-gradient w-full" onclick="showSignupModal()">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Home Page -->
+        <div id="home-page" class="page">
+            <!-- Hero Section -->
+            <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+                <!-- Background Effects -->
+                <div class="absolute inset-0 bg-gradient-to-br from-background via-profitiv-purple/10 to-profitiv-teal/10"></div>
+                <div class="absolute top-20 left-10 w-72 h-72 bg-profitiv-purple/20 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute bottom-20 right-10 w-96 h-96 bg-profitiv-teal/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                
+                <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <!-- Left Column - Main Content -->
+                        <div class="text-center lg:text-left space-y-8">
+                            <!-- Hero Badge -->
+                            <div class="inline-flex items-center space-x-2 glass-card px-4 py-2 rounded-full">
+                                <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                                <span class="text-sm font-medium text-success">Live Now - Join 10,000+ Active Earners</span>
+                            </div>
+
+                            <!-- Main Headline -->
+                            <div class="space-y-4">
+                                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+                                    <span class="text-gradient-hero">Earn Money</span>
+                                    <br />
+                                    <span class="text-foreground">Online Today</span>
+                                </h1>
+                                <p class="text-xl sm:text-2xl opacity-80 max-w-3xl leading-relaxed">
+                                    Transform your spare time into real income. Watch videos, play games, and build your affiliate network with Profitiv's revolutionary earning platform.
+                                </p>
+                            </div>
+
+                            <!-- Stats -->
+                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-12">
+                                <div class="text-center lg:text-left">
+                                    <div class="text-3xl font-bold text-gradient-hero">$2.4M+</div>
+                                    <div class="text-sm opacity-60">Total Paid Out</div>
+                                </div>
+                                <div class="text-center lg:text-left">
+                                    <div class="text-3xl font-bold text-gradient-hero">50K+</div>
+                                    <div class="text-sm opacity-60">Active Users</div>
+                                </div>
+                                <div class="text-center lg:text-left">
+                                    <div class="text-3xl font-bold text-gradient-hero">24/7</div>
+                                    <div class="text-sm opacity-60">Earning Opportunities</div>
+                                </div>
+                            </div>
+
+                            <!-- CTA Buttons -->
+                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
+                                <button class="btn btn-gradient btn-hero" onclick="showSignupModal()">
+                                    Start Earning Now
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-glass btn-hero" onclick="showDemoModal()">
+                                    Watch Demo
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Your Earnings Today -->
+                        <div class="flex justify-center lg:justify-end">
+                            <div class="max-w-md w-full mt-8">
+                                <div class="glass-card p-6 glow-pulse">
+                                    <!-- Header -->
+                                    <h2 class="text-2xl font-bold text-white mb-6">
+                                        Your Earnings <span class="opacity-60">Today</span>
+                                    </h2>
+
+                                    <!-- Available Balance -->
+                                    <div class="glass-card p-6 mb-6 bg-gradient-to-br from-profitiv-purple/20 to-profitiv-teal/20">
+                                        <div class="text-center">
+                                            <p class="opacity-60 mb-2">Available Balance</p>
+                                            <div class="text-4xl font-bold text-white mb-2">$43.22</div>
+                                            <div class="text-profitiv-teal font-medium">+$5.25 today</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Earning Methods -->
+                                    <div class="mb-6">
+                                        <h3 class="text-lg font-semibold text-white mb-4">Earning Methods</h3>
+                                        <div class="space-y-3">
+                                            <div class="flex items-center justify-between p-3 rounded-lg glass-card">
+                                                <div class="flex items-center space-x-3">
+                                                    <svg class="w-5 h-5 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                                    </svg>
+                                                    <span class="text-white">Videos</span>
+                                                </div>
+                                                <span class="text-profitiv-teal font-semibold">$3.50</span>
+                                            </div>
+                                            <div class="flex items-center justify-between p-3 rounded-lg glass-card">
+                                                <div class="flex items-center space-x-3">
+                                                    <svg class="w-5 h-5 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                    </svg>
+                                                    <span class="text-white">Games</span>
+                                                </div>
+                                                <span class="text-profitiv-teal font-semibold">$1.75</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Withdraw Button -->
+                                    <button class="btn btn-gradient w-full" onclick="showWithdrawModal()">
+                                        Withdraw Funds
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Earning Methods Section -->
+            <section class="py-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+                            Multiple Ways to <span class="text-gradient-hero">Earn Money</span>
+                        </h2>
+                        <p class="text-xl opacity-80 max-w-3xl mx-auto">
+                            Choose your preferred earning method or combine multiple strategies to maximize your income potential.
+                        </p>
+                    </div>
+
+                    <!-- Methods Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                        <!-- Watch Videos -->
+                        <div class="earning-card p-8 hover-lift">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-1">Watch Videos</h3>
+                                    <p class="opacity-70">Earn money by watching sponsored videos and advertisements</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-profitiv-teal mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-profitiv-teal">Earnings</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">$0.01 - $0.30 per video</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-profitiv-purple mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-profitiv-purple">Time</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">15 seconds - 5 minutes</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-secondary mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-secondary">Level</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">Beginner</div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Short sponsored content</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Product advertisements</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Survey-based videos</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Premium exclusive content</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showPage('videos')">
+                                Start Watch Videos
+                            </button>
+                        </div>
+
+                        <!-- Play Games -->
+                        <div class="earning-card p-8 hover-lift">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-1">Play Games</h3>
+                                    <p class="opacity-70">Complete levels and achievements in casual games to earn rewards</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-profitiv-teal mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-profitiv-teal">Earnings</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">$0.05 - $0.50 per game</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-profitiv-purple mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-profitiv-purple">Time</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">2 - 15 minutes</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-secondary mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-secondary">Level</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">Easy</div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Puzzle games</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Arcade classics</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Strategy challenges</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Achievement rewards</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showPage('games')">
+                                Start Play Games
+                            </button>
+                        </div>
+
+                        <!-- Affiliate Marketing -->
+                        <div class="earning-card p-8 hover-lift">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-1">Affiliate Marketing</h3>
+                                    <p class="opacity-70">Build your network and earn commission from referral activities</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-profitiv-teal mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-profitiv-teal">Earnings</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">5% - 20% commission</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-profitiv-purple mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-profitiv-purple">Time</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">Ongoing passive income</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-secondary mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-secondary">Level</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">Intermediate</div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Product referrals</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Service promotions</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Network building</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Passive income streams</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showPage('affiliate')">
+                                Start Affiliate Marketing
+                            </button>
+                        </div>
+
+                        <!-- Investment Returns -->
+                        <div class="earning-card p-8 hover-lift">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-1">Investment Returns</h3>
+                                    <p class="opacity-70">Invest your earnings for guaranteed returns and compound growth</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-profitiv-teal mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-profitiv-teal">Earnings</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">2x - 5x returns</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-profitiv-purple mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-profitiv-purple">Time</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">24 - 72 hours</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="flex items-center justify-center mb-2">
+                                        <svg class="w-4 h-4 text-secondary mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-secondary">Level</span>
+                                    </div>
+                                    <div class="text-sm font-semibold">Advanced</div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 mb-6">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Guaranteed returns</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Multiple investment tiers</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Compound interest</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-profitiv-teal"></div>
+                                    <span class="text-sm opacity-80">Risk-free options</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showInvestmentModal()">
+                                Start Investment Returns
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Stats -->
+                    <div class="glass-card p-8 text-center">
+                        <h3 class="text-2xl font-bold mb-6">Ready to Start Earning?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                            <div>
+                                <div class="text-3xl font-bold text-gradient-hero mb-2">$157</div>
+                                <div class="opacity-60">Average monthly earnings</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-gradient-hero mb-2">24/7</div>
+                                <div class="opacity-60">Earning opportunities available</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-gradient-hero mb-2">instant</div>
+                                <div class="opacity-60">Account setup & start earning</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button class="btn btn-gradient btn-lg" onclick="showSignupModal()">
+                                Create Free Account
+                            </button>
+                            <button class="btn btn-glass btn-lg" onclick="showPage('earn')">
+                                Explore Methods
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subscription Plans Section -->
+            <section class="py-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+                            Choose Your <span class="text-gradient-hero">Subscription</span>
+                        </h2>
+                        <p class="text-xl opacity-80 max-w-2xl mx-auto">
+                            Unlock higher earning potential with our premium subscription tiers. Start free and upgrade as you grow.
+                        </p>
+                    </div>
+
+                    <!-- Plans Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Free Plan -->
+                        <div class="glass-card p-8 hover-lift">
+                            <div class="text-center mb-8">
+                                <h3 class="text-2xl font-bold mb-2">Free</h3>
+                                <div class="mb-4">
+                                    <span class="text-4xl font-bold text-gradient-hero">$0</span>
+                                    <span class="opacity-60">/month</span>
+                                </div>
+                                <p class="opacity-70">Basic access to earning opportunities</p>
+                            </div>
+
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Watch videos ($0.01-$0.05 per video)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Play simple games ($0.01-$0.10 per game)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Basic affiliate offers (5% commission)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Minimum $5 payouts</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showSignupModal()">
+                                Sign Up Free
+                            </button>
+                        </div>
+
+                        <!-- Basic Plan -->
+                        <div class="glass-card p-8 hover-lift ring-2 ring-profitiv-teal glow-pulse relative">
+                            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                                <div class="bg-gradient-to-r from-profitiv-teal to-profitiv-purple px-4 py-1 rounded-full flex items-center space-x-1">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                    </svg>
+                                    <span class="text-sm font-semibold text-white">Most Popular</span>
+                                </div>
+                            </div>
+
+                            <div class="text-center mb-8">
+                                <h3 class="text-2xl font-bold mb-2">Basic</h3>
+                                <div class="mb-4">
+                                    <span class="text-4xl font-bold text-gradient-hero">$25</span>
+                                    <span class="opacity-60">/month</span>
+                                </div>
+                                <p class="opacity-70">Enhanced earning rates and opportunities</p>
+                            </div>
+
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Watch premium videos ($0.05-$0.15 per video)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Play advanced games ($0.05-$0.25 per game)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Expanded affiliate offers (10% commission)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Minimum $2 payouts</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Priority customer support</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-gradient w-full btn-lg" onclick="showUpgradeModal('basic')">
+                                Get Started
+                            </button>
+                        </div>
+
+                        <!-- Premium Plan -->
+                        <div class="glass-card p-8 hover-lift">
+                            <div class="text-center mb-8">
+                                <h3 class="text-2xl font-bold mb-2">Premium</h3>
+                                <div class="mb-4">
+                                    <span class="text-4xl font-bold text-gradient-hero">$50</span>
+                                    <span class="opacity-60">/month</span>
+                                </div>
+                                <p class="opacity-70">Maximum earning potential across all methods</p>
+                            </div>
+
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Highest paying videos ($0.10-$0.30 per video)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Premium games ($0.10-$0.50 per game)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Premium affiliate offers (15% commission)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Minimum $1 payouts</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Advanced analytics dashboard</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">VIP customer support</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showUpgradeModal('premium')">
+                                Upgrade Now
+                            </button>
+                        </div>
+
+                        <!-- Enterprise Plan -->
+                        <div class="glass-card p-8 hover-lift">
+                            <div class="text-center mb-8">
+                                <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                                <div class="mb-4">
+                                    <span class="text-4xl font-bold text-gradient-hero">$75</span>
+                                    <span class="opacity-60">/month</span>
+                                </div>
+                                <p class="opacity-70">For serious earners and business builders</p>
+                            </div>
+
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">All Premium tier benefits</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Double video returns (2x investment)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">VIP affiliate offers (20% commission)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Instant payouts (no minimum)</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Personal account manager</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <svg class="w-3 h-3 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm opacity-80">Custom earning strategies</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showUpgradeModal('enterprise')">
+                                Go Enterprise
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bottom CTA -->
+                    <div class="text-center mt-16">
+                        <p class="opacity-60 mb-4">
+                            All plans include secure payments, 24/7 support, and instant account setup
+                        </p>
+                        <button class="btn text-profitiv-teal underline hover:underline" onclick="showComparisonModal()">
+                            View detailed comparison →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="py-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+                            What Our <span class="text-gradient-hero">Users Say</span>
+                        </h2>
+                        <p class="text-xl opacity-80 max-w-2xl mx-auto">
+                            Join thousands of satisfied users who are already earning money with Profitiv
+                        </p>
+                    </div>
+
+                    <!-- Testimonials Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
+                                    <span class="text-white font-bold">JS</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Jessica Smith</h4>
+                                    <div class="text-sm opacity-60">Earned $127 last month</div>
+                                    <div class="text-xs text-profitiv-teal">Videos & Games</div>
+                                </div>
+                            </div>
+                            <p class="opacity-80">"Profitiv has completely changed how I spend my free time. Instead of mindlessly scrolling, I'm actually earning money! The video watching is so simple and the games are actually fun."</p>
+                        </div>
+
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
+                                    <span class="text-white font-bold">MJ</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Michael Johnson</h4>
+                                    <div class="text-sm opacity-60">Earned $89 last month</div>
+                                    <div class="text-xs text-profitiv-teal">Affiliate Marketing</div>
+                                </div>
+                            </div>
+                            <p class="opacity-80">"The affiliate program is incredible! I started with just sharing with friends and family, and now I have a steady passive income stream. Best decision I ever made."</p>
+                        </div>
+
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
+                                    <span class="text-white font-bold">SD</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Sarah Davis</h4>
+                                    <div class="text-sm opacity-60">Earned $234 last month</div>
+                                    <div class="text-xs text-profitiv-teal">All Methods</div>
+                                </div>
+                            </div>
+                            <p class="opacity-80">"I use all the earning methods and it's amazing how quickly it adds up. The platform is super user-friendly and payouts are always on time. Highly recommend!"</p>
+                        </div>
+                    </div>
+
+                    <!-- Final CTA -->
+                    <div class="glass-card p-12 text-center glow-pulse">
+                        <h3 class="text-3xl font-bold mb-4">
+                            Ready to <span class="text-gradient-hero">Start Earning?</span>
+                        </h3>
+                        <p class="text-xl opacity-80 mb-8 max-w-2xl mx-auto">
+                            Join over 50,000 users who are already making money with Profitiv. Sign up now and get a $5 bonus to start your earning journey!
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                            <button class="btn btn-gradient btn-lg" onclick="showSignupModal()">
+                                Get Your $5 Bonus
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </button>
+                            <button class="btn btn-glass btn-lg" onclick="showLoginModal()">
+                                Already Have Account?
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="py-12 px-4 sm:px-6 lg:px-8 glass-card">
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <!-- Company Info -->
+                        <div>
+                            <div class="flex items-center space-x-2 mb-4">
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                    </svg>
+                                </div>
+                                <span class="text-xl font-bold text-gradient-hero">Profitiv</span>
+                            </div>
+                            <p class="opacity-70 mb-4">Transform your spare time into real income with our revolutionary earning platform.</p>
+                            <p class="text-sm opacity-60">&copy; 2025 Profitiv. All rights reserved.</p>
+                        </div>
+
+                        <!-- Quick Links -->
+                        <div>
+                            <h4 class="font-semibold mb-4">Quick Links</h4>
+                            <div class="space-y-2">
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showPage('dashboard')">Dashboard</a>
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showPage('earn')">Earn Money</a>
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showPage('videos')">Watch Videos</a>
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showPage('games')">Play Games</a>
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showPage('affiliate')">Affiliate</a>
+                            </div>
+                        </div>
+
+                        <!-- Support -->
+                        <div>
+                            <h4 class="font-semibold mb-4">Support</h4>
+                            <div class="space-y-2">
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showSupportModal()">Help Center</a>
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showContactModal()">Contact Us</a>
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showFaqModal()">FAQ</a>
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showTermsModal()">Terms of Service</a>
+                                <a href="#" class="block opacity-70 hover:opacity-100 hover:text-profitiv-teal" onclick="showPrivacyModal()">Privacy Policy</a>
+                            </div>
+                        </div>
+
+                        <!-- Contact -->
+                        <div>
+                            <h4 class="font-semibold mb-4">Contact</h4>
+                            <div class="space-y-2">
+                                <p class="opacity-70">Email: support@profitiv.com</p>
+                                <p class="opacity-70">Phone: +1 (555) 123-4567</p>
+                                <div class="flex space-x-4 pt-4">
+                                    <a href="#" class="opacity-70 hover:opacity-100 hover:text-profitiv-teal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="opacity-70 hover:opacity-100 hover:text-profitiv-teal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="opacity-70 hover:opacity-100 hover:text-profitiv-teal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page hidden">
+            <div class="pt-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
+                        <div>
+                            <h1 class="text-3xl font-bold mb-2">
+                                Welcome back, <span class="text-gradient-hero">John Doe</span>
+                            </h1>
+                            <p class="opacity-60">Here's your earning summary for today</p>
+                        </div>
+                        <button class="btn btn-gradient btn-lg" onclick="showPayoutModal()">
+                            Request Payout
+                        </button>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-sm font-medium opacity-60">Available Balance</h3>
+                                <svg class="w-4 h-4 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-bold text-gradient-hero mb-1">$43.22</div>
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                </svg>
+                                <span class="text-sm text-success">+$5.25</span>
+                                <span class="text-sm opacity-60">today</span>
+                            </div>
+                            <p class="text-xs opacity-50 mt-2">Available for withdrawal</p>
+                        </div>
+
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-sm font-medium opacity-60">Total Earned</h3>
+                                <svg class="w-4 h-4 text-profitiv-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-bold text-gradient-hero mb-1">$157.45</div>
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                </svg>
+                                <span class="text-sm text-success">12%</span>
+                                <span class="text-sm opacity-60">this month</span>
+                            </div>
+                            <p class="text-xs opacity-50 mt-2">Lifetime earnings</p>
+                        </div>
+
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-sm font-medium opacity-60">Active Investments</h3>
+                                <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-bold text-gradient-hero mb-1">3</div>
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span class="text-sm text-warning">2 pending</span>
+                            </div>
+                            <p class="text-xs opacity-50 mt-2">Currently active investments</p>
+                        </div>
+
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-sm font-medium opacity-60">Subscription</h3>
+                                <svg class="w-4 h-4 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-bold text-gradient-hero mb-1">Premium</div>
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span class="text-sm text-success">Active</span>
+                            </div>
+                            <button class="btn text-xs p-0 h-auto mt-2 text-profitiv-teal underline" onclick="showUpgradeModal('premium')">
+                                Upgrade Plan
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Active Investments Table -->
+                        <div class="glass-card p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-semibold">Active Investments</h3>
+                                <button class="btn btn-glass" onclick="showInvestmentModal()">View All</button>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="earning-card p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div>
+                                            <h4 class="font-medium">Investment #12345678</h4>
+                                            <p class="text-sm opacity-60">Created Jan 15, 2025</p>
+                                        </div>
+                                        <div class="badge badge-success">Active</div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <p class="opacity-60">Investment Amount</p>
+                                            <p class="font-semibold">$5.00</p>
+                                        </div>
+                                        <div>
+                                            <p class="opacity-60">Expected Return</p>
+                                            <p class="font-semibold text-success">$10.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="earning-card p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div>
+                                            <h4 class="font-medium">Investment #87654321</h4>
+                                            <p class="text-sm opacity-60">Created Jan 12, 2025</p>
+                                        </div>
+                                        <div class="badge badge-success">Active</div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <p class="opacity-60">Investment Amount</p>
+                                            <p class="font-semibold">$10.00</p>
+                                        </div>
+                                        <div>
+                                            <p class="opacity-60">Expected Return</p>
+                                            <p class="font-semibold text-success">$20.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="earning-card p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div>
+                                            <h4 class="font-medium">Investment #45678901</h4>
+                                            <p class="text-sm opacity-60">Created Jan 10, 2025</p>
+                                        </div>
+                                        <div class="badge badge-warning">Pending</div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <p class="opacity-60">Investment Amount</p>
+                                            <p class="font-semibold">$3.00</p>
+                                        </div>
+                                        <div>
+                                            <p class="opacity-60">Expected Return</p>
+                                            <p class="font-semibold text-success">$6.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="glass-card p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-semibold">Recent Activity</h3>
+                                <button class="btn btn-glass" onclick="showActivityModal()">View All</button>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4 p-3 earning-card">
+                                    <div class="w-10 h-10 rounded-full bg-profitiv-purple/20 flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium">Investment Completed</h4>
+                                        <p class="text-sm opacity-60">Jan 15, 2025</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-semibold text-gradient-hero">$10.00</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-4 p-3 earning-card">
+                                    <div class="w-10 h-10 rounded-full bg-profitiv-purple/20 flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-profitiv-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium">New Investment</h4>
+                                        <p class="text-sm opacity-60">Jan 12, 2025</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-semibold text-gradient-hero">$5.00</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-4 p-3 earning-card">
+                                    <div class="w-10 h-10 rounded-full bg-profitiv-purple/20 flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-profitiv-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium">Video Watched</h4>
+                                        <p class="text-sm opacity-60">Jan 10, 2025</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-semibold text-gradient-hero">$0.15</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-4 p-3 earning-card">
+                                    <div class="w-10 h-10 rounded-full bg-profitiv-purple/20 flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium">Game Completed</h4>
+                                        <p class="text-sm opacity-60">Jan 8, 2025</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-semibold text-gradient-hero">$0.25</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earn Page -->
+        <div id="earn-page" class="page hidden">
+            <div class="pt-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+                            <span class="text-gradient-hero">Earning Methods</span>
+                        </h1>
+                        <p class="text-xl opacity-80 max-w-3xl mx-auto">
+                            Choose your favorite way to earn or combine multiple methods to maximize your income potential.
+                        </p>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                        <div class="glass-card p-6 text-center">
+                            <div class="text-3xl font-bold text-gradient-hero mb-2">$157</div>
+                            <p class="opacity-60">Average monthly earnings</p>
+                        </div>
+                        <div class="glass-card p-6 text-center">
+                            <div class="text-3xl font-bold text-gradient-hero mb-2">24/7</div>
+                            <p class="opacity-60">Earning opportunities</p>
+                        </div>
+                        <div class="glass-card p-6 text-center">
+                            <div class="text-3xl font-bold text-gradient-hero mb-2">Instant</div>
+                            <p class="opacity-60">Account setup</p>
+                        </div>
+                    </div>
+
+                    <!-- Earning Methods -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Watch Videos -->
+                        <div class="earning-card p-8 hover-lift">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-6">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                </svg>
+                            </div>
+                            
+                            <h3 class="text-2xl font-bold mb-4">Watch Videos</h3>
+                            <p class="opacity-70 mb-6">
+                                Earn money by watching sponsored videos and advertisements. The longer the video, the more you earn.
+                            </p>
+
+                            <!-- Video Types -->
+                            <div class="space-y-4 mb-8">
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Regular Videos</h4>
+                                        <p class="text-sm opacity-60">15-30 seconds each</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">$0.05 - $0.15</div>
+                                        <div class="text-xs opacity-60">per video</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Premium Videos</h4>
+                                        <p class="text-sm opacity-60">1-2 minutes each</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">$0.10 - $0.30</div>
+                                        <div class="text-xs opacity-60">per video</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Survey Videos</h4>
+                                        <p class="text-sm opacity-60">2-5 minutes + survey</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">$0.25 - $0.75</div>
+                                        <div class="text-xs opacity-60">per video</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showPage('videos')">
+                                Watch Now
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Play Games -->
+                        <div class="earning-card p-8 hover-lift">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center mb-6">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                </svg>
+                            </div>
+                            
+                            <h3 class="text-2xl font-bold mb-4">Play Games</h3>
+                            <p class="opacity-70 mb-6">
+                                Play casual games and complete achievements to earn rewards. The more you play, the more you earn!
+                            </p>
+
+                            <!-- Game Types -->
+                            <div class="space-y-4 mb-8">
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Bubble Shooter</h4>
+                                        <p class="text-sm opacity-60">Match 3 game</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">$0.05</div>
+                                        <div class="text-xs opacity-60">per level</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Word Master</h4>
+                                        <p class="text-sm opacity-60">Word puzzle game</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">$0.10</div>
+                                        <div class="text-xs opacity-60">per puzzle</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Racing Fever</h4>
+                                        <p class="text-sm opacity-60">Arcade racing</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">$0.15</div>
+                                        <div class="text-xs opacity-60">per race</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showPage('games')">
+                                Play Now
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Affiliate Marketing -->
+                        <div class="earning-card p-8 hover-lift">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-6">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                                </svg>
+                            </div>
+                            
+                            <h3 class="text-2xl font-bold mb-4">Affiliate Marketing</h3>
+                            <p class="opacity-70 mb-6">
+                                Promote products and earn commission on every sale. Higher subscription tiers unlock better commission rates.
+                            </p>
+
+                            <!-- Commission Rates -->
+                            <div class="space-y-4 mb-8">
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Free Tier</h4>
+                                        <p class="text-sm opacity-60">Basic offers</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">5%</div>
+                                        <div class="text-xs opacity-60">commission</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Premium Tier</h4>
+                                        <p class="text-sm opacity-60">Premium offers</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">15%</div>
+                                        <div class="text-xs opacity-60">commission</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center p-3 glass-card">
+                                    <div>
+                                        <h4 class="font-medium">Enterprise Tier</h4>
+                                        <p class="text-sm opacity-60">VIP offers</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="font-semibold text-profitiv-teal">20%</div>
+                                        <div class="text-xs opacity-60">commission</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-glass w-full btn-lg" onclick="showPage('affiliate')">
+                                Start Promoting
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bottom CTA -->
+                    <div class="mt-16 text-center glass-card p-12 glow-pulse">
+                        <h2 class="text-3xl font-bold mb-4">
+                            Ready to <span class="text-gradient-hero">Maximize Your Earnings?</span>
+                        </h2>
+                        <p class="text-xl opacity-80 mb-8 max-w-2xl mx-auto">
+                            Combine all earning methods to reach your full potential. Our top earners make over $500/month!
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                            <button class="btn btn-gradient btn-lg" onclick="showPage('dashboard')">
+                                Go to Dashboard
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </button>
+                            <button class="btn btn-glass btn-lg" onclick="showUpgradeModal('basic')">
+                                View Subscription Plans
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Videos Page -->
+        <div id="videos-page" class="page hidden">
+            <div class="pt-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+                            <span class="text-gradient-hero">Watch Videos</span>
+                        </h1>
+                        <p class="text-xl opacity-80 max-w-3xl mx-auto">
+                            Earn money by watching sponsored videos and advertisements. The content is displayed in the same style as the main Profitiv site.
+                        </p>
+                    </div>
+
+                    <!-- Content shows the same earning page for all sub-routes -->
+                    <div id="earn-content"></div>
+                    
+                    <script>
+                        // Copy earn page content to videos page
+                        document.getElementById('earn-content').innerHTML = document.getElementById('earn-page').innerHTML.replace('pt-20', '');
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Games Page -->
+        <div id="games-page" class="page hidden">
+            <div class="pt-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+                            <span class="text-gradient-hero">Play Games</span>
+                        </h1>
+                        <p class="text-xl opacity-80 max-w-3xl mx-auto">
+                            Play casual games and complete achievements to earn rewards. The content is displayed in the same style as the main Profitiv site.
+                        </p>
+                    </div>
+
+                    <!-- Content shows the same earning page for all sub-routes -->
+                    <div id="games-content"></div>
+                    
+                    <script>
+                        // Copy earn page content to games page
+                        document.getElementById('games-content').innerHTML = document.getElementById('earn-page').innerHTML.replace('pt-20', '');
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Affiliate Page -->
+        <div id="affiliate-page" class="page hidden">
+            <div class="pt-20 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+                            <span class="text-gradient-hero">Affiliate Marketing</span>
+                        </h1>
+                        <p class="text-xl opacity-80 max-w-3xl mx-auto">
+                            Promote products and earn commission on every sale. The content is displayed in the same style as the main Profitiv site.
+                        </p>
+                    </div>
+
+                    <!-- Content shows the same earning page for all sub-routes -->
+                    <div id="affiliate-content"></div>
+                    
+                    <script>
+                        // Copy earn page content to affiliate page
+                        document.getElementById('affiliate-content').innerHTML = document.getElementById('earn-page').innerHTML.replace('pt-20', '');
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- 404 Page -->
+        <div id="not-found-page" class="page hidden">
+            <div class="flex min-h-screen items-center justify-center">
+                <div class="text-center">
+                    <h1 class="mb-4 text-4xl font-bold">404</h1>
+                    <p class="mb-4 text-xl opacity-60">Oops! Page not found</p>
+                    <button class="btn btn-gradient" onclick="showPage('home')">
+                        Return to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Single Page Application Router
+        let currentPage = 'home';
+        let isMobileMenuOpen = false;
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default page
+            showPage('home');
+            updateNavigation();
+        });
+
+        // Show page function
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+
+            // Show current page
+            const targetPage = document.getElementById(pageName + '-page');
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                currentPage = pageName;
+            } else {
+                document.getElementById('not-found-page').classList.remove('hidden');
+                currentPage = 'not-found';
+            }
+
+            // Update navigation
+            updateNavigation();
+            
+            // Close mobile menu if open
+            if (isMobileMenuOpen) {
+                toggleMobileMenu();
+            }
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Update navigation active states
+        function updateNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const page = link.getAttribute('data-page');
+                if (page === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            isMobileMenuOpen = !isMobileMenuOpen;
+            
+            if (isMobileMenuOpen) {
+                mobileMenu.classList.add('show');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.remove('show');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        // Modal functions (simulated)
+        function showLoginModal() {
+            alert('Login modal would appear here in a real implementation');
+        }
+
+        function showSignupModal() {
+            alert('Sign up modal would appear here. In a real implementation, this would show a registration form with a $5 signup bonus!');
+        }
+
+        function showDemoModal() {
+            alert('Demo video modal would appear here showing how the platform works');
+        }
+
+        function showWithdrawModal() {
+            alert('Withdraw funds modal would appear here with payout options');
+        }
+
+        function showUpgradeModal(plan) {
+            alert(`Upgrade to ${plan} plan modal would appear here with payment options`);
+        }
+
+        function showComparisonModal() {
+            alert('Detailed plan comparison modal would appear here');
+        }
+
+        function showInvestmentModal() {
+            alert('Investment opportunities modal would appear here');
+        }
+
+        function showPayoutModal() {
+            alert('Payout request modal would appear here');
+        }
+
+        function showActivityModal() {
+            alert('Full activity history modal would appear here');
+        }
+
+        function showSupportModal() {
+            alert('Help center modal would appear here');
+        }
+
+        function showContactModal() {
+            alert('Contact form modal would appear here');
+        }
+
+        function showFaqModal() {
+            alert('FAQ modal would appear here');
+        }
+
+        function showTermsModal() {
+            alert('Terms of service modal would appear here');
+        }
+
+        function showPrivacyModal() {
+            alert('Privacy policy modal would appear here');
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768 && isMobileMenuOpen) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Handle clicks outside mobile menu
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (isMobileMenuOpen && !mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                toggleMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
