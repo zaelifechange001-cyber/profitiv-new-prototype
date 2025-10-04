@@ -4,10 +4,10 @@ import { CoinsIcon, TrendingUp, Users, DollarSign } from "lucide-react";
 
 const MarketplacePage = () => {
   const mockListings = [
-    { id: 1, seller: "User#1234", amount: 50, pricePerTIV: 0.12, total: 6.0 },
-    { id: 2, seller: "User#5678", amount: 100, pricePerTIV: 0.11, total: 11.0 },
-    { id: 3, seller: "User#9012", amount: 25, pricePerTIV: 0.13, total: 3.25 },
-    { id: 4, seller: "User#3456", amount: 75, pricePerTIV: 0.12, total: 9.0 },
+    { id: 1, seller: "User#1234", amount: 50, pricePerTIV: 2.0, total: 100.0 },
+    { id: 2, seller: "User#5678", amount: 100, pricePerTIV: 2.0, total: 200.0 },
+    { id: 3, seller: "User#9012", amount: 25, pricePerTIV: 2.0, total: 50.0 },
+    { id: 4, seller: "User#3456", amount: 75, pricePerTIV: 2.0, total: 150.0 },
   ];
 
   return (
@@ -22,7 +22,7 @@ const MarketplacePage = () => {
               <span className="text-gradient-hero">TIV Marketplace</span>
             </h1>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              Trade your TIVs with other users for instant cash. Buy low, sell high, or convert your earnings!
+              Trade your TIVs with other users for instant cash. Each TIV = $2.00. Buy, sell, or convert your earnings!
             </p>
           </div>
 
@@ -30,8 +30,8 @@ const MarketplacePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
             <div className="glass-card p-6 text-center">
               <TrendingUp className="w-8 h-8 mx-auto mb-3 text-profitiv-teal" />
-              <div className="text-3xl font-bold text-gradient-hero mb-2">$0.12</div>
-              <p className="text-foreground/60">Current Price</p>
+              <div className="text-3xl font-bold text-gradient-hero mb-2">$2.00</div>
+              <p className="text-foreground/60">Current Price per TIV</p>
             </div>
             <div className="glass-card p-6 text-center">
               <CoinsIcon className="w-8 h-8 mx-auto mb-3 text-profitiv-purple" />
@@ -60,8 +60,8 @@ const MarketplacePage = () => {
                   <span className="text-2xl font-bold text-gradient-hero">125</span>
                 </div>
                 <div className="flex justify-between items-center p-4 earning-card">
-                  <span className="text-foreground/60">Est. Value (@ $0.12)</span>
-                  <span className="text-2xl font-bold text-profitiv-teal">$15.00</span>
+                  <span className="text-foreground/60">Est. Value (@ $2.00)</span>
+                  <span className="text-2xl font-bold text-profitiv-teal">$250.00</span>
                 </div>
                 <Button variant="gradient" size="lg" className="w-full">
                   List TIVs for Sale
@@ -84,7 +84,7 @@ const MarketplacePage = () => {
                   </Button>
                 </div>
                 <p className="text-sm text-foreground/60 text-center">
-                  Current market rate: $0.12 per TIV
+                  Current market rate: $2.00 per TIV
                 </p>
               </div>
             </div>

@@ -11,7 +11,6 @@ const Navigation = () => {
     { name: "Dashboard", path: "/dashboard", icon: DollarSign },
     { name: "Earn", path: "/earn", icon: Trophy },
     { name: "Videos", path: "/videos", icon: Video },
-    { name: "Games", path: "/games", icon: Play },
     { name: "Affiliate", path: "/affiliate", icon: Users },
   ];
 

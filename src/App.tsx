@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import EarnPage from "./pages/EarnPage";
 import SpinToWinPage from "./pages/SpinToWinPage";
 import MarketplacePage from "./pages/MarketplacePage";
+import AffiliatePage from "./pages/AffiliatePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/spin-to-win" element={<SpinToWinPage />} />
           <Route path="/learn-earn" element={<EarnPage />} />
           <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/affiliate" element={<AffiliatePage />} />
           <Route path="/pools/video" element={<EarnPage />} />
           <Route path="/pools/collaboration" element={<EarnPage />} />
           <Route path="/pools/jackpot" element={<EarnPage />} />
