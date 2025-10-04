@@ -16,11 +16,74 @@ import {
   Zap,
   Trophy,
   BookOpen,
-  CoinsIcon
+  CoinsIcon,
+  LogOut
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import type { User } from "@supabase/supabase-js";
 
 const Dashboard = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Check if user is logged in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(session.user);
+      } else {
+        navigate("/auth");
+      }
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        setUser(session.user);
+      } else {
+        navigate("/auth");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Logged out",
+        description: "You've been successfully logged out.",
+      });
+      navigate("/");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-foreground/60">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || "User";
+
   const recentActivities = [
     {
       type: "Investment Completed",
@@ -86,13 +149,19 @@ const Dashboard = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
             <div>
               <h1 className="text-3xl font-bold mb-2">
-                Welcome back, <span className="text-gradient-hero">John Doe</span>
+                Welcome back, <span className="text-gradient-hero">{userName}</span>
               </h1>
               <p className="text-foreground/60">Here's your earning summary for today</p>
             </div>
-            <Button variant="gradient" size="lg">
-              Request Payout
-            </Button>
+            <div className="flex gap-3">
+              <Button variant="gradient" size="lg">
+                Request Payout
+              </Button>
+              <Button variant="outline" size="lg" onClick={handleLogout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
 
           {/* Stats Cards */}

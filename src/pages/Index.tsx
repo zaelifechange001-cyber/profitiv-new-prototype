@@ -4,6 +4,7 @@ import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const testimonials = [
   {
@@ -33,6 +34,8 @@ const testimonials = [
 ];
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -120,11 +123,11 @@ const Index = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <Button variant="hero" size="hero" className="group">
+              <Button variant="hero" size="hero" className="group" onClick={() => navigate("/auth")}>
                 Create Free Account
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button variant="glass" size="hero">
+              <Button variant="glass" size="hero" onClick={() => navigate("/earn")}>
                 Explore Earning Methods
               </Button>
             </div>
