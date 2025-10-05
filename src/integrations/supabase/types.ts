@@ -71,36 +71,84 @@ export type Database = {
         }
         Relationships: []
       }
+      payout_methods: {
+        Row: {
+          account_details: Json | null
+          account_identifier: string
+          created_at: string | null
+          id: string
+          is_default: boolean | null
+          is_verified: boolean | null
+          method_type: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          account_details?: Json | null
+          account_identifier: string
+          created_at?: string | null
+          id?: string
+          is_default?: boolean | null
+          is_verified?: boolean | null
+          method_type: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          account_details?: Json | null
+          account_identifier?: string
+          created_at?: string | null
+          id?: string
+          is_default?: boolean | null
+          is_verified?: boolean | null
+          method_type?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
+          auto_payout_enabled: boolean | null
+          auto_payout_threshold: number | null
           available_balance: number | null
           avatar_url: string | null
           created_at: string | null
           email: string | null
           full_name: string | null
           id: string
+          tiv_balance: number | null
+          tiv_to_usd_rate: number | null
           total_earned: number | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          auto_payout_enabled?: boolean | null
+          auto_payout_threshold?: number | null
           available_balance?: number | null
           avatar_url?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
+          tiv_balance?: number | null
+          tiv_to_usd_rate?: number | null
           total_earned?: number | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
+          auto_payout_enabled?: boolean | null
+          auto_payout_threshold?: number | null
           available_balance?: number | null
           avatar_url?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
+          tiv_balance?: number | null
+          tiv_to_usd_rate?: number | null
           total_earned?: number | null
           updated_at?: string | null
           user_id?: string
@@ -259,38 +307,58 @@ export type Database = {
       withdrawal_requests: {
         Row: {
           amount: number
+          auto_processed: boolean | null
+          completed_at: string | null
           created_at: string | null
           fee: number
           id: string
           method: string
           net_amount: number
+          payout_method_id: string | null
+          processing_error: string | null
           status: string
           updated_at: string | null
           user_id: string
         }
         Insert: {
           amount: number
+          auto_processed?: boolean | null
+          completed_at?: string | null
           created_at?: string | null
           fee?: number
           id?: string
           method: string
           net_amount: number
+          payout_method_id?: string | null
+          processing_error?: string | null
           status?: string
           updated_at?: string | null
           user_id: string
         }
         Update: {
           amount?: number
+          auto_processed?: boolean | null
+          completed_at?: string | null
           created_at?: string | null
           fee?: number
           id?: string
           method?: string
           net_amount?: number
+          payout_method_id?: string | null
+          processing_error?: string | null
           status?: string
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "withdrawal_requests_payout_method_id_fkey"
+            columns: ["payout_method_id"]
+            isOneToOne: false
+            referencedRelation: "payout_methods"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -306,6 +374,10 @@ export type Database = {
         }
         Returns: Json
       }
+      convert_tiv_to_usd: {
+        Args: { _tiv_amount: number; _user_id: string }
+        Returns: Json
+      }
       create_withdrawal_request: {
         Args: { _amount: number; _method: string }
         Returns: Json
@@ -316,6 +388,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      process_auto_payout: {
+        Args: { _user_id: string }
+        Returns: Json
       }
     }
     Enums: {

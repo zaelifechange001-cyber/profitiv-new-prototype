@@ -21,6 +21,7 @@ import AdminTIVMarket from "./pages/admin/AdminTIVMarket";
 import AdminWithdrawals from "./pages/admin/AdminWithdrawals";
 import AdminSubscriptions from "./pages/admin/AdminSubscriptions";
 import AdminLogs from "./pages/admin/AdminLogs";
+import PayoutSettings from "./pages/PayoutSettings";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/pools/collaboration" element={<EarnPage />} />
           <Route path="/pools/jackpot" element={<EarnPage />} />
           <Route path="/pools/learning" element={<EarnPage />} />
+          <Route path="/payout-settings" element={<PayoutSettings />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>

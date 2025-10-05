@@ -17,7 +17,8 @@ import {
   Trophy,
   BookOpen,
   CoinsIcon,
-  LogOut
+  LogOut,
+  Wallet
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -33,6 +34,8 @@ interface UserProfile {
   avatar_url: string | null;
   total_earned: number;
   available_balance: number;
+  tiv_balance: number;
+  tiv_to_usd_rate: number;
   created_at: string;
   updated_at: string;
 }
@@ -246,8 +249,9 @@ const Dashboard = () => {
               <p className="text-sm sm:text-base text-foreground/60">Here's your earning summary for today</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <Button variant="gradient" size="lg" className="w-full sm:w-auto">
-                Request Payout
+              <Button variant="gradient" size="lg" onClick={() => navigate('/payout-settings')} className="w-full sm:w-auto">
+                <Wallet className="w-4 h-4 mr-2" />
+                Payout Settings
               </Button>
               <Button variant="outline" size="lg" onClick={handleLogout} className="w-full sm:w-auto">
                 <LogOut className="w-4 h-4 mr-2" />
@@ -258,11 +262,11 @@ const Dashboard = () => {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {/* Available Balance */}
+            {/* USD Balance */}
             <div className="glass-card p-6 hover-lift">
               <CardHeader className="p-0 mb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium text-foreground/60">Available Balance</CardTitle>
+                  <CardTitle className="text-sm font-medium text-foreground/60">USD Balance</CardTitle>
                   <DollarSign className="w-4 h-4 text-profitiv-teal" />
                 </div>
               </CardHeader>
@@ -278,6 +282,33 @@ const Dashboard = () => {
                   <span className="text-sm text-foreground/60">total</span>
                 </div>
                 <p className="text-xs text-foreground/50 mt-2">Available for withdrawal</p>
+              </CardContent>
+            </div>
+
+            {/* TIV Balance */}
+            <div className="glass-card p-6 hover-lift">
+              <CardHeader className="p-0 mb-4">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-medium text-foreground/60">TIV Balance</CardTitle>
+                  <Wallet className="w-4 h-4 text-profitiv-purple" />
+                </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="text-3xl font-bold text-gradient-hero mb-1">
+                  {profile?.tiv_balance?.toFixed(0) || '0'} TIV
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span className="text-sm text-foreground/60">
+                    ≈ ${((profile?.tiv_balance || 0) * (profile?.tiv_to_usd_rate || 0.01)).toFixed(2)} USD
+                  </span>
+                </div>
+                <Button 
+                  variant="link" 
+                  className="text-xs p-0 h-auto mt-2 text-profitiv-purple"
+                  onClick={() => navigate('/payout-settings')}
+                >
+                  Convert to USD
+                </Button>
               </CardContent>
             </div>
 
@@ -302,21 +333,24 @@ const Dashboard = () => {
               </CardContent>
             </div>
 
-            {/* Active Investments */}
+            {/* Total Earned */}
             <div className="glass-card p-6 hover-lift">
               <CardHeader className="p-0 mb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium text-foreground/60">Active Investments</CardTitle>
-                  <Activity className="w-4 h-4 text-secondary" />
+                  <CardTitle className="text-sm font-medium text-foreground/60">Total Earned</CardTitle>
+                  <TrendingUp className="w-4 h-4 text-secondary" />
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="text-3xl font-bold text-gradient-hero mb-1">3</div>
-                <div className="flex items-center space-x-1">
-                  <Clock className="w-4 h-4 text-warning" />
-                  <span className="text-sm text-warning">2 pending</span>
+                <div className="text-3xl font-bold text-gradient-hero mb-1">
+                  ${profile?.total_earned?.toFixed(2) || '0.00'}
                 </div>
-                <p className="text-xs text-foreground/50 mt-2">Currently active investments</p>
+                <div className="flex items-center space-x-1">
+                  <ArrowUpRight className="w-4 h-4 text-success" />
+                  <span className="text-sm text-success">{activities.length}</span>
+                  <span className="text-sm text-foreground/60">activities</span>
+                </div>
+                <p className="text-xs text-foreground/50 mt-2">Lifetime earnings</p>
               </CardContent>
             </div>
 
