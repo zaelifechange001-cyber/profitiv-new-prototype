@@ -71,6 +71,147 @@ export type Database = {
         }
         Relationships: []
       }
+      community_pools: {
+        Row: {
+          created_at: string | null
+          current_amount: number | null
+          current_participants: number | null
+          description: string | null
+          end_date: string | null
+          goal_amount: number
+          id: string
+          max_participants: number | null
+          min_investment: number | null
+          pool_name: string
+          pool_type: string
+          reward_distribution: Json | null
+          start_date: string | null
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_amount?: number | null
+          current_participants?: number | null
+          description?: string | null
+          end_date?: string | null
+          goal_amount?: number
+          id?: string
+          max_participants?: number | null
+          min_investment?: number | null
+          pool_name: string
+          pool_type: string
+          reward_distribution?: Json | null
+          start_date?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_amount?: number | null
+          current_participants?: number | null
+          description?: string | null
+          end_date?: string | null
+          goal_amount?: number
+          id?: string
+          max_participants?: number | null
+          min_investment?: number | null
+          pool_name?: string
+          pool_type?: string
+          reward_distribution?: Json | null
+          start_date?: string | null
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      courses: {
+        Row: {
+          content: string | null
+          content_type: string | null
+          content_url: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          order_index: number | null
+          reward_amount: number | null
+          reward_type: string | null
+          status: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          content?: string | null
+          content_type?: string | null
+          content_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          order_index?: number | null
+          reward_amount?: number | null
+          reward_type?: string | null
+          status?: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string | null
+          content_type?: string | null
+          content_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          order_index?: number | null
+          reward_amount?: number | null
+          reward_type?: string | null
+          status?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      investment_videos: {
+        Row: {
+          created_at: string | null
+          current_views: number | null
+          description: string | null
+          goal_views: number
+          id: string
+          investment_amount: number
+          reward_per_view: number | null
+          status: string
+          title: string
+          updated_at: string | null
+          video_url: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_views?: number | null
+          description?: string | null
+          goal_views?: number
+          id?: string
+          investment_amount?: number
+          reward_per_view?: number | null
+          status?: string
+          title: string
+          updated_at?: string | null
+          video_url: string
+        }
+        Update: {
+          created_at?: string | null
+          current_views?: number | null
+          description?: string | null
+          goal_views?: number
+          id?: string
+          investment_amount?: number
+          reward_per_view?: number | null
+          status?: string
+          title?: string
+          updated_at?: string | null
+          video_url?: string
+        }
+        Relationships: []
+      }
       payout_methods: {
         Row: {
           account_details: Json | null
@@ -106,6 +247,38 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      pool_participants: {
+        Row: {
+          id: string
+          investment_amount: number
+          joined_at: string | null
+          pool_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          investment_amount: number
+          joined_at?: string | null
+          pool_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          investment_amount?: number
+          joined_at?: string | null
+          pool_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pool_participants_pool_id_fkey"
+            columns: ["pool_id"]
+            isOneToOne: false
+            referencedRelation: "community_pools"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -154,6 +327,85 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      quiz_questions: {
+        Row: {
+          correct_answer: number
+          created_at: string | null
+          id: string
+          options: Json
+          order_index: number | null
+          points: number | null
+          question: string
+          quiz_id: string
+        }
+        Insert: {
+          correct_answer: number
+          created_at?: string | null
+          id?: string
+          options?: Json
+          order_index?: number | null
+          points?: number | null
+          question: string
+          quiz_id: string
+        }
+        Update: {
+          correct_answer?: number
+          created_at?: string | null
+          id?: string
+          options?: Json
+          order_index?: number | null
+          points?: number | null
+          question?: string
+          quiz_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_questions_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          course_id: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          passing_score: number | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          course_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          passing_score?: number | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          course_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          passing_score?: number | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quizzes_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subscription_plans: {
         Row: {
@@ -245,6 +497,54 @@ export type Database = {
         }
         Relationships: []
       }
+      user_course_completions: {
+        Row: {
+          completed_at: string | null
+          course_id: string
+          id: string
+          passed: boolean | null
+          quiz_id: string | null
+          reward_claimed: boolean | null
+          score: number | null
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          course_id: string
+          id?: string
+          passed?: boolean | null
+          quiz_id?: string | null
+          reward_claimed?: boolean | null
+          score?: number | null
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          course_id?: string
+          id?: string
+          passed?: boolean | null
+          quiz_id?: string | null
+          reward_claimed?: boolean | null
+          score?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_course_completions_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_course_completions_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string | null
@@ -300,6 +600,44 @@ export type Database = {
             columns: ["plan_id"]
             isOneToOne: false
             referencedRelation: "subscription_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      video_views: {
+        Row: {
+          completed: boolean | null
+          id: string
+          reward_earned: number | null
+          user_id: string
+          video_id: string
+          viewed_at: string | null
+          watch_duration: number | null
+        }
+        Insert: {
+          completed?: boolean | null
+          id?: string
+          reward_earned?: number | null
+          user_id: string
+          video_id: string
+          viewed_at?: string | null
+          watch_duration?: number | null
+        }
+        Update: {
+          completed?: boolean | null
+          id?: string
+          reward_earned?: number | null
+          user_id?: string
+          video_id?: string
+          viewed_at?: string | null
+          watch_duration?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_views_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "investment_videos"
             referencedColumns: ["id"]
           },
         ]
@@ -371,6 +709,15 @@ export type Database = {
           _description: string
           _operation: string
           _target_user_id: string
+        }
+        Returns: Json
+      }
+      award_course_completion: {
+        Args: {
+          _course_id: string
+          _passed: boolean
+          _score: number
+          _user_id: string
         }
         Returns: Json
       }

@@ -8,6 +8,9 @@ import {
   CreditCard,
   Package,
   FileText,
+  Video,
+  BookOpen,
+  Users as UsersPool,
 } from "lucide-react";
 import {
   Sidebar,
@@ -25,6 +28,9 @@ const menuItems = [
   { title: "Overview", url: "/admin", icon: LayoutDashboard },
   { title: "Users", url: "/admin/users", icon: Users },
   { title: "Financial", url: "/admin/financial", icon: DollarSign },
+  { title: "Videos", url: "/admin/videos", icon: Video },
+  { title: "Courses", url: "/admin/courses", icon: BookOpen },
+  { title: "Pools", url: "/admin/pools", icon: UsersPool },
   { title: "Services", url: "/admin/services", icon: Briefcase },
   { title: "TIV Market", url: "/admin/tiv-market", icon: ShoppingCart },
   { title: "Withdrawals", url: "/admin/withdrawals", icon: CreditCard },

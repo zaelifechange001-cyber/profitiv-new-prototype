@@ -21,6 +21,9 @@ import AdminTIVMarket from "./pages/admin/AdminTIVMarket";
 import AdminWithdrawals from "./pages/admin/AdminWithdrawals";
 import AdminSubscriptions from "./pages/admin/AdminSubscriptions";
 import AdminLogs from "./pages/admin/AdminLogs";
+import AdminVideos from "./pages/admin/AdminVideos";
+import AdminCourses from "./pages/admin/AdminCourses";
+import AdminPools from "./pages/admin/AdminPools";
 import PayoutSettings from "./pages/PayoutSettings";
 
 const queryClient = new QueryClient();
@@ -53,6 +56,9 @@ const App = () => (
             <Route index element={<AdminOverview />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="financial" element={<AdminFinancial />} />
+            <Route path="videos" element={<AdminVideos />} />
+            <Route path="courses" element={<AdminCourses />} />
+            <Route path="pools" element={<AdminPools />} />
             <Route path="services" element={<AdminServices />} />
             <Route path="tiv-market" element={<AdminTIVMarket />} />
             <Route path="withdrawals" element={<AdminWithdrawals />} />
