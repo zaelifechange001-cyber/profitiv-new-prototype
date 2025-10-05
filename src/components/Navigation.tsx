@@ -46,11 +46,11 @@ const Navigation = () => {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="glass" size="sm">
+          <div className="hidden md:flex items-center space-x-3">
+            <Button variant="glass" size="sm" className="min-h-[44px]">
               Login
             </Button>
-            <Button variant="gradient" size="sm">
+            <Button variant="gradient" size="sm" className="min-h-[44px]">
               Sign Up
             </Button>
           </div>
@@ -61,8 +61,9 @@ const Navigation = () => {
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(!isOpen)}
+              className="min-h-[44px] min-w-[44px]"
             >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </Button>
           </div>
         </div>
@@ -78,21 +79,21 @@ const Navigation = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium ${
+                  className={`nav-link flex items-center space-x-3 px-4 py-3 rounded-md text-base font-medium min-h-[48px] ${
                     location.pathname === item.path ? "active text-profitiv-teal" : "text-foreground/80"
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-5 h-5 flex-shrink-0" />
                   <span>{item.name}</span>
                 </Link>
               );
             })}
-            <div className="pt-4 space-y-2">
-              <Button variant="glass" className="w-full">
+            <div className="pt-4 space-y-3 px-2">
+              <Button variant="glass" className="w-full min-h-[48px]">
                 Login
               </Button>
-              <Button variant="gradient" className="w-full">
+              <Button variant="gradient" className="w-full min-h-[48px]">
                 Sign Up
               </Button>
             </div>

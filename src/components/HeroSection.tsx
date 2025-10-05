@@ -3,16 +3,16 @@ import { ArrowRight, DollarSign, Play, Users, Zap } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-12 md:pt-24 md:pb-16">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-profitiv-purple/10 to-profitiv-teal/10" />
       <div className="absolute top-20 left-10 w-72 h-72 bg-profitiv-purple/20 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-profitiv-teal/20 rounded-full blur-3xl animate-pulse delay-1000" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Main Content */}
-          <div className="text-center lg:text-left space-y-8">
+          <div className="text-center lg:text-left space-y-6 md:space-y-8">
             {/* Hero Badge */}
             <div className="inline-flex items-center space-x-2 glass-card px-4 py-2 rounded-full">
               <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
@@ -20,30 +20,30 @@ const HeroSection = () => {
             </div>
 
             {/* Main Headline */}
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+            <div className="space-y-3 md:space-y-4">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
                 <span className="text-gradient-hero">Earn Money</span>
                 <br />
                 <span className="text-foreground">Online Today</span>
               </h1>
-              <p className="text-xl sm:text-2xl text-foreground/80 max-w-3xl leading-relaxed">
+              <p className="text-lg sm:text-xl lg:text-2xl text-foreground/80 max-w-3xl leading-relaxed">
                 Transform your spare time into real income. Watch videos, play games, and build your affiliate network with Profitiv's revolutionary earning platform.
               </p>
             </div>
 
             {/* Stats */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-12">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-8 lg:space-x-12">
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-gradient-hero">$2.4M+</div>
-                <div className="text-sm text-foreground/60">Total Paid Out</div>
+                <div className="text-2xl sm:text-3xl font-bold text-gradient-hero">$2.4M+</div>
+                <div className="text-xs sm:text-sm text-foreground/60">Total Paid Out</div>
               </div>
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-gradient-hero">50K+</div>
-                <div className="text-sm text-foreground/60">Active Users</div>
+                <div className="text-2xl sm:text-3xl font-bold text-gradient-hero">50K+</div>
+                <div className="text-xs sm:text-sm text-foreground/60">Active Users</div>
               </div>
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-gradient-hero">24/7</div>
-                <div className="text-sm text-foreground/60">Earning Opportunities</div>
+                <div className="text-2xl sm:text-3xl font-bold text-gradient-hero">24/7</div>
+                <div className="text-xs sm:text-sm text-foreground/60">Earning Opportunities</div>
               </div>
             </div>
 
@@ -62,8 +62,8 @@ const HeroSection = () => {
 
           {/* Right Column - Your Earnings Today */}
           <div className="flex justify-center lg:justify-end">
-            <div className="max-w-md w-full mt-8">
-              <div className="glass-card p-6 glow-pulse">
+            <div className="max-w-md w-full">
+              <div className="glass-card p-5 sm:p-6 glow-pulse">
                 {/* Header */}
                 <h2 className="text-2xl font-bold text-white mb-6">
                   Your Earnings <span className="text-foreground/60">Today</span>

@@ -238,18 +238,18 @@ const Dashboard = () => {
       <div className="pt-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
+          <div className="flex flex-col gap-4 mb-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2">
                 Welcome back, <span className="text-gradient-hero">{userName}</span>
               </h1>
-              <p className="text-foreground/60">Here's your earning summary for today</p>
+              <p className="text-sm sm:text-base text-foreground/60">Here's your earning summary for today</p>
             </div>
-            <div className="flex gap-3">
-              <Button variant="gradient" size="lg">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+              <Button variant="gradient" size="lg" className="w-full sm:w-auto">
                 Request Payout
               </Button>
-              <Button variant="outline" size="lg" onClick={handleLogout}>
+              <Button variant="outline" size="lg" onClick={handleLogout} className="w-full sm:w-auto">
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
               </Button>

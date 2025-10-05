@@ -50,45 +50,45 @@ const Index = () => {
       <SubscriptionPlans />
 
       {/* Testimonials */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
               Success <span className="text-gradient-hero">Stories</span>
             </h2>
-            <p className="text-xl text-foreground/80 max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
               Real people, real earnings. See how Profitiv has changed lives.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={testimonial.name} className="glass-card p-8 hover-lift">
+              <div key={testimonial.name} className="glass-card p-6 sm:p-8 hover-lift">
                 {/* Header */}
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
-                    <span className="text-white font-bold">{testimonial.avatar}</span>
+                <div className="flex items-center space-x-3 sm:space-x-4 mb-4 sm:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center flex-shrink-0">
+                    <span className="text-white font-bold text-sm sm:text-base">{testimonial.avatar}</span>
                   </div>
-                  <div>
-                    <h4 className="font-semibold">{testimonial.name}</h4>
-                    <p className="text-sm text-foreground/60">{testimonial.role}</p>
+                  <div className="min-w-0">
+                    <h4 className="font-semibold truncate">{testimonial.name}</h4>
+                    <p className="text-xs sm:text-sm text-foreground/60 truncate">{testimonial.role}</p>
                   </div>
                 </div>
 
                 {/* Quote */}
-                <blockquote className="text-foreground/80 mb-6 italic">
+                <blockquote className="text-sm sm:text-base text-foreground/80 mb-4 sm:mb-6 italic line-clamp-4">
                   "{testimonial.quote}"
                 </blockquote>
 
                 {/* Stats */}
                 <div className="flex items-center justify-between pt-4 border-t border-profitiv-purple/20">
                   <div>
-                    <div className="text-2xl font-bold text-gradient-hero">{testimonial.earnings}</div>
-                    <div className="text-sm text-foreground/60">Total Earned</div>
+                    <div className="text-xl sm:text-2xl font-bold text-gradient-hero">{testimonial.earnings}</div>
+                    <div className="text-xs sm:text-sm text-foreground/60">Total Earned</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm font-medium text-profitiv-teal">{testimonial.method}</div>
-                    <div className="flex items-center space-x-1">
+                    <div className="text-xs sm:text-sm font-medium text-profitiv-teal truncate">{testimonial.method}</div>
+                    <div className="flex items-center space-x-1 justify-end mt-1">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className="w-3 h-3 fill-profitiv-teal text-profitiv-teal" />
                       ))}
@@ -102,9 +102,9 @@ const Index = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <div className="glass-card p-12 text-center glow-pulse">
+          <div className="glass-card p-6 sm:p-8 lg:p-12 text-center glow-pulse">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Ready to <span className="text-gradient-hero">Start Earning?</span>
             </h2>
@@ -113,13 +113,19 @@ const Index = () => {
               Sign up today and get a $5 bonus just for joining!
             </p>
             
-            <div className="flex items-center justify-center space-x-2 mb-8">
-              <CheckCircle className="w-5 h-5 text-success" />
-              <span className="text-success font-medium">$5 Sign-up Bonus</span>
-              <CheckCircle className="w-5 h-5 text-success" />
-              <span className="text-success font-medium">Instant Access</span>
-              <CheckCircle className="w-5 h-5 text-success" />
-              <span className="text-success font-medium">No Hidden Fees</span>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
+                <span className="text-sm sm:text-base text-success font-medium whitespace-nowrap">$5 Sign-up Bonus</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
+                <span className="text-sm sm:text-base text-success font-medium whitespace-nowrap">Instant Access</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
+                <span className="text-sm sm:text-base text-success font-medium whitespace-nowrap">No Hidden Fees</span>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -136,27 +142,27 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="glass-card border-t py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="glass-card border-t py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="col-span-1 md:col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="col-span-1 sm:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
                   <span className="text-white font-bold text-sm">P</span>
                 </div>
                 <span className="text-xl font-bold text-gradient-hero">Profitiv</span>
               </div>
-              <p className="text-foreground/60 mb-4">
+              <p className="text-sm sm:text-base text-foreground/60 mb-4 max-w-md">
                 Transform your spare time into real income with Profitiv's revolutionary earning platform.
               </p>
-              <p className="text-sm text-foreground/50">
+              <p className="text-xs sm:text-sm text-foreground/50">
                 © 2024 Profitiv. All rights reserved.
               </p>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Platform</h4>
-              <ul className="space-y-2 text-foreground/60">
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Platform</h4>
+              <ul className="space-y-2 text-sm sm:text-base text-foreground/60">
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Dashboard</a></li>
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Earn Money</a></li>
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Affiliates</a></li>
@@ -165,8 +171,8 @@ const Index = () => {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-foreground/60">
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Support</h4>
+              <ul className="space-y-2 text-sm sm:text-base text-foreground/60">
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Help Center</a></li>
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Contact Us</a></li>
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Terms of Service</a></li>
