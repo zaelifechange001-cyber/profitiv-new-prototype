@@ -31,42 +31,27 @@ export function UserBalanceManager({ userId, currentBalance, onUpdate }: UserBal
         throw new Error("Invalid amount");
       }
 
-      const newBalance = operation === "add" 
-        ? currentBalance + changeAmount 
-        : currentBalance - changeAmount;
-
-      if (newBalance < 0) {
-        throw new Error("Balance cannot be negative");
-      }
-
-      const { error } = await supabase
-        .from('profiles')
-        .update({ 
-          available_balance: newBalance,
-          total_earned: operation === "add" ? currentBalance + changeAmount : currentBalance
-        })
-        .eq('user_id', userId);
+      // Call the secure database function
+      const { data, error } = await supabase.rpc('admin_adjust_balance', {
+        _target_user_id: userId,
+        _amount: changeAmount,
+        _operation: operation,
+        _description: `Admin ${operation === "add" ? "added" : "subtracted"} $${changeAmount}`
+      });
 
       if (error) throw error;
 
-      // Log the activity
-      await supabase.from('user_activities').insert({
-        user_id: userId,
-        activity_type: 'admin_adjustment',
-        description: `Admin ${operation === "add" ? "added" : "subtracted"} $${changeAmount}`,
-        amount: operation === "add" ? changeAmount : -changeAmount
-      });
+      const result = data as { success: boolean; new_balance: number; previous_balance: number };
 
       toast({
         title: "Success",
-        description: `Balance ${operation === "add" ? "increased" : "decreased"} by $${changeAmount}`,
+        description: `Balance ${operation === "add" ? "increased" : "decreased"} by $${changeAmount}. New balance: $${result.new_balance.toFixed(2)}`,
       });
 
       setOpen(false);
       setAmount("");
       onUpdate();
     } catch (error) {
-      console.error('Error updating balance:', error);
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to update balance",
