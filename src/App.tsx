@@ -25,6 +25,9 @@ import AdminVideos from "./pages/admin/AdminVideos";
 import AdminCourses from "./pages/admin/AdminCourses";
 import AdminPools from "./pages/admin/AdminPools";
 import PayoutSettings from "./pages/PayoutSettings";
+import VideosPage from "./pages/VideosPage";
+import LearnEarnPage from "./pages/LearnEarnPage";
+import PoolsPage from "./pages/PoolsPage";
 
 const queryClient = new QueryClient();
 
@@ -40,15 +43,13 @@ const App = () => (
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/earn" element={<EarnPage />} />
-          <Route path="/videos" element={<EarnPage />} />
+          <Route path="/videos" element={<VideosPage />} />
           <Route path="/spin-to-win" element={<SpinToWinPage />} />
-          <Route path="/learn-earn" element={<EarnPage />} />
+          <Route path="/learn-earn" element={<LearnEarnPage />} />
           <Route path="/marketplace" element={<MarketplacePage />} />
           <Route path="/affiliate" element={<AffiliatePage />} />
-          <Route path="/pools/video" element={<EarnPage />} />
-          <Route path="/pools/collaboration" element={<EarnPage />} />
-          <Route path="/pools/jackpot" element={<EarnPage />} />
-          <Route path="/pools/learning" element={<EarnPage />} />
+          <Route path="/pools/:type" element={<PoolsPage />} />
+          <Route path="/pools" element={<PoolsPage />} />
           <Route path="/payout-settings" element={<PayoutSettings />} />
           
           {/* Admin Routes */}
