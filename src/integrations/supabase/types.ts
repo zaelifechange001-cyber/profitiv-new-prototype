@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_notifications: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          id: string
+          message: string
+          notification_type: string
+          read: boolean | null
+          user_id: string
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          id?: string
+          message: string
+          notification_type: string
+          read?: boolean | null
+          user_id: string
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          id?: string
+          message?: string
+          notification_type?: string
+          read?: boolean | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           available_balance: number | null
@@ -74,6 +104,42 @@ export type Database = {
           id?: string
           name?: string
           price?: number
+        }
+        Relationships: []
+      }
+      tiv_transactions: {
+        Row: {
+          amount: number
+          buyer_id: string | null
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          rate: number
+          seller_id: string
+          status: string
+          total_price: number
+        }
+        Insert: {
+          amount: number
+          buyer_id?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          rate: number
+          seller_id: string
+          status?: string
+          total_price: number
+        }
+        Update: {
+          amount?: number
+          buyer_id?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          rate?: number
+          seller_id?: string
+          status?: string
+          total_price?: number
         }
         Relationships: []
       }

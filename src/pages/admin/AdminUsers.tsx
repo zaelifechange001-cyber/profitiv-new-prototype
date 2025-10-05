@@ -5,6 +5,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { UserBalanceManager } from "@/components/admin/UserBalanceManager";
+import { SendNotification } from "@/components/admin/SendNotification";
+import { ExportData } from "@/components/admin/ExportData";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState<any[]>([]);
@@ -43,9 +46,15 @@ export default function AdminUsers() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Users</h2>
-        <p className="text-muted-foreground">Manage and view all registered users</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Users</h2>
+          <p className="text-muted-foreground">Manage and view all registered users</p>
+        </div>
+        <div className="flex gap-2">
+          <SendNotification />
+          <ExportData />
+        </div>
       </div>
 
       <Card>
@@ -72,6 +81,7 @@ export default function AdminUsers() {
                 <TableHead>Total Earned</TableHead>
                 <TableHead>Available Balance</TableHead>
                 <TableHead>Joined</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -90,6 +100,26 @@ export default function AdminUsers() {
                     </Badge>
                   </TableCell>
                   <TableCell>{new Date(user.created_at).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <UserBalanceManager 
+                        userId={user.user_id}
+                        currentBalance={Number(user.available_balance || 0)}
+                        onUpdate={() => {
+                          const fetchUsers = async () => {
+                            const { data } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
+                            setUsers(data || []);
+                            setFilteredUsers(data || []);
+                          };
+                          fetchUsers();
+                        }}
+                      />
+                      <SendNotification 
+                        userId={user.user_id}
+                        userName={user.full_name || user.email}
+                      />
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
