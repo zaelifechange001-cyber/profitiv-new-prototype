@@ -90,16 +90,24 @@ const Dashboard = () => {
     let mounted = true;
 
     // Set up auth state listener FIRST
+    let redirectTimer: number | undefined;
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
       
+      // Debug: track auth events
+      console.log('[Auth] onAuthStateChange', { event, hasUser: !!session?.user });
+
       if (session?.user) {
+        // We have a session — cancel any pending redirect
+        if (redirectTimer) clearTimeout(redirectTimer);
         setUser(session.user);
         // Defer the data fetch to avoid blocking auth flow
         setTimeout(() => {
-          if (mounted) fetchUserData(session.user.id);
+          if (mounted) fetchUserData(session.user!.id);
         }, 0);
+        setLoading(false);
       } else if (event === 'SIGNED_OUT') {
+        if (redirectTimer) clearTimeout(redirectTimer);
         navigate("/auth");
       }
     });
@@ -108,14 +116,24 @@ const Dashboard = () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!mounted) return;
       
+      console.log('[Auth] getSession', { hasUser: !!session?.user });
       if (session?.user) {
+        if (redirectTimer) clearTimeout(redirectTimer);
         setUser(session.user);
         fetchUserData(session.user.id);
+        setLoading(false);
       } else {
-        navigate("/auth");
+        // IMPORTANT: Don't redirect immediately — allow OAuth callback to finalize
+        // Give the client a short window to process the provider redirect tokens
+        redirectTimer = window.setTimeout(() => {
+          if (!mounted) return;
+          console.log('[Auth] No session after timeout — redirecting to /auth');
+          navigate("/auth");
+          setLoading(false);
+        }, 3000);
       }
-      setLoading(false);
     });
+
 
     return () => {
       mounted = false;
