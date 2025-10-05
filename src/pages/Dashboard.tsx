@@ -87,8 +87,27 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    // Check if user is logged in
+    let mounted = true;
+
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!mounted) return;
+      
+      if (session?.user) {
+        setUser(session.user);
+        // Defer the data fetch to avoid blocking auth flow
+        setTimeout(() => {
+          if (mounted) fetchUserData(session.user.id);
+        }, 0);
+      } else if (event === 'SIGNED_OUT') {
+        navigate("/auth");
+      }
+    });
+
+    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!mounted) return;
+      
       if (session?.user) {
         setUser(session.user);
         fetchUserData(session.user.id);
@@ -98,17 +117,10 @@ const Dashboard = () => {
       setLoading(false);
     });
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        setUser(session.user);
-        fetchUserData(session.user.id);
-      } else {
-        navigate("/auth");
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, [navigate]);
 
   const handleLogout = async () => {
