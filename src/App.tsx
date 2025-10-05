@@ -11,6 +11,7 @@ import SpinToWinPage from "./pages/SpinToWinPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import AffiliatePage from "./pages/AffiliatePage";
 import NotFound from "./pages/NotFound";
+import OAuthErrorHandler from "./components/auth/OAuthErrorHandler";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <OAuthErrorHandler />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<AuthPage />} />
