@@ -1,27 +1,32 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { User } from '@supabase/supabase-js';
 
 export const useAdmin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
+    const checkAdminStatus = async (currentUser: User | null) => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        
-        if (!user) {
+        if (!currentUser) {
           setIsAdmin(false);
+          setIsAuthenticated(false);
+          setUser(null);
           setLoading(false);
           return;
         }
 
-        const { data, error } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', user.id)
-          .eq('role', 'admin')
-          .maybeSingle();
+        setIsAuthenticated(true);
+        setUser(currentUser);
+
+        // Use the secure has_role RPC function
+        const { data, error } = await supabase.rpc('has_role', {
+          _user_id: currentUser.id,
+          _role: 'admin'
+        });
 
         if (error) {
           console.error('Error checking admin status:', error);
@@ -37,8 +42,18 @@ export const useAdmin = () => {
       }
     };
 
-    checkAdminStatus();
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      checkAdminStatus(session?.user ?? null);
+    });
+
+    // Check initial session
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      checkAdminStatus(user);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  return { isAdmin, loading };
+  return { isAdmin, isAuthenticated, loading, user };
 };
