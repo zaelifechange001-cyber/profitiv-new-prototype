@@ -25,17 +25,73 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import type { User } from "@supabase/supabase-js";
 
+interface UserProfile {
+  id: string;
+  user_id: string;
+  email: string | null;
+  full_name: string | null;
+  avatar_url: string | null;
+  total_earned: number;
+  available_balance: number;
+  created_at: string;
+  updated_at: string;
+}
+
+interface UserActivity {
+  id: string;
+  user_id: string;
+  activity_type: string;
+  description: string;
+  amount: number | null;
+  created_at: string;
+}
+
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [activities, setActivities] = useState<UserActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const fetchUserData = async (userId: string) => {
+    try {
+      // Fetch user profile
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (profileError) throw profileError;
+      setProfile(profileData);
+
+      // Fetch user activities
+      const { data: activitiesData, error: activitiesError } = await supabase
+        .from('user_activities')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (activitiesError) throw activitiesError;
+      setActivities(activitiesData || []);
+    } catch (error: any) {
+      console.error('Error fetching user data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load your profile data",
+        variant: "destructive",
+      });
+    }
+  };
 
   useEffect(() => {
     // Check if user is logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user);
+        fetchUserData(session.user.id);
       } else {
         navigate("/auth");
       }
@@ -46,6 +102,7 @@ const Dashboard = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
         setUser(session.user);
+        fetchUserData(session.user.id);
       } else {
         navigate("/auth");
       }
@@ -82,38 +139,43 @@ const Dashboard = () => {
     );
   }
 
-  const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || "User";
+  const userName = profile?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || "User";
 
-  const recentActivities = [
-    {
-      type: "Investment Completed",
-      amount: "$10.00",
-      date: "Jan 15, 2025",
-      icon: TrendingUp,
-      color: "text-success"
-    },
-    {
-      type: "New Investment", 
-      amount: "$5.00",
-      date: "Jan 12, 2025",
-      icon: ArrowUpRight,
-      color: "text-profitiv-purple"
-    },
-    {
-      type: "Video Watched",
-      amount: "$0.15",
-      date: "Jan 10, 2025", 
-      icon: Play,
-      color: "text-profitiv-teal"
-    },
-    {
-      type: "Game Completed",
-      amount: "$0.25",
-      date: "Jan 8, 2025",
-      icon: Activity,
-      color: "text-secondary"
+  const getActivityIcon = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'video':
+      case 'video watched':
+        return Play;
+      case 'spin':
+      case 'spin to win':
+        return Sparkles;
+      case 'investment':
+        return TrendingUp;
+      case 'quiz':
+      case 'learning':
+        return GraduationCap;
+      default:
+        return Activity;
     }
-  ];
+  };
+
+  const getActivityColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'video':
+      case 'video watched':
+        return 'text-profitiv-teal';
+      case 'spin':
+      case 'spin to win':
+        return 'text-profitiv-purple';
+      case 'investment':
+        return 'text-success';
+      case 'quiz':
+      case 'learning':
+        return 'text-secondary';
+      default:
+        return 'text-foreground';
+    }
+  };
 
   const activeInvestments = [
     {
@@ -175,11 +237,15 @@ const Dashboard = () => {
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="text-3xl font-bold text-gradient-hero mb-1">$43.22</div>
+                <div className="text-3xl font-bold text-gradient-hero mb-1">
+                  ${profile?.available_balance?.toFixed(2) || '0.00'}
+                </div>
                 <div className="flex items-center space-x-1">
                   <ArrowUpRight className="w-4 h-4 text-success" />
-                  <span className="text-sm text-success">+$5.25</span>
-                  <span className="text-sm text-foreground/60">today</span>
+                  <span className="text-sm text-success">
+                    +${(activities.reduce((sum, act) => sum + (act.amount || 0), 0)).toFixed(2)}
+                  </span>
+                  <span className="text-sm text-foreground/60">total</span>
                 </div>
                 <p className="text-xs text-foreground/50 mt-2">Available for withdrawal</p>
               </CardContent>
@@ -194,11 +260,13 @@ const Dashboard = () => {
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="text-3xl font-bold text-gradient-hero mb-1">$157.45</div>
+                <div className="text-3xl font-bold text-gradient-hero mb-1">
+                  ${profile?.total_earned?.toFixed(2) || '0.00'}
+                </div>
                 <div className="flex items-center space-x-1">
                   <ArrowUpRight className="w-4 h-4 text-success" />
-                  <span className="text-sm text-success">12%</span>
-                  <span className="text-sm text-foreground/60">this month</span>
+                  <span className="text-sm text-success">{activities.length}</span>
+                  <span className="text-sm text-foreground/60">activities</span>
                 </div>
                 <p className="text-xs text-foreground/50 mt-2">Lifetime earnings</p>
               </CardContent>
@@ -393,23 +461,42 @@ const Dashboard = () => {
               </div>
               
               <div className="space-y-4">
-                {recentActivities.map((activity, index) => {
-                  const Icon = activity.icon;
-                  return (
-                    <div key={index} className="flex items-center space-x-4 p-3 earning-card">
-                      <div className={`w-10 h-10 rounded-full bg-profitiv-purple/20 flex items-center justify-center`}>
-                        <Icon className={`w-5 h-5 ${activity.color}`} />
+                {activities.length > 0 ? (
+                  activities.slice(0, 4).map((activity) => {
+                    const Icon = getActivityIcon(activity.activity_type);
+                    const color = getActivityColor(activity.activity_type);
+                    return (
+                      <div key={activity.id} className="flex items-center space-x-4 p-3 earning-card">
+                        <div className={`w-10 h-10 rounded-full bg-profitiv-purple/20 flex items-center justify-center`}>
+                          <Icon className={`w-5 h-5 ${color}`} />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-medium">{activity.description}</h4>
+                          <p className="text-sm text-foreground/60">
+                            {new Date(activity.created_at).toLocaleDateString('en-US', { 
+                              month: 'short', 
+                              day: 'numeric', 
+                              year: 'numeric' 
+                            })}
+                          </p>
+                        </div>
+                        {activity.amount && (
+                          <div className="text-right">
+                            <p className="font-semibold text-gradient-hero">
+                              ${activity.amount.toFixed(2)}
+                            </p>
+                          </div>
+                        )}
                       </div>
-                      <div className="flex-1">
-                        <h4 className="font-medium">{activity.type}</h4>
-                        <p className="text-sm text-foreground/60">{activity.date}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold text-gradient-hero">{activity.amount}</p>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                ) : (
+                  <div className="text-center py-8 text-foreground/60">
+                    <Activity className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                    <p>No activities yet</p>
+                    <p className="text-sm">Start earning to see your activity here!</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
