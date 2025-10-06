@@ -35,7 +35,6 @@ interface QuizQuestion {
   quiz_id: string;
   question: string;
   options: string[];
-  correct_answer: number;
   points: number;
 }
 
@@ -114,10 +113,10 @@ export default function LearnEarnPage() {
       if (quizError) throw quizError;
       setQuiz(quizData);
 
-      // Fetch questions
+      // Fetch questions (exclude correct_answer for security)
       const { data: questionsData, error: questionsError } = await supabase
         .from("quiz_questions")
-        .select("*")
+        .select("id, quiz_id, question, options, points, order_index")
         .eq("quiz_id", quizData.id)
         .order("order_index", { ascending: true });
 
@@ -142,58 +141,42 @@ export default function LearnEarnPage() {
   const submitQuiz = async () => {
     if (!selectedCourse || !quiz) return;
 
-    // Calculate score
-    let correctCount = 0;
-    questions.forEach((q) => {
-      if (answers[q.id] === q.correct_answer) {
-        correctCount++;
-      }
-    });
-
-    const finalScore = Math.round((correctCount / questions.length) * 100);
-    setScore(finalScore);
-
-    const passed = finalScore >= (quiz.passing_score || 70);
-
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Record completion
-      const { error: completionError } = await supabase
-        .from("user_course_completions")
-        .insert({
-          user_id: user.id,
-          course_id: selectedCourse.id,
-          quiz_id: quiz.id,
-          score: finalScore,
-          passed,
-          reward_claimed: passed,
-        });
+      // Submit quiz with server-side scoring for security
+      const { data, error } = await supabase.rpc("submit_quiz_answers", {
+        _quiz_id: quiz.id,
+        _course_id: selectedCourse.id,
+        _answers: answers,
+      });
 
-      if (completionError) throw completionError;
+      if (error) throw error;
 
-      // Award reward if passed
-      if (passed) {
-        const { data, error } = await supabase.rpc("award_course_completion", {
-          _user_id: user.id,
-          _course_id: selectedCourse.id,
-          _score: finalScore,
-          _passed: passed,
-        });
+      const result = data as {
+        success: boolean;
+        score: number;
+        passed: boolean;
+        correct_count: number;
+        total_questions: number;
+        passing_score: number;
+        reward_amount: number;
+        reward_type: string;
+      };
 
-        if (error) throw error;
+      setScore(result.score);
 
+      if (result.passed) {
         toast({
           title: "Congratulations!",
-          description: `You passed! +${selectedCourse.reward_amount} ${selectedCourse.reward_type.toUpperCase()} awarded`,
+          description: `You passed! +${result.reward_amount} ${result.reward_type.toUpperCase()} awarded`,
         });
-
         fetchCompletions();
       } else {
         toast({
           title: "Not Passed",
-          description: `You scored ${finalScore}%. Passing score is ${quiz.passing_score}%`,
+          description: `You scored ${result.score}%. Passing score is ${result.passing_score}%`,
           variant: "destructive",
         });
       }

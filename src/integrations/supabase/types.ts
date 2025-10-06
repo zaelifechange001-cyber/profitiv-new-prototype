@@ -740,6 +740,10 @@ export type Database = {
         Args: { _user_id: string }
         Returns: Json
       }
+      submit_quiz_answers: {
+        Args: { _answers: Json; _course_id: string; _quiz_id: string }
+        Returns: Json
+      }
       user_can_see_quiz_answer: {
         Args: { _question_id: string; _user_id: string }
         Returns: boolean
