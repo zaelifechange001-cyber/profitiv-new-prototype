@@ -1,18 +1,47 @@
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, DollarSign, Users, Play, Video, Trophy } from "lucide-react";
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, DollarSign, Users, Play, Video, Trophy, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const navItems = [
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user || null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
+
+  // Nav items for authenticated users
+  const authNavItems = [
     { name: "Dashboard", path: "/dashboard", icon: DollarSign },
     { name: "Earn", path: "/earn", icon: Trophy },
     { name: "Videos", path: "/videos", icon: Video },
     { name: "Affiliate", path: "/affiliate", icon: Users },
   ];
+
+  // Nav items for non-authenticated users (minimal)
+  const publicNavItems = [
+    { name: "Home", path: "/", icon: DollarSign },
+  ];
+
+  const navItems = user ? authNavItems : publicNavItems;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b">
@@ -47,12 +76,21 @@ const Navigation = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-3">
-            <Button variant="glass" size="sm" className="min-h-[44px]">
-              Login
-            </Button>
-            <Button variant="gradient" size="sm" className="min-h-[44px]">
-              Sign Up
-            </Button>
+            {user ? (
+              <Button variant="glass" size="sm" className="min-h-[44px]" onClick={handleLogout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Button variant="glass" size="sm" className="min-h-[44px]" onClick={() => navigate("/auth")}>
+                  Login
+                </Button>
+                <Button variant="gradient" size="sm" className="min-h-[44px]" onClick={() => navigate("/auth")}>
+                  Sign Up
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -90,12 +128,21 @@ const Navigation = () => {
               );
             })}
             <div className="pt-4 space-y-3 px-2">
-              <Button variant="glass" className="w-full min-h-[48px]">
-                Login
-              </Button>
-              <Button variant="gradient" className="w-full min-h-[48px]">
-                Sign Up
-              </Button>
+              {user ? (
+                <Button variant="glass" className="w-full min-h-[48px]" onClick={handleLogout}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              ) : (
+                <>
+                  <Button variant="glass" className="w-full min-h-[48px]" onClick={() => { navigate("/auth"); setIsOpen(false); }}>
+                    Login
+                  </Button>
+                  <Button variant="gradient" className="w-full min-h-[48px]" onClick={() => { navigate("/auth"); setIsOpen(false); }}>
+                    Sign Up
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

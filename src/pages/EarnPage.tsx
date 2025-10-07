@@ -1,9 +1,23 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Play, Users, ArrowRight, Clock, DollarSign, Sparkles, GraduationCap, Video, Zap, Trophy, BookOpen, CoinsIcon, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const EarnPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate("/auth");
+      }
+    };
+    checkAuth();
+  }, [navigate]);
   return (
     <div className="min-h-screen">
       <Navigation />

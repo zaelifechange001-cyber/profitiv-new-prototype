@@ -1,11 +1,24 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import SpinWheel from "@/components/SpinWheel";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Calendar, TrendingUp } from "lucide-react";
 
 const SpinToWinPage = () => {
-  // Mock streak data - in real app this would come from backend
+  const navigate = useNavigate();
   const currentStreak = 45;
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate("/auth");
+      }
+    };
+    checkAuth();
+  }, [navigate]);
 
   return (
     <div className="min-h-screen">

@@ -1,10 +1,13 @@
+import { useState, useEffect } from "react";
 import HeroSection from "@/components/HeroSection";
 import EarningMethods from "@/components/EarningMethods";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Star, CheckCircle } from "lucide-react";
+import { ArrowRight, Star, CheckCircle, Video, Zap, GraduationCap, Users, Trophy, CoinsIcon, Play, BookOpen, DollarSign } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const testimonials = [
   {
@@ -35,6 +38,39 @@ const testimonials = [
 
 const Index = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check auth state
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user || null);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Navigation />
+        <div className="flex items-center justify-center min-h-screen">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If user is logged in, redirect to dashboard
+  if (user) {
+    navigate("/dashboard");
+    return null;
+  }
 
   return (
     <div className="min-h-screen">
@@ -42,6 +78,291 @@ const Index = () => {
       
       {/* Hero Section */}
       <HeroSection />
+
+      {/* Service Description Sections */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-background/50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              How to <span className="text-gradient-hero">Earn Money</span>
+            </h2>
+            <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
+              Multiple ways to turn your time into real cash. Choose what works best for you!
+            </p>
+          </div>
+
+          <div className="space-y-16">
+            {/* Watch Videos Service */}
+            <div className="glass-card p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
+                      <Video className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold">Watch Videos</h3>
+                  </div>
+                  <p className="text-foreground/80 mb-6">
+                    Get paid to watch engaging video content. Each video you complete earns you real money. 
+                    The more you watch, the more you earn. Videos range from 30 seconds to 5 minutes.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Earn $0.05 - $0.25 per video</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>New videos added daily</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>No limit on daily earnings</span>
+                    </li>
+                  </ul>
+                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                    Start Watching <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </div>
+                <div className="earning-card p-6 bg-gradient-to-br from-profitiv-purple/10 to-profitiv-teal/10">
+                  <Play className="w-16 h-16 text-profitiv-purple mb-4" />
+                  <h4 className="text-xl font-bold mb-2">Quick Stats</h4>
+                  <div className="space-y-2 text-sm">
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Avg. per video:</span>
+                      <span className="font-bold">$0.15</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Videos available:</span>
+                      <span className="font-bold">500+</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Daily potential:</span>
+                      <span className="font-bold text-success">$50+</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Spin to Win Service */}
+            <div className="glass-card p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="order-2 md:order-1 earning-card p-6 bg-gradient-to-br from-secondary/10 to-warning/10">
+                  <Zap className="w-16 h-16 text-warning mb-4" />
+                  <h4 className="text-xl font-bold mb-2">Prize Pool</h4>
+                  <div className="space-y-2 text-sm">
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Min reward:</span>
+                      <span className="font-bold">10 TIV</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Max reward:</span>
+                      <span className="font-bold">1000 TIV</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Cooldown:</span>
+                      <span className="font-bold text-warning">24 hours</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="order-1 md:order-2">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-warning to-secondary flex items-center justify-center">
+                      <Zap className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold">Spin to Win</h3>
+                  </div>
+                  <p className="text-foreground/80 mb-6">
+                    Spin the wheel once every 24 hours for a chance to win TIV tokens! 
+                    Build a 100-day streak to DOUBLE all your spin rewards. Every spin is guaranteed to win.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>100% win rate - always get rewards</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Build streaks for 2x multipliers</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Win up to 1000 TIV per spin</span>
+                    </li>
+                  </ul>
+                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                    Try Your Luck <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Learn & Earn Service */}
+            <div className="glass-card p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-profitiv-purple flex items-center justify-center">
+                      <GraduationCap className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold">Learn & Earn</h3>
+                  </div>
+                  <p className="text-foreground/80 mb-6">
+                    Complete educational courses and quizzes to earn money. Expand your knowledge while 
+                    building your bank account. Courses cover topics from finance to technology.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Earn $1-$10 per completed course</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Courses take 10-30 minutes</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Pass quiz to claim rewards</span>
+                    </li>
+                  </ul>
+                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                    Start Learning <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </div>
+                <div className="earning-card p-6 bg-gradient-to-br from-secondary/10 to-profitiv-purple/10">
+                  <BookOpen className="w-16 h-16 text-secondary mb-4" />
+                  <h4 className="text-xl font-bold mb-2">Course Library</h4>
+                  <div className="space-y-2 text-sm">
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Available courses:</span>
+                      <span className="font-bold">50+</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Categories:</span>
+                      <span className="font-bold">12</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Avg. reward:</span>
+                      <span className="font-bold text-success">$5.00</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* TIV Marketplace */}
+            <div className="glass-card p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="order-2 md:order-1 earning-card p-6 bg-gradient-to-br from-warning/10 to-profitiv-teal/10">
+                  <CoinsIcon className="w-16 h-16 text-warning mb-4" />
+                  <h4 className="text-xl font-bold mb-2">Market Info</h4>
+                  <div className="space-y-2 text-sm">
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Current rate:</span>
+                      <span className="font-bold">$0.02/TIV</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Trading fee:</span>
+                      <span className="font-bold">2%</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="text-foreground/60">Instant trades:</span>
+                      <span className="font-bold text-success">Yes</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="order-1 md:order-2">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-warning to-profitiv-teal flex items-center justify-center">
+                      <CoinsIcon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold">TIV Marketplace</h3>
+                  </div>
+                  <p className="text-foreground/80 mb-6">
+                    Trade TIV tokens with other users for real cash. Set your own prices or buy at market rate. 
+                    TIVs earned from activities can be converted to USD or traded with the community.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Buy & sell TIV tokens instantly</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Set custom prices or use market rate</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Low 2% marketplace fee</span>
+                    </li>
+                  </ul>
+                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                    Visit Marketplace <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Community Pools */}
+            <div className="glass-card p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-profitiv-teal to-profitiv-purple flex items-center justify-center">
+                      <Users className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold">Community Pools</h3>
+                  </div>
+                  <p className="text-foreground/80 mb-6">
+                    Join forces with other users to reach shared goals. Pool investments and share the rewards. 
+                    From video watching pools to jackpot entries, there's a pool for every strategy.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Minimum $5 investment per pool</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Rewards distributed automatically</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                      <span>Multiple pool types available</span>
+                    </li>
+                  </ul>
+                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                    Browse Pools <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </div>
+                <div className="earning-card p-6 bg-gradient-to-br from-profitiv-teal/10 to-profitiv-purple/10">
+                  <Trophy className="w-16 h-16 text-profitiv-teal mb-4" />
+                  <h4 className="text-xl font-bold mb-2">Pool Types</h4>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="text-foreground/60">Video Pools</span>
+                      <span className="font-bold">Active</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-foreground/60">Collaboration</span>
+                      <span className="font-bold">Active</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-foreground/60">Jackpot</span>
+                      <span className="font-bold text-warning">Monthly</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-foreground/60">Learning Pools</span>
+                      <span className="font-bold">Active</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Earning Methods */}
       <EarningMethods />

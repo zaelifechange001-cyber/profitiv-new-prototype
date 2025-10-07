@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Copy, Users, DollarSign, TrendingUp, Gift } from "lucide-react";
@@ -5,8 +8,19 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const AffiliatePage = () => {
+  const navigate = useNavigate();
   const [affiliateCode] = useState("PROFITIV-USER-12345");
   const affiliateLink = `https://profitiv.com/ref/${affiliateCode}`;
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate("/auth");
+      }
+    };
+    checkAuth();
+  }, [navigate]);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
