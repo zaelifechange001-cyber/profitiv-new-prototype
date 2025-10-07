@@ -53,6 +53,7 @@ const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [activities, setActivities] = useState<UserActivity[]>([]);
+  const [activeInvestments, setActiveInvestments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -214,8 +215,6 @@ const Dashboard = () => {
         return 'text-foreground';
     }
   };
-
-  const [activeInvestments, setActiveInvestments] = useState<any[]>([]);
 
   useEffect(() => {
     let isMounted = true;
