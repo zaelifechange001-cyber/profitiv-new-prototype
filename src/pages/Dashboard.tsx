@@ -57,7 +57,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const fetchUserData = async (userId: string) => {
+  const fetchUserData = async (userId: string, isMounted: () => boolean) => {
     try {
       // Fetch user profile
       const { data: profileData, error: profileError } = await supabase
@@ -66,6 +66,7 @@ const Dashboard = () => {
         .eq('user_id', userId)
         .single();
 
+      if (!isMounted()) return;
       if (profileError) throw profileError;
       setProfile(profileData);
 
@@ -77,20 +78,24 @@ const Dashboard = () => {
         .order('created_at', { ascending: false })
         .limit(10);
 
+      if (!isMounted()) return;
       if (activitiesError) throw activitiesError;
       setActivities(activitiesData || []);
     } catch (error: any) {
       console.error('Error fetching user data:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load your profile data",
-        variant: "destructive",
-      });
+      if (isMounted()) {
+        toast({
+          title: "Error",
+          description: "Failed to load your profile data",
+          variant: "destructive",
+        });
+      }
     }
   };
 
   useEffect(() => {
     let mounted = true;
+    const isMounted = () => mounted;
 
     // Set up auth state listener FIRST
     let redirectTimer: number | undefined;
@@ -106,7 +111,7 @@ const Dashboard = () => {
         setUser(session.user);
         // Defer the data fetch to avoid blocking auth flow
         setTimeout(() => {
-          if (mounted) fetchUserData(session.user!.id);
+          if (mounted) fetchUserData(session.user!.id, isMounted);
         }, 0);
         setLoading(false);
       } else if (event === 'SIGNED_OUT') {
@@ -123,7 +128,7 @@ const Dashboard = () => {
       if (session?.user) {
         if (redirectTimer) clearTimeout(redirectTimer);
         setUser(session.user);
-        fetchUserData(session.user.id);
+        fetchUserData(session.user.id, isMounted);
         setLoading(false);
       } else {
         // IMPORTANT: Don't redirect immediately — allow OAuth callback to finalize
@@ -142,7 +147,7 @@ const Dashboard = () => {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, toast]);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -213,28 +218,36 @@ const Dashboard = () => {
   const [activeInvestments, setActiveInvestments] = useState<any[]>([]);
 
   useEffect(() => {
-    if (user) {
-      fetchActiveInvestments();
-    }
+    let isMounted = true;
+
+    const fetchActiveInvestments = async () => {
+      if (!user) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from('pool_participants')
+          .select(`
+            *,
+            pool:community_pools(pool_name, status, goal_amount)
+          `)
+          .eq('user_id', user.id)
+          .order('joined_at', { ascending: false });
+
+        if (!isMounted) return;
+        
+        if (error) throw error;
+        setActiveInvestments(data || []);
+      } catch (error) {
+        console.error('Error fetching investments:', error);
+      }
+    };
+
+    fetchActiveInvestments();
+
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
-
-  const fetchActiveInvestments = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('pool_participants')
-        .select(`
-          *,
-          pool:community_pools(pool_name, status, goal_amount)
-        `)
-        .eq('user_id', user?.id)
-        .order('joined_at', { ascending: false });
-
-      if (error) throw error;
-      setActiveInvestments(data || []);
-    } catch (error) {
-      console.error('Error fetching investments:', error);
-    }
-  };
 
   const mockInvestments = [
     {
