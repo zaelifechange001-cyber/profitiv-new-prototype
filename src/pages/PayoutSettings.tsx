@@ -222,47 +222,6 @@ export default function PayoutSettings() {
     }
   };
 
-  const convertTivToUsd = async () => {
-    const amount = parseFloat(tivAmount);
-    if (isNaN(amount) || amount <= 0) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid TIV amount",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data, error } = await supabase.rpc("convert_tiv_to_usd", {
-        _user_id: user.id,
-        _tiv_amount: amount,
-      });
-
-      if (error) throw error;
-
-      const result = data as any;
-
-      toast({
-        title: "Conversion Successful",
-        description: `Converted ${result.tiv_converted} TIV to $${result.usd_received.toFixed(2)}`,
-      });
-
-      setTivAmount("");
-      fetchData();
-    } catch (error: any) {
-      console.error("Error converting TIV:", error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to convert TIV",
-        variant: "destructive",
-      });
-    }
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -281,7 +240,7 @@ export default function PayoutSettings() {
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">Payout Settings</h1>
           <p className="text-muted-foreground">
-            Manage your payout methods and TIV tokens
+            Manage your payout methods and view your TIV balance
           </p>
         </div>
 
@@ -308,29 +267,32 @@ export default function PayoutSettings() {
                 {profile?.tiv_balance?.toFixed(0) || "0"} TIV
               </div>
               <p className="text-xs text-muted-foreground">
-                ≈ ${((profile?.tiv_balance || 0) * (profile?.tiv_to_usd_rate || 0.01)).toFixed(2)}
+                TIVs can be traded on the marketplace
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+              <CardTitle className="text-sm font-medium">Marketplace Link</CardTitle>
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                100 TIV = ${(100 * (profile?.tiv_to_usd_rate || 0.01)).toFixed(2)}
-              </div>
+              <Button
+                variant="link"
+                className="p-0 h-auto"
+                onClick={() => navigate("/marketplace")}
+              >
+                Trade TIVs →
+              </Button>
             </CardContent>
           </Card>
         </div>
 
         <Tabs defaultValue="withdraw" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="withdraw">Withdraw</TabsTrigger>
             <TabsTrigger value="methods">Payout Methods</TabsTrigger>
-            <TabsTrigger value="tiv">Convert TIV</TabsTrigger>
             <TabsTrigger value="auto">Auto-Payout</TabsTrigger>
           </TabsList>
 
@@ -478,37 +440,6 @@ export default function PayoutSettings() {
                     </div>
                   )}
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="tiv">
-            <Card>
-              <CardHeader>
-                <CardTitle>Convert TIV to USD</CardTitle>
-                <CardDescription>
-                  Convert your TIV tokens to USD balance
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label>TIV Amount</Label>
-                  <Input
-                    type="number"
-                    placeholder="Enter TIV amount"
-                    value={tivAmount}
-                    onChange={(e) => setTivAmount(e.target.value)}
-                  />
-                  {tivAmount && !isNaN(parseFloat(tivAmount)) && (
-                    <p className="text-sm text-muted-foreground mt-2">
-                      You will receive: $
-                      {(parseFloat(tivAmount) * (profile?.tiv_to_usd_rate || 0.01)).toFixed(2)}
-                    </p>
-                  )}
-                </div>
-                <Button onClick={convertTivToUsd} className="w-full">
-                  Convert TIV to USD
-                </Button>
               </CardContent>
             </Card>
           </TabsContent>

@@ -251,11 +251,10 @@ export default function LearnEarnPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {courses
+                ${courses
                   .filter((c) => completedCourses.has(c.id))
                   .reduce((sum, c) => sum + Number(c.reward_amount), 0)
-                  .toFixed(0)}{" "}
-                TIV
+                  .toFixed(2)}
               </div>
             </CardContent>
           </Card>
@@ -295,7 +294,7 @@ export default function LearnEarnPage() {
                       <div>
                         <p className="text-xs text-muted-foreground">Reward</p>
                         <p className="text-lg font-bold text-primary">
-                          {course.reward_amount} {course.reward_type.toUpperCase()}
+                          ${course.reward_amount}
                         </p>
                       </div>
                       <Button
@@ -361,8 +360,7 @@ export default function LearnEarnPage() {
                     <h3 className="text-2xl font-bold">Congratulations!</h3>
                     <p>You passed with a score of {score}%</p>
                     <p className="text-lg font-semibold text-primary">
-                      +{selectedCourse?.reward_amount}{" "}
-                      {selectedCourse?.reward_type.toUpperCase()} earned
+                      +${selectedCourse?.reward_amount} earned
                     </p>
                   </>
                 ) : (

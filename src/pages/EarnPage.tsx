@@ -131,7 +131,7 @@ const EarnPage = () => {
                   
                   <h3 className="text-2xl font-bold mb-4">Learn & Earn</h3>
                   <p className="text-foreground/70 mb-6">
-                    Complete short learning modules or quizzes. Instantly earn money or TIVs upon completion.
+                    Complete short learning modules or quizzes. Instantly earn cash upon completion.
                   </p>
 
                   <div className="space-y-4 mb-8">
@@ -306,7 +306,7 @@ const EarnPage = () => {
                 
                 <h3 className="text-2xl font-bold mb-4">TIV Bidding Marketplace</h3>
                 <p className="text-foreground/70 mb-6">
-                  Earn TIVs from other services. Sell your TIVs to other users in a live bid/ask system. Converts TIVs into cash instantly once another user buys them.
+                  Earn TIVs from other services, then sell your TIVs to other users in a live bid/ask system. Convert TIVs to cash once another user buys them.
                 </p>
 
                 <div className="space-y-4 mb-8">

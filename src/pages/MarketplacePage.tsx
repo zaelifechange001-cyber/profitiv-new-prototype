@@ -174,7 +174,7 @@ const MarketplacePage = () => {
               <span className="text-gradient-hero">TIV Marketplace</span>
             </h1>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              Trade your TIVs with other users for instant cash. Each TIV = $2.00. Buy, sell, or convert your earnings!
+              Trade your TIVs with other users for instant cash. Set your own price and find buyers!
             </p>
           </div>
 
