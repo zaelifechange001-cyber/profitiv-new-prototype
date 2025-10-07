@@ -179,6 +179,7 @@ export type Database = {
           id: string
           investment_amount: number
           reward_per_view: number | null
+          reward_type: string | null
           status: string
           title: string
           updated_at: string | null
@@ -192,6 +193,7 @@ export type Database = {
           id?: string
           investment_amount?: number
           reward_per_view?: number | null
+          reward_type?: string | null
           status?: string
           title: string
           updated_at?: string | null
@@ -205,6 +207,7 @@ export type Database = {
           id?: string
           investment_amount?: number
           reward_per_view?: number | null
+          reward_type?: string | null
           status?: string
           title?: string
           updated_at?: string | null
@@ -288,8 +291,10 @@ export type Database = {
           avatar_url: string | null
           created_at: string | null
           email: string | null
+          first_name: string | null
           full_name: string | null
           id: string
+          last_name: string | null
           tiv_balance: number | null
           tiv_to_usd_rate: number | null
           total_earned: number | null
@@ -303,8 +308,10 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string | null
           email?: string | null
+          first_name?: string | null
           full_name?: string | null
           id?: string
+          last_name?: string | null
           tiv_balance?: number | null
           tiv_to_usd_rate?: number | null
           total_earned?: number | null
@@ -318,8 +325,10 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string | null
           email?: string | null
+          first_name?: string | null
           full_name?: string | null
           id?: string
+          last_name?: string | null
           tiv_balance?: number | null
           tiv_to_usd_rate?: number | null
           total_earned?: number | null

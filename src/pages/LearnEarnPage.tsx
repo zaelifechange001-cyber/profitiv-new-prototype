@@ -304,6 +304,23 @@ export default function LearnEarnPage() {
                         {completed ? "Completed" : "Start Course"}
                       </Button>
                     </div>
+
+                    <div className="pt-3 border-t">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs text-muted-foreground">Course Investment</p>
+                          <p className="text-sm font-semibold text-success">Sponsored</p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled
+                          className="gap-2"
+                        >
+                          Free Access
+                        </Button>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               );

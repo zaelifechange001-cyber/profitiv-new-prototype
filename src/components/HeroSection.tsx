@@ -27,7 +27,7 @@ const HeroSection = () => {
                 <span className="text-foreground">Online Today</span>
               </h1>
               <p className="text-lg sm:text-xl lg:text-2xl text-foreground/80 max-w-3xl leading-relaxed">
-                Transform your spare time into real income. Watch videos, play games, and build your affiliate network with Profitiv's revolutionary earning platform.
+                Transform your spare time into real income through Watch Videos, Spin to Win, Learn & Earn, TIV Marketplace, and Community Pools - your complete earning ecosystem.
               </p>
             </div>
 

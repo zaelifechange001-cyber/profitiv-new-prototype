@@ -31,6 +31,8 @@ interface UserProfile {
   user_id: string;
   email: string | null;
   full_name: string | null;
+  first_name: string | null;
+  last_name: string | null;
   avatar_url: string | null;
   total_earned: number;
   available_balance: number;
@@ -168,7 +170,7 @@ const Dashboard = () => {
   };
 
 
-  const userName = profile?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || "User";
+  const userName = profile?.first_name || profile?.full_name?.split(' ')[0] || user?.user_metadata?.first_name || user?.user_metadata?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || "User";
 
   const getActivityIcon = (type: string) => {
     switch (type.toLowerCase()) {

@@ -111,7 +111,7 @@ export default function VideosPage() {
       // Award reward by fetching current balance and adding to it
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
-        .select("tiv_balance")
+        .select("available_balance, total_earned")
         .eq("user_id", user.id)
         .single();
 
@@ -120,7 +120,8 @@ export default function VideosPage() {
       const { error: balanceError } = await supabase
         .from("profiles")
         .update({ 
-          tiv_balance: (profile?.tiv_balance || 0) + video.reward_per_view
+          available_balance: (profile?.available_balance || 0) + video.reward_per_view,
+          total_earned: (profile?.total_earned || 0) + video.reward_per_view
         })
         .eq("user_id", user.id);
 
@@ -136,7 +137,7 @@ export default function VideosPage() {
 
       toast({
         title: "Reward Earned!",
-        description: `+${video.reward_per_view} TIV added to your balance`,
+        description: `+$${video.reward_per_view.toFixed(2)} added to your balance`,
       });
 
       // Open video in new tab
@@ -177,7 +178,7 @@ export default function VideosPage() {
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">Investment Videos</h1>
           <p className="text-muted-foreground">
-            Watch videos and earn TIV tokens instantly
+            Watch videos and earn money instantly
           </p>
         </div>
 
@@ -209,11 +210,11 @@ export default function VideosPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
+                $
                 {videos
                   .filter((v) => !watchedVideos.has(v.id))
                   .reduce((sum, v) => sum + Number(v.reward_per_view), 0)
-                  .toFixed(0)}{" "}
-                TIV
+                  .toFixed(2)}
               </div>
             </CardContent>
           </Card>
@@ -261,7 +262,7 @@ export default function VideosPage() {
                       <div>
                         <p className="text-xs text-muted-foreground">Earn</p>
                         <p className="text-lg font-bold text-primary">
-                          {video.reward_per_view} TIV
+                          ${video.reward_per_view.toFixed(2)}
                         </p>
                       </div>
                       <Button
@@ -272,6 +273,25 @@ export default function VideosPage() {
                         <Play className="h-4 w-4" />
                         {watched ? "Watched" : "Watch & Earn"}
                       </Button>
+                    </div>
+
+                    <div className="pt-3 border-t">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs text-muted-foreground">Investment Pool</p>
+                          <p className="text-sm font-semibold text-success">
+                            ${Number(video.investment_amount).toFixed(2)}
+                          </p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled
+                          className="gap-2"
+                        >
+                          Funded
+                        </Button>
+                      </div>
                     </div>
 
                     <div className="text-xs text-muted-foreground">
