@@ -366,27 +366,9 @@ const Index = () => {
       <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="glass-card p-6 sm:p-8 lg:p-12 text-center glow-pulse">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-8">
               Ready to <span className="text-gradient-hero">Start Earning?</span>
             </h2>
-            <p className="text-xl text-foreground/80 mb-8 max-w-2xl mx-auto">
-              Average monthly earnings: <span className="text-gradient-hero font-bold">$3,000+</span> and growing live in real-time!
-            </p>
-            
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
-                <span className="text-sm sm:text-base text-success font-medium whitespace-nowrap">$5 Sign-up Bonus</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
-                <span className="text-sm sm:text-base text-success font-medium whitespace-nowrap">Instant Access</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success flex-shrink-0" />
-                <span className="text-sm sm:text-base text-success font-medium whitespace-nowrap">No Hidden Fees</span>
-              </div>
-            </div>
 
             <div className="flex justify-center">
               <Button variant="hero" size="hero" className="group" onClick={() => navigate("/auth")}>
