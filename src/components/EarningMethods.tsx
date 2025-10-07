@@ -123,7 +123,7 @@ const EarningMethods = () => {
           <h3 className="text-2xl font-bold mb-6">Ready to Start Earning?</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-              <div className="text-3xl font-bold text-gradient-hero mb-2">$157</div>
+              <div className="text-3xl font-bold text-gradient-hero mb-2">$3000</div>
               <div className="text-foreground/60">Average monthly earnings</div>
             </div>
             <div>
@@ -134,14 +134,6 @@ const EarningMethods = () => {
               <div className="text-3xl font-bold text-gradient-hero mb-2">instant</div>
               <div className="text-foreground/60">Account setup & start earning</div>
             </div>
-          </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button variant="gradient" size="lg">
-              Create Free Account
-            </Button>
-            <Button variant="glass" size="lg">
-              Explore Methods
-            </Button>
           </div>
         </div>
       </div>
