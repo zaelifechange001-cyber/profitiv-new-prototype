@@ -52,6 +52,7 @@ const App = () => (
           <Route path="/pools/:type" element={<PoolsPage />} />
           <Route path="/pools" element={<PoolsPage />} />
           <Route path="/payout-settings" element={<PayoutSettings />} />
+          <Route path="/pricing" element={<SubscriptionsPage />} />
           <Route path="/subscriptions" element={<SubscriptionsPage />} />
           
           {/* Admin Routes */}

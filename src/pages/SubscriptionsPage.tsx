@@ -1,22 +1,8 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 
+
 const SubscriptionsPage = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-      }
-    };
-    checkAuth();
-  }, [navigate]);
-
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -26,7 +12,7 @@ const SubscriptionsPage = () => {
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-              <span className="text-gradient-hero">Subscription Plans</span>
+              <span className="text-gradient-hero">Pricing</span>
             </h1>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
               Unlock higher earning potential with our premium subscription tiers. Start free and upgrade as you grow.
