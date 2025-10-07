@@ -213,123 +213,99 @@ export default function LearnEarnPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Navigation />
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Learn & Earn</h1>
-          <p className="text-muted-foreground">
-            Complete courses and quizzes to earn rewards
-          </p>
-        </div>
+      <div className="pt-20 px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+              <span className="text-gradient-hero">Learn & Earn</span>
+            </h1>
+            <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
+              Complete courses and quizzes to earn rewards
+            </p>
+          </div>
 
-        <div className="grid gap-4 md:grid-cols-3 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Available Courses</CardTitle>
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{courses.length}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Completed</CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{completedCourses.size}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Rewards</CardTitle>
-              <Award className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div className="glass-card p-6 text-center">
+              <BookOpen className="w-8 h-8 mx-auto mb-3 text-profitiv-purple" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">{courses.length}</div>
+              <p className="text-foreground/60">Available Courses</p>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <CheckCircle className="w-8 h-8 mx-auto mb-3 text-profitiv-teal" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">{completedCourses.size}</div>
+              <p className="text-foreground/60">Completed</p>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <Award className="w-8 h-8 mx-auto mb-3 text-secondary" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">
                 ${courses
                   .filter((c) => completedCourses.has(c.id))
                   .reduce((sum, c) => sum + Number(c.reward_amount), 0)
                   .toFixed(2)}
               </div>
-            </CardContent>
-          </Card>
-        </div>
+              <p className="text-foreground/60">Total Rewards</p>
+            </div>
+          </div>
 
-        {courses.length === 0 ? (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <p className="text-muted-foreground">No courses available</p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {courses.map((course) => {
-              const completed = completedCourses.has(course.id);
+          {courses.length === 0 ? (
+            <div className="glass-card p-12 text-center">
+              <p className="text-foreground/60">No courses available</p>
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {courses.map((course) => {
+                const completed = completedCourses.has(course.id);
 
-              return (
-                <Card key={course.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-2">
-                      <CardTitle className="text-lg line-clamp-2">
-                        {course.title}
-                      </CardTitle>
-                      {completed && <Badge variant="secondary">✓ Completed</Badge>}
-                    </div>
-                    <CardDescription className="line-clamp-3">
-                      {course.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span className="capitalize">{course.content_type} Content</span>
-                    </div>
-
-                    <div className="flex items-center justify-between py-3 border-t">
-                      <div>
-                        <p className="text-xs text-muted-foreground">Reward</p>
-                        <p className="text-lg font-bold text-primary">
-                          ${course.reward_amount}
-                        </p>
+                return (
+                  <div key={course.id} className="earning-card group hover:scale-[1.02] transition-all duration-300">
+                    <div className="p-6 space-y-4">
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="text-lg font-bold line-clamp-2 group-hover:text-profitiv-purple transition-colors">
+                          {course.title}
+                        </h3>
+                        {completed && <Badge variant="secondary">✓ Completed</Badge>}
                       </div>
-                      <Button
-                        onClick={() => startCourse(course)}
-                        disabled={completed}
-                      >
-                        {completed ? "Completed" : "Start Course"}
-                      </Button>
-                    </div>
+                      <p className="text-sm text-foreground/60 line-clamp-3">
+                        {course.description}
+                      </p>
 
-                    <div className="pt-3 border-t">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-sm text-foreground/60">
+                        <Clock className="h-4 w-4" />
+                        <span className="capitalize">{course.content_type} Content</span>
+                      </div>
+
+                      <div className="flex items-center justify-between py-3 border-t border-border/50">
                         <div>
-                          <p className="text-xs text-muted-foreground">Course Investment</p>
-                          <p className="text-sm font-semibold text-success">Sponsored</p>
+                          <p className="text-xs text-foreground/60">Reward</p>
+                          <p className="text-2xl font-bold text-gradient-hero">
+                            ${course.reward_amount}
+                          </p>
                         </div>
                         <Button
-                          variant="outline"
-                          size="sm"
-                          disabled
-                          className="gap-2"
+                          onClick={() => startCourse(course)}
+                          disabled={completed}
+                          variant="gradient"
                         >
-                          Free Access
+                          {completed ? "Completed" : "Start Course"}
                         </Button>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        )}
 
-        {/* Course/Quiz Dialog */}
-        <Dialog open={!!selectedCourse} onOpenChange={closeDialog}>
+                      <div className="text-xs text-foreground/60 text-center">
+                        Sponsored • Free Access
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Course/Quiz Dialog */}
+          <Dialog open={!!selectedCourse} onOpenChange={closeDialog}>
           <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{selectedCourse?.title}</DialogTitle>
@@ -397,6 +373,7 @@ export default function LearnEarnPage() {
             )}
           </DialogContent>
         </Dialog>
+        </div>
       </div>
     </div>
   );

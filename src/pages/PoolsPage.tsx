@@ -221,144 +221,127 @@ export default function PoolsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Navigation />
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            Community Pools {type && `- ${type}`}
-          </h1>
-          <p className="text-muted-foreground">
-            Join investment pools and earn together
-          </p>
-        </div>
+      <div className="pt-20 px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+              <span className="text-gradient-hero">Community Pools</span>
+              {type && <span className="text-foreground/60"> - {type}</span>}
+            </h1>
+            <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
+              Join investment pools and earn together
+            </p>
+          </div>
 
-        <div className="grid gap-4 md:grid-cols-4 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Open Pools</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{pools.length}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Your Pools</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{userParticipations.size}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Amount Invested</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+            <div className="glass-card p-6 text-center">
+              <Users className="w-8 h-8 mx-auto mb-3 text-profitiv-purple" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">{pools.length}</div>
+              <p className="text-foreground/60">Open Pools</p>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <TrendingUp className="w-8 h-8 mx-auto mb-3 text-profitiv-teal" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">{userParticipations.size}</div>
+              <p className="text-foreground/60">Your Pools</p>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <DollarSign className="w-8 h-8 mx-auto mb-3 text-secondary" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">
                 ${pools.reduce((sum, p) => sum + Number(p.current_amount), 0).toFixed(2)}
               </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Participants</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
+              <p className="text-foreground/60">Total Invested</p>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <Trophy className="w-8 h-8 mx-auto mb-3 text-warning" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">
                 {pools.reduce((sum, p) => sum + p.current_participants, 0)}
               </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {pools.length === 0 ? (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <p className="text-muted-foreground">No pools available</p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {pools.map((pool) => {
-              const joined = userParticipations.has(pool.id);
-              const progress = getProgress(
-                Number(pool.current_amount),
-                Number(pool.goal_amount)
-              );
-
-              return (
-                <Card key={pool.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-2">
-                      <div className={`p-2 rounded-lg ${getTypeColor(pool.pool_type)}`}>
-                        {getTypeIcon(pool.pool_type)}
-                      </div>
-                      {joined && <Badge variant="secondary">✓ Joined</Badge>}
-                    </div>
-                    <CardTitle className="text-lg line-clamp-2">
-                      {pool.pool_name}
-                    </CardTitle>
-                    <CardDescription className="line-clamp-2">
-                      {pool.description}
-                    </CardDescription>
-                    <Badge variant="outline" className={getTypeColor(pool.pool_type)}>
-                      {pool.pool_type}
-                    </Badge>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-muted-foreground">Pool Progress</span>
-                        <span className="font-medium">{progress.toFixed(1)}%</span>
-                      </div>
-                      <Progress value={progress} />
-                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                        <span>${Number(pool.current_amount).toFixed(2)}</span>
-                        <span>${Number(pool.goal_amount).toFixed(2)}</span>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-muted-foreground">Min Investment</p>
-                        <p className="font-bold">${Number(pool.min_investment).toFixed(2)}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">Participants</p>
-                        <p className="font-bold">
-                          {pool.current_participants}
-                          {pool.max_participants && ` / ${pool.max_participants}`}
-                        </p>
-                      </div>
-                    </div>
-
-                    <Button
-                      onClick={() => {
-                        setSelectedPool(pool);
-                        setInvestmentAmount(pool.min_investment.toString());
-                      }}
-                      disabled={joined}
-                      className="w-full"
-                    >
-                      {joined ? "Already Joined" : "Join Pool"}
-                    </Button>
-                  </CardContent>
-                </Card>
-              );
-            })}
+              <p className="text-foreground/60">Participants</p>
+            </div>
           </div>
-        )}
 
-        {/* Join Pool Dialog */}
-        <Dialog open={!!selectedPool} onOpenChange={() => setSelectedPool(null)}>
+          {pools.length === 0 ? (
+            <div className="glass-card p-12 text-center">
+              <p className="text-foreground/60">No pools available</p>
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {pools.map((pool) => {
+                const joined = userParticipations.has(pool.id);
+                const progress = getProgress(
+                  Number(pool.current_amount),
+                  Number(pool.goal_amount)
+                );
+
+                return (
+                  <div key={pool.id} className="earning-card group hover:scale-[1.02] transition-all duration-300">
+                    <div className="p-6 space-y-4">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className={`p-3 rounded-lg bg-gradient-to-br from-profitiv-purple/20 to-profitiv-teal/20 ${getTypeColor(pool.pool_type)}`}>
+                          {getTypeIcon(pool.pool_type)}
+                        </div>
+                        {joined && <Badge variant="secondary">✓ Joined</Badge>}
+                      </div>
+                      <h3 className="text-lg font-bold line-clamp-2 group-hover:text-profitiv-purple transition-colors">
+                        {pool.pool_name}
+                      </h3>
+                      <p className="text-sm text-foreground/60 line-clamp-2">
+                        {pool.description}
+                      </p>
+                      <Badge variant="outline" className={`${getTypeColor(pool.pool_type)} capitalize`}>
+                        {pool.pool_type}
+                      </Badge>
+
+                      <div>
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="text-foreground/60">Pool Progress</span>
+                          <span className="font-medium text-profitiv-teal">{progress.toFixed(1)}%</span>
+                        </div>
+                        <Progress value={progress} className="h-2" />
+                        <div className="flex justify-between text-xs text-foreground/60 mt-1">
+                          <span>${Number(pool.current_amount).toFixed(2)}</span>
+                          <span>${Number(pool.goal_amount).toFixed(2)}</span>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 text-sm py-3 border-t border-border/50">
+                        <div>
+                          <p className="text-foreground/60">Min Investment</p>
+                          <p className="font-bold text-gradient-hero">${Number(pool.min_investment).toFixed(2)}</p>
+                        </div>
+                        <div>
+                          <p className="text-foreground/60">Participants</p>
+                          <p className="font-bold text-gradient-hero">
+                            {pool.current_participants}
+                            {pool.max_participants && ` / ${pool.max_participants}`}
+                          </p>
+                        </div>
+                      </div>
+
+                      <Button
+                        onClick={() => {
+                          setSelectedPool(pool);
+                          setInvestmentAmount(pool.min_investment.toString());
+                        }}
+                        disabled={joined}
+                        variant="gradient"
+                        className="w-full"
+                      >
+                        {joined ? "Already Joined" : "Join Pool"}
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Join Pool Dialog */}
+          <Dialog open={!!selectedPool} onOpenChange={() => setSelectedPool(null)}>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Join {selectedPool?.pool_name}</DialogTitle>
@@ -412,6 +395,7 @@ export default function PoolsPage() {
             </div>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
     </div>
   );

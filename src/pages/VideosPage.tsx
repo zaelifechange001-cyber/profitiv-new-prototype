@@ -172,137 +172,106 @@ export default function VideosPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Navigation />
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Investment Videos</h1>
-          <p className="text-muted-foreground">
-            Watch videos and earn money instantly
-          </p>
-        </div>
+      <div className="pt-20 px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+              <span className="text-gradient-hero">Investment Videos</span>
+            </h1>
+            <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
+              Watch videos and earn money instantly
+            </p>
+          </div>
 
-        <div className="grid gap-4 md:grid-cols-3 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Available Videos</CardTitle>
-              <Play className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{videos.length}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Videos Watched</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{watchedVideos.size}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Potential Earnings</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                $
-                {videos
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div className="glass-card p-6 text-center">
+              <Play className="w-8 h-8 mx-auto mb-3 text-profitiv-purple" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">{videos.length}</div>
+              <p className="text-foreground/60">Available Videos</p>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <TrendingUp className="w-8 h-8 mx-auto mb-3 text-profitiv-teal" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">{watchedVideos.size}</div>
+              <p className="text-foreground/60">Videos Watched</p>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <DollarSign className="w-8 h-8 mx-auto mb-3 text-secondary" />
+              <div className="text-3xl font-bold text-gradient-hero mb-2">
+                ${videos
                   .filter((v) => !watchedVideos.has(v.id))
                   .reduce((sum, v) => sum + Number(v.reward_per_view), 0)
                   .toFixed(2)}
               </div>
-            </CardContent>
-          </Card>
-        </div>
+              <p className="text-foreground/60">Potential Earnings</p>
+            </div>
+          </div>
 
-        {videos.length === 0 ? (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <p className="text-muted-foreground">No videos available at the moment</p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {videos.map((video) => {
-              const watched = watchedVideos.has(video.id);
-              const progress = getProgress(video.current_views, video.goal_views);
+          {videos.length === 0 ? (
+            <div className="glass-card p-12 text-center">
+              <p className="text-foreground/60">No videos available at the moment</p>
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {videos.map((video) => {
+                const watched = watchedVideos.has(video.id);
+                const progress = getProgress(video.current_views, video.goal_views);
 
-              return (
-                <Card key={video.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-2">
-                      <CardTitle className="text-lg line-clamp-2">
-                        {video.title}
-                      </CardTitle>
-                      {watched && <Badge variant="secondary">Watched</Badge>}
-                    </div>
-                    <CardDescription className="line-clamp-2">
-                      {video.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-muted-foreground">Campaign Progress</span>
-                        <span className="font-medium">{progress.toFixed(1)}%</span>
+                return (
+                  <div key={video.id} className="earning-card group hover:scale-[1.02] transition-all duration-300">
+                    <div className="p-6 space-y-4">
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="text-lg font-bold line-clamp-2 group-hover:text-profitiv-purple transition-colors">
+                          {video.title}
+                        </h3>
+                        {watched && <Badge variant="secondary">✓ Watched</Badge>}
                       </div>
-                      <Progress value={progress} />
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {video.current_views.toLocaleString()} /{" "}
-                        {video.goal_views.toLocaleString()} views
+                      <p className="text-sm text-foreground/60 line-clamp-2">
+                        {video.description}
                       </p>
-                    </div>
 
-                    <div className="flex items-center justify-between py-3 border-t">
                       <div>
-                        <p className="text-xs text-muted-foreground">Earn</p>
-                        <p className="text-lg font-bold text-primary">
-                          ${video.reward_per_view.toFixed(2)}
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="text-foreground/60">Campaign Progress</span>
+                          <span className="font-medium text-profitiv-teal">{progress.toFixed(1)}%</span>
+                        </div>
+                        <Progress value={progress} className="h-2" />
+                        <p className="text-xs text-foreground/60 mt-1">
+                          {video.current_views.toLocaleString()} / {video.goal_views.toLocaleString()} views
                         </p>
                       </div>
-                      <Button
-                        onClick={() => handleWatchVideo(video)}
-                        disabled={watched}
-                        className="gap-2"
-                      >
-                        <Play className="h-4 w-4" />
-                        {watched ? "Watched" : "Watch & Earn"}
-                      </Button>
-                    </div>
 
-                    <div className="pt-3 border-t">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between py-3 border-t border-border/50">
                         <div>
-                          <p className="text-xs text-muted-foreground">Investment Pool</p>
-                          <p className="text-sm font-semibold text-success">
-                            ${Number(video.investment_amount).toFixed(2)}
+                          <p className="text-xs text-foreground/60">Earn</p>
+                          <p className="text-2xl font-bold text-gradient-hero">
+                            ${video.reward_per_view.toFixed(2)}
                           </p>
                         </div>
                         <Button
-                          variant="outline"
-                          size="sm"
-                          disabled
+                          onClick={() => handleWatchVideo(video)}
+                          disabled={watched}
+                          variant="gradient"
                           className="gap-2"
                         >
-                          Funded
+                          <Play className="h-4 w-4" />
+                          {watched ? "Watched" : "Watch & Earn"}
                         </Button>
                       </div>
-                    </div>
 
-                    <div className="text-xs text-muted-foreground">
-                      Investment Pool: ${Number(video.investment_amount).toFixed(2)}
+                      <div className="text-xs text-foreground/60 text-center">
+                        Pool: ${Number(video.investment_amount).toFixed(2)}
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
