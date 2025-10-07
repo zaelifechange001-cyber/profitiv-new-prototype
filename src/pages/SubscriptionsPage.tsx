@@ -15,7 +15,7 @@ const SubscriptionsPage = () => {
               <span className="text-gradient-hero">Pricing</span>
             </h1>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              Unlock higher earning potential with our premium subscription tiers. Start free and upgrade as you grow.
+              Choose the plan that fits your earning goals and watch your income grow.
             </p>
           </div>
 
