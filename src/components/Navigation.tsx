@@ -39,7 +39,7 @@ const Navigation = () => {
   // Nav items for non-authenticated users (minimal)
   const publicNavItems = [
     { name: "Home", path: "/", icon: DollarSign },
-    { name: "Subscriptions", path: "/subscriptions", icon: Users },
+    { name: "Price Plans", path: "/subscriptions", icon: Users },
   ];
 
   const navItems = user ? authNavItems : publicNavItems;
