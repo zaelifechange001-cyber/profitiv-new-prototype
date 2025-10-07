@@ -281,7 +281,7 @@ const Index = () => {
                   </div>
                   <p className="text-foreground/80 mb-6">
                     Trade TIV tokens with other users for real cash. Set your own prices or buy at market rate. 
-                    TIVs earned from activities can be converted to USD or traded with the community.
+                    TIVs earned from activities can be traded with the community.
                   </p>
                   <ul className="space-y-3 mb-6">
                     <li className="flex items-start gap-2">
@@ -303,72 +303,12 @@ const Index = () => {
                 </div>
               </div>
             </div>
-
-            {/* Community Pools */}
-            <div className="glass-card p-8 hover-lift">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-profitiv-teal to-profitiv-purple flex items-center justify-center">
-                      <Users className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold">Community Pools</h3>
-                  </div>
-                  <p className="text-foreground/80 mb-6">
-                    Join forces with other users to reach shared goals. Pool investments and share the rewards. 
-                    From video watching pools to jackpot entries, there's a pool for every strategy.
-                  </p>
-                  <ul className="space-y-3 mb-6">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
-                      <span>Minimum $5 investment per pool</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
-                      <span>Rewards distributed automatically</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
-                      <span>Multiple pool types available</span>
-                    </li>
-                  </ul>
-                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
-                    Browse Pools <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </div>
-                <div className="earning-card p-6 bg-gradient-to-br from-profitiv-teal/10 to-profitiv-purple/10">
-                  <Trophy className="w-16 h-16 text-profitiv-teal mb-4" />
-                  <h4 className="text-xl font-bold mb-2">Pool Types</h4>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center justify-between">
-                      <span className="text-foreground/60">Video Pools</span>
-                      <span className="font-bold">Active</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-foreground/60">Collaboration</span>
-                      <span className="font-bold">Active</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-foreground/60">Jackpot</span>
-                      <span className="font-bold text-warning">Monthly</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-foreground/60">Learning Pools</span>
-                      <span className="font-bold">Active</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       {/* Earning Methods */}
       <EarningMethods />
-
-      {/* Subscription Plans */}
-      <SubscriptionPlans />
 
       {/* Testimonials */}
       <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
@@ -431,7 +371,7 @@ const Index = () => {
             </h2>
             <p className="text-xl text-foreground/80 mb-8 max-w-2xl mx-auto">
               Join thousands of people who are already making money with Profitiv. 
-              Sign up today and get a $5 bonus just for joining!
+              Average monthly earnings: <span className="text-gradient-hero font-bold">$3,000+</span> and growing live!
             </p>
             
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8">
@@ -449,13 +389,10 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <div className="flex justify-center">
               <Button variant="hero" size="hero" className="group" onClick={() => navigate("/auth")}>
-                Create Free Account
+                Start Earning Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button variant="glass" size="hero" onClick={() => navigate("/earn")}>
-                Explore Earning Methods
               </Button>
             </div>
           </div>

@@ -37,7 +37,7 @@ const EarnPage = () => {
           {/* Quick Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             <div className="glass-card p-6 text-center">
-              <div className="text-3xl font-bold text-gradient-hero mb-2">$157</div>
+              <div className="text-3xl font-bold text-gradient-hero mb-2">$3,000+</div>
               <p className="text-foreground/60">Average monthly earnings</p>
             </div>
             <div className="glass-card p-6 text-center">

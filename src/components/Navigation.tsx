@@ -32,7 +32,7 @@ const Navigation = () => {
   const authNavItems = [
     { name: "Dashboard", path: "/dashboard", icon: DollarSign },
     { name: "Earn", path: "/earn", icon: Trophy },
-    { name: "Videos", path: "/videos", icon: Video },
+    { name: "Subscriptions", path: "/subscriptions", icon: Users },
     { name: "Affiliate", path: "/affiliate", icon: Users },
   ];
 

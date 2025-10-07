@@ -28,6 +28,7 @@ import PayoutSettings from "./pages/PayoutSettings";
 import VideosPage from "./pages/VideosPage";
 import LearnEarnPage from "./pages/LearnEarnPage";
 import PoolsPage from "./pages/PoolsPage";
+import SubscriptionsPage from "./pages/SubscriptionsPage";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/pools/:type" element={<PoolsPage />} />
           <Route path="/pools" element={<PoolsPage />} />
           <Route path="/payout-settings" element={<PayoutSettings />} />
+          <Route path="/subscriptions" element={<SubscriptionsPage />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>

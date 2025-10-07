@@ -336,9 +336,9 @@ const Dashboard = () => {
                 <Button 
                   variant="link" 
                   className="text-xs p-0 h-auto mt-2 text-profitiv-purple"
-                  onClick={() => navigate('/payout-settings')}
+                  onClick={() => navigate('/marketplace')}
                 >
-                  Convert to USD
+                  Trade on Marketplace
                 </Button>
               </CardContent>
             </div>
@@ -364,24 +364,24 @@ const Dashboard = () => {
               </CardContent>
             </div>
 
-            {/* Total Earned */}
+            {/* Total Amount Invested */}
             <div className="glass-card p-6 hover-lift">
               <CardHeader className="p-0 mb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium text-foreground/60">Total Earned</CardTitle>
+                  <CardTitle className="text-sm font-medium text-foreground/60">Total Amount Invested</CardTitle>
                   <TrendingUp className="w-4 h-4 text-secondary" />
                 </div>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="text-3xl font-bold text-gradient-hero mb-1">
-                  ${profile?.total_earned?.toFixed(2) || '0.00'}
+                  ${activeInvestments.reduce((sum, inv) => sum + Number(inv.investment_amount), 0).toFixed(2)}
                 </div>
                 <div className="flex items-center space-x-1">
                   <ArrowUpRight className="w-4 h-4 text-success" />
-                  <span className="text-sm text-success">{activities.length}</span>
-                  <span className="text-sm text-foreground/60">activities</span>
+                  <span className="text-sm text-success">{activeInvestments.length}</span>
+                  <span className="text-sm text-foreground/60">investments</span>
                 </div>
-                <p className="text-xs text-foreground/50 mt-2">Lifetime earnings</p>
+                <p className="text-xs text-foreground/50 mt-2">Total invested in Profitiv</p>
               </CardContent>
             </div>
 
@@ -406,111 +406,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Earning Services Quick Access */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-6">Earning Services</h2>
-            
-            {/* Individual Earnings */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-profitiv-teal" />
-                Individual Earnings
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Link to="/videos" className="earning-card p-6 hover-lift block">
-                  <Play className="w-8 h-8 text-profitiv-teal mb-3" />
-                  <h4 className="font-bold mb-1">Watch Videos</h4>
-                  <p className="text-sm text-foreground/60 mb-3">Earn instantly by watching videos</p>
-                  <Button variant="earnings" size="sm" className="w-full">
-                    Start Watching
-                  </Button>
-                </Link>
-                
-                <Link to="/spin-to-win" className="earning-card p-6 hover-lift block">
-                  <Sparkles className="w-8 h-8 text-profitiv-purple mb-3" />
-                  <h4 className="font-bold mb-1">Spin to Win</h4>
-                  <p className="text-sm text-foreground/60 mb-3">Daily wheel spin for TIVs</p>
-                  <Button variant="earnings" size="sm" className="w-full">
-                    Spin Now
-                  </Button>
-                </Link>
-                
-                <Link to="/learn-earn" className="earning-card p-6 hover-lift block">
-                  <GraduationCap className="w-8 h-8 text-secondary mb-3" />
-                  <h4 className="font-bold mb-1">Learn & Earn</h4>
-                  <p className="text-sm text-foreground/60 mb-3">Complete quizzes for rewards</p>
-                  <Button variant="earnings" size="sm" className="w-full">
-                    Start Learning
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Community Pools */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Users className="w-5 h-5 text-profitiv-purple" />
-                Community Pools
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Link to="/pools/video" className="earning-card p-6 hover-lift block">
-                  <Video className="w-8 h-8 text-blue-400 mb-3" />
-                  <h4 className="font-bold mb-1">Video Pools</h4>
-                  <p className="text-sm text-foreground/60 mb-3">Group video campaigns</p>
-                  <Button variant="earnings" size="sm" className="w-full">
-                    Join Pool
-                  </Button>
-                </Link>
-                
-                <Link to="/pools/collaboration" className="earning-card p-6 hover-lift block">
-                  <Zap className="w-8 h-8 text-profitiv-purple mb-3" />
-                  <h4 className="font-bold mb-1">Collaboration</h4>
-                  <p className="text-sm text-foreground/60 mb-3">Team investment pools</p>
-                  <Button variant="earnings" size="sm" className="w-full">
-                    Join Pool
-                  </Button>
-                </Link>
-                
-                <Link to="/pools/jackpot" className="earning-card p-6 hover-lift block">
-                  <Trophy className="w-8 h-8 text-warning mb-3" />
-                  <h4 className="font-bold mb-1">Jackpot</h4>
-                  <p className="text-sm text-foreground/60 mb-3">Monthly prize draws</p>
-                  <Button variant="earnings" size="sm" className="w-full">
-                    Enter Now
-                  </Button>
-                </Link>
-                
-                <Link to="/pools/learning" className="earning-card p-6 hover-lift block">
-                  <BookOpen className="w-8 h-8 text-secondary mb-3" />
-                  <h4 className="font-bold mb-1">Learning Pools</h4>
-                  <p className="text-sm text-foreground/60 mb-3">Community courses</p>
-                  <Button variant="earnings" size="sm" className="w-full">
-                    Join Pool
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Marketplace */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <CoinsIcon className="w-5 h-5 text-warning" />
-                Marketplace
-              </h3>
-              <Link to="/marketplace" className="earning-card p-6 hover-lift block max-w-md">
-                <div className="flex items-center gap-4 mb-4">
-                  <CoinsIcon className="w-12 h-12 text-warning" />
-                  <div>
-                    <h4 className="font-bold mb-1">TIV Marketplace</h4>
-                    <p className="text-sm text-foreground/60">Trade TIVs for cash</p>
-                  </div>
-                </div>
-                <Button variant="earnings" size="sm" className="w-full">
-                  Visit Marketplace
-                </Button>
-              </Link>
-            </div>
-          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Active Investments Table */}
