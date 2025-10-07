@@ -210,16 +210,34 @@ const Dashboard = () => {
     }
   };
 
-  const activeInvestments = [
+  const [activeInvestments, setActiveInvestments] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      fetchActiveInvestments();
+    }
+  }, [user]);
+
+  const fetchActiveInvestments = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('pool_participants')
+        .select(`
+          *,
+          pool:community_pools(pool_name, status, goal_amount)
+        `)
+        .eq('user_id', user?.id)
+        .order('joined_at', { ascending: false });
+
+      if (error) throw error;
+      setActiveInvestments(data || []);
+    } catch (error) {
+      console.error('Error fetching investments:', error);
+    }
+  };
+
+  const mockInvestments = [
     {
-      id: "#12345678",
-      amount: "$5.00",
-      expectedReturn: "$10.00",
-      created: "Jan 15, 2025",
-      status: "Active"
-    },
-    {
-      id: "#87654321", 
       amount: "$10.00",
       expectedReturn: "$20.00",
       created: "Jan 12, 2025",
@@ -490,30 +508,36 @@ const Dashboard = () => {
               </div>
               
               <div className="space-y-4">
-                {activeInvestments.map((investment) => (
-                  <div key={investment.id} className="earning-card p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <div>
-                        <h4 className="font-medium">Investment {investment.id}</h4>
-                        <p className="text-sm text-foreground/60">Created {investment.created}</p>
+                {activeInvestments.length > 0 ? (
+                  activeInvestments.map((investment) => (
+                    <div key={investment.id} className="earning-card p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <h4 className="font-medium">{investment.pool?.pool_name || 'Pool'}</h4>
+                          <p className="text-sm text-foreground/60">
+                            Joined {new Date(investment.joined_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <div className="badge badge-success">
+                          {investment.pool?.status || 'Active'}
+                        </div>
                       </div>
-                      <div className={`badge ${investment.status === 'Active' ? 'badge-success' : 'badge-warning'}`}>
-                        {investment.status}
+                      
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <p className="text-foreground/60">Investment Amount</p>
+                          <p className="font-semibold">${investment.investment_amount.toFixed(2)}</p>
+                        </div>
+                        <div>
+                          <p className="text-foreground/60">Pool Goal</p>
+                          <p className="font-semibold text-success">${investment.pool?.goal_amount.toFixed(2)}</p>
+                        </div>
                       </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-foreground/60">Investment Amount</p>
-                        <p className="font-semibold">{investment.amount}</p>
-                      </div>
-                      <div>
-                        <p className="text-foreground/60">Expected Return</p>
-                        <p className="font-semibold text-success">{investment.expectedReturn}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="text-center text-foreground/60 py-8">No active investments yet</p>
+                )}
               </div>
             </div>
 

@@ -407,6 +407,63 @@ export type Database = {
           },
         ]
       }
+      spin_history: {
+        Row: {
+          created_at: string | null
+          id: string
+          reward_amount: number
+          reward_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          reward_amount: number
+          reward_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          reward_amount?: number
+          reward_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      spin_rewards: {
+        Row: {
+          active: boolean | null
+          color: string
+          created_at: string | null
+          id: string
+          label: string
+          probability: number
+          reward_amount: number
+          reward_type: string
+        }
+        Insert: {
+          active?: boolean | null
+          color?: string
+          created_at?: string | null
+          id?: string
+          label: string
+          probability: number
+          reward_amount: number
+          reward_type: string
+        }
+        Update: {
+          active?: boolean | null
+          color?: string
+          created_at?: string | null
+          id?: string
+          label?: string
+          probability?: number
+          reward_amount?: number
+          reward_type?: string
+        }
+        Relationships: []
+      }
       subscription_plans: {
         Row: {
           active: boolean | null
@@ -434,6 +491,27 @@ export type Database = {
         }
         Relationships: []
       }
+      tiv_settings: {
+        Row: {
+          id: string
+          setting_key: string
+          setting_value: number
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          setting_key: string
+          setting_value: number
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          setting_key?: string
+          setting_value?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       tiv_transactions: {
         Row: {
           amount: number
@@ -441,6 +519,8 @@ export type Database = {
           completed_at: string | null
           created_at: string | null
           id: string
+          listing_price: number | null
+          marketplace_fee: number | null
           rate: number
           seller_id: string
           status: string
@@ -452,6 +532,8 @@ export type Database = {
           completed_at?: string | null
           created_at?: string | null
           id?: string
+          listing_price?: number | null
+          marketplace_fee?: number | null
           rate: number
           seller_id: string
           status?: string
@@ -463,6 +545,8 @@ export type Database = {
           completed_at?: string | null
           created_at?: string | null
           id?: string
+          listing_price?: number | null
+          marketplace_fee?: number | null
           rate?: number
           seller_id?: string
           status?: string
@@ -721,6 +805,10 @@ export type Database = {
         }
         Returns: Json
       }
+      buy_tiv_from_marketplace: {
+        Args: { _listing_id: string }
+        Returns: Json
+      }
       convert_tiv_to_usd: {
         Args: { _tiv_amount: number; _user_id: string }
         Returns: Json
@@ -736,8 +824,16 @@ export type Database = {
         }
         Returns: boolean
       }
+      list_tiv_on_marketplace: {
+        Args: { _amount: number; _rate: number }
+        Returns: Json
+      }
       process_auto_payout: {
         Args: { _user_id: string }
+        Returns: Json
+      }
+      spin_wheel: {
+        Args: Record<PropertyKey, never>
         Returns: Json
       }
       submit_quiz_answers: {

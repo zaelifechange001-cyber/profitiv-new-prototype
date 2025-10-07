@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Loader2, Sparkles } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SpinWheelProps {
   streak: number;
@@ -11,6 +13,85 @@ const SpinWheel = ({ streak }: SpinWheelProps) => {
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [prize, setPrize] = useState<number | null>(null);
+  const [canSpin, setCanSpin] = useState(true);
+  const [cooldownMessage, setCooldownMessage] = useState("");
+
+  useEffect(() => {
+    checkCooldown();
+  }, []);
+
+  const checkCooldown = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('spin_history')
+        .select('created_at')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (data && !error) {
+        const lastSpin = new Date(data.created_at);
+        const now = new Date();
+        const hoursSince = (now.getTime() - lastSpin.getTime()) / (1000 * 60 * 60);
+        
+        if (hoursSince < 24) {
+          setCanSpin(false);
+          const hoursLeft = Math.ceil(24 - hoursSince);
+          setCooldownMessage(`Next spin available in ${hoursLeft} hours`);
+        }
+      }
+    } catch (error) {
+      console.log('No spin history yet');
+    }
+  };
+
+  const handleSpin = async () => {
+    if (spinning || !canSpin) return;
+
+    setSpinning(true);
+    setPrize(null);
+
+    try {
+      const { data, error } = await supabase.rpc('spin_wheel');
+
+      if (error) throw error;
+
+      const spinResult = data as any;
+      const multiplier = streak >= 100 ? 2 : 1;
+      const finalPrize = spinResult.reward_amount * multiplier;
+      
+      // Calculate rotation for animation
+      const spins = 5 + Math.random() * 3;
+      const degrees = spins * 360 + Math.random() * 360;
+      setRotation(rotation + degrees);
+
+      // Wait for animation
+      setTimeout(() => {
+        setPrize(finalPrize);
+        setSpinning(false);
+        setCanSpin(false);
+        setCooldownMessage("Next spin available in 24 hours");
+        
+        toast({
+          title: streak >= 100 ? "🎉 Streak Bonus!" : "🎁 You Won!",
+          description: `You earned ${finalPrize} ${spinResult.reward_type.toUpperCase()}!${streak >= 100 ? " (Doubled!)" : ""}`,
+        });
+      }, 4000);
+
+    } catch (error: any) {
+      console.error('Error spinning wheel:', error);
+      setSpinning(false);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to spin",
+        variant: "destructive",
+      });
+    }
+  };
 
   const prizes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const colors = [
@@ -25,37 +106,6 @@ const SpinWheel = ({ streak }: SpinWheelProps) => {
     "from-purple-500 to-pink-600",
     "from-blue-500 to-purple-600",
   ];
-
-  const handleSpin = () => {
-    if (spinning) return;
-
-    setSpinning(true);
-    setPrize(null);
-
-    // Random prize selection
-    const prizeIndex = Math.floor(Math.random() * prizes.length);
-    const selectedPrize = prizes[prizeIndex];
-    const multiplier = streak >= 100 ? 2 : 1;
-    const finalPrize = selectedPrize * multiplier;
-
-    // Calculate rotation (multiple full spins + landing position)
-    const spins = 5 + Math.random() * 3; // 5-8 full rotations
-    const segmentAngle = 360 / prizes.length;
-    const targetAngle = prizeIndex * segmentAngle;
-    const totalRotation = rotation + (spins * 360) + (360 - targetAngle);
-
-    setRotation(totalRotation);
-
-    // Show result after animation
-    setTimeout(() => {
-      setPrize(finalPrize);
-      setSpinning(false);
-      toast({
-        title: streak >= 100 ? "🎉 Streak Bonus!" : "🎁 You Won!",
-        description: `You earned ${finalPrize} TIVs!${streak >= 100 ? " (Doubled for 100% streak!)" : ""}`,
-      });
-    }, 4000);
-  };
 
   const streakPercentage = Math.min((streak / 100) * 100, 100);
 
@@ -149,13 +199,24 @@ const SpinWheel = ({ streak }: SpinWheelProps) => {
           size="lg"
           className="w-full"
           onClick={handleSpin}
-          disabled={spinning}
+          disabled={spinning || !canSpin}
         >
-          {spinning ? "Spinning..." : "Spin to Win"}
-          <Sparkles className="w-4 h-4 ml-2" />
+          {spinning ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Spinning...
+            </>
+          ) : canSpin ? (
+            <>
+              Spin to Win
+              <Sparkles className="w-4 h-4 ml-2" />
+            </>
+          ) : (
+            "Come Back Tomorrow"
+          )}
         </Button>
         <p className="text-xs text-foreground/60 mt-2">
-          Daily spin available • Come back tomorrow for more!
+          {cooldownMessage || "Daily spin available • Come back tomorrow for more!"}
         </p>
       </div>
     </div>

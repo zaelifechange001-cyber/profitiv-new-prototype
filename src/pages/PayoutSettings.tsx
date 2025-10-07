@@ -167,6 +167,61 @@ export default function PayoutSettings() {
     }
   };
 
+  const requestWithdrawal = async () => {
+    const amount = parseFloat(tivAmount);
+    if (isNaN(amount) || amount < 1) {
+      toast({
+        title: "Error",
+        description: "Minimum withdrawal amount is $1.00",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!profile || amount > profile.available_balance) {
+      toast({
+        title: "Error",
+        description: "Insufficient balance",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const defaultMethod = payoutMethods.find(m => m.is_default);
+    if (!defaultMethod) {
+      toast({
+        title: "Error",
+        description: "Please add a default payout method first",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.rpc("create_withdrawal_request", {
+        _amount: amount,
+        _method: defaultMethod.method_type,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Withdrawal Requested",
+        description: `Withdrawal of $${amount.toFixed(2)} has been requested`,
+      });
+
+      setTivAmount("");
+      fetchData();
+    } catch (error: any) {
+      console.error("Error requesting withdrawal:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to request withdrawal",
+        variant: "destructive",
+      });
+    }
+  };
+
   const convertTivToUsd = async () => {
     const amount = parseFloat(tivAmount);
     if (isNaN(amount) || amount <= 0) {
@@ -271,12 +326,68 @@ export default function PayoutSettings() {
           </Card>
         </div>
 
-        <Tabs defaultValue="methods" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+        <Tabs defaultValue="withdraw" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="withdraw">Withdraw</TabsTrigger>
             <TabsTrigger value="methods">Payout Methods</TabsTrigger>
             <TabsTrigger value="tiv">Convert TIV</TabsTrigger>
             <TabsTrigger value="auto">Auto-Payout</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="withdraw">
+            <Card>
+              <CardHeader>
+                <CardTitle>Request Withdrawal</CardTitle>
+                <CardDescription>
+                  Withdraw funds to your default payout method (Minimum $1.00)
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Withdrawal Amount (USD)</Label>
+                  <Input
+                    type="number"
+                    placeholder="Enter amount"
+                    value={tivAmount}
+                    onChange={(e) => setTivAmount(e.target.value)}
+                    min="1"
+                    step="0.01"
+                  />
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Available balance: ${profile?.available_balance?.toFixed(2) || "0.00"}
+                  </p>
+                  {tivAmount && !isNaN(parseFloat(tivAmount)) && parseFloat(tivAmount) >= 1 && (
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Fee (2%): ${(parseFloat(tivAmount) * 0.02).toFixed(2)} | 
+                      You will receive: ${(parseFloat(tivAmount) * 0.98).toFixed(2)}
+                    </p>
+                  )}
+                </div>
+                {payoutMethods.find(m => m.is_default) ? (
+                  <div className="bg-muted p-3 rounded-md text-sm">
+                    <p className="font-medium">Default payout method:</p>
+                    <p className="text-muted-foreground capitalize">
+                      {payoutMethods.find(m => m.is_default)?.method_type} - 
+                      {payoutMethods.find(m => m.is_default)?.account_identifier}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-yellow-50 dark:bg-yellow-900/10 p-3 rounded-md text-sm">
+                    <p className="text-yellow-800 dark:text-yellow-200">
+                      Please add a default payout method in the "Payout Methods" tab first
+                    </p>
+                  </div>
+                )}
+                <Button 
+                  onClick={requestWithdrawal} 
+                  className="w-full"
+                  disabled={!payoutMethods.find(m => m.is_default)}
+                >
+                  Request Withdrawal
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="methods">
             <Card>
