@@ -33,6 +33,27 @@ export default function AdminWithdrawals() {
 
   useEffect(() => {
     fetchWithdrawals();
+    
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('withdrawal_requests_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'withdrawal_requests'
+        },
+        (payload) => {
+          console.log('Withdrawal request change:', payload);
+          fetchWithdrawals();
+        }
+      )
+      .subscribe();
+    
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const handleUpdateStatus = async (id: string, status: string) => {
