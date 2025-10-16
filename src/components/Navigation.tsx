@@ -77,6 +77,14 @@ const Navigation = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-3">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="min-h-[44px] text-muted-foreground hover:text-primary" 
+              onClick={() => navigate("/creators")}
+            >
+              For Creators
+            </Button>
             {user ? (
               <Button variant="glass" size="sm" className="min-h-[44px]" onClick={handleLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
@@ -129,6 +137,13 @@ const Navigation = () => {
               );
             })}
             <div className="pt-4 space-y-3 px-2">
+              <Button 
+                variant="outline" 
+                className="w-full min-h-[48px]" 
+                onClick={() => { navigate("/creators"); setIsOpen(false); }}
+              >
+                For Creators
+              </Button>
               {user ? (
                 <Button variant="glass" className="w-full min-h-[48px]" onClick={handleLogout}>
                   <LogOut className="w-4 h-4 mr-2" />

@@ -29,6 +29,8 @@ import VideosPage from "./pages/VideosPage";
 import LearnEarnPage from "./pages/LearnEarnPage";
 import PoolsPage from "./pages/PoolsPage";
 import SubscriptionsPage from "./pages/SubscriptionsPage";
+import CreatorsLanding from "./pages/creators/CreatorsLanding";
+import CreatorsDashboard from "./pages/creators/CreatorsDashboard";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +56,10 @@ const App = () => (
           <Route path="/payout-settings" element={<PayoutSettings />} />
           <Route path="/pricing" element={<SubscriptionsPage />} />
           <Route path="/subscriptions" element={<SubscriptionsPage />} />
+          
+          {/* Creators Routes */}
+          <Route path="/creators" element={<CreatorsLanding />} />
+          <Route path="/creators/dashboard" element={<CreatorsDashboard />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>
