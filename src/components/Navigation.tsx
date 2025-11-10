@@ -78,9 +78,9 @@ const Navigation = () => {
               variant="ghost" 
               size="sm" 
               className="min-h-[44px] text-muted-foreground hover:text-primary" 
-              onClick={() => navigate("/creators")}
+              onClick={() => navigate("/?role=creator")}
             >
-              For Creators
+              Creators & Brands
             </Button>
             {user ? (
               <Button variant="glass" size="sm" className="min-h-[44px]" onClick={handleLogout}>
@@ -158,7 +158,7 @@ const Navigation = () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                 >
-                  Creator Home
+                  Creators & Brands
                 </Button>
               </div>
             )}
