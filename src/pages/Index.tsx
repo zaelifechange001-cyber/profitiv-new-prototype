@@ -82,18 +82,18 @@ const Index = () => {
       <Navigation />
       
       {/* Role Switcher Header */}
-      <section className="py-8 px-4 text-center">
-        <h1 className="text-4xl font-bold mb-2">
+      <section className="py-6 md:py-8 px-5 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">
           <span className="text-gradient-hero">Profitiv Pulse</span>
         </h1>
-        <p className="text-foreground/60 mb-6">Creators • Brands • Earners</p>
-        <div className="flex gap-4 justify-center flex-wrap">
+        <p className="text-sm md:text-base text-foreground/60 mb-5">Creators • Brands • Earners</p>
+        <div className="flex gap-3 justify-center flex-wrap max-w-md mx-auto">
           <Button
             onClick={() => {
               setActiveRole("earner");
               triggerPulse();
             }}
-            className={activeRole === "earner" ? "btn-gradient" : ""}
+            className={activeRole === "earner" ? "btn-gradient flex-1 min-h-[48px]" : "flex-1 min-h-[48px]"}
             variant={activeRole === "earner" ? "default" : "outline"}
             size="lg"
           >
@@ -104,7 +104,7 @@ const Index = () => {
               setActiveRole("creator");
               triggerPulse();
             }}
-            className={activeRole === "creator" ? "btn-gradient" : ""}
+            className={activeRole === "creator" ? "btn-gradient flex-1 min-h-[48px]" : "flex-1 min-h-[48px]"}
             variant={activeRole === "creator" ? "default" : "outline"}
             size="lg"
           >
@@ -119,54 +119,54 @@ const Index = () => {
           <HeroSection />
 
       {/* Service Description Sections */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-background/50">
+      <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8 bg-background/50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
               How to <span className="text-gradient-hero">Earn Money</span>
             </h2>
-            <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
+            <p className="text-base md:text-lg lg:text-xl text-foreground/80 max-w-3xl mx-auto px-4">
               Multiple ways to turn your time into real cash. Choose what works best for you!
             </p>
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-8 md:space-y-12">
             {/* Watch Videos Service */}
-            <div className="glass-card p-8 hover-lift">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="glass-card p-5 md:p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
                 <div>
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
-                      <Video className="w-6 h-6 text-white" />
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center flex-shrink-0">
+                      <Video className="w-5 h-5 md:w-6 md:h-6 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold">Watch Videos</h3>
+                    <h3 className="text-xl md:text-2xl font-bold">Watch Videos</h3>
                   </div>
-                  <p className="text-foreground/80 mb-6">
+                  <p className="text-sm md:text-base text-foreground/80 mb-5">
                     Get paid to watch engaging video content. Each video you complete earns you real money. 
                     The more you watch, the more you earn. Videos range from 30 seconds to 5 minutes.
                   </p>
-                  <ul className="space-y-3 mb-6">
-                    <li className="flex items-start gap-2">
+                  <ul className="space-y-2.5 mb-5">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Earn $0.05 - $0.25 per video</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>New videos added daily</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>No limit on daily earnings</span>
                     </li>
                   </ul>
-                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                  <Button variant="gradient" size="lg" className="w-full md:w-auto min-h-[48px]" onClick={() => navigate("/auth")}>
                     Start Watching <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </div>
-                <div className="earning-card p-6 bg-gradient-to-br from-profitiv-purple/10 to-profitiv-teal/10">
-                  <Play className="w-16 h-16 text-profitiv-purple mb-4" />
-                  <h4 className="text-xl font-bold mb-2">Quick Stats</h4>
-                  <div className="space-y-2 text-sm">
+                <div className="earning-card p-5 md:p-6 bg-gradient-to-br from-profitiv-purple/10 to-profitiv-teal/10">
+                  <Play className="w-12 h-12 md:w-16 md:h-16 text-profitiv-purple mb-3 md:mb-4" />
+                  <h4 className="text-lg md:text-xl font-bold mb-2">Quick Stats</h4>
+                  <div className="space-y-1.5 text-sm">
                     <p className="flex justify-between">
                       <span className="text-foreground/60">Avg. per video:</span>
                       <span className="font-bold">$0.15</span>
@@ -185,12 +185,12 @@ const Index = () => {
             </div>
 
             {/* Spin to Win Service */}
-            <div className="glass-card p-8 hover-lift">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="order-2 md:order-1 earning-card p-6 bg-gradient-to-br from-secondary/10 to-warning/10">
-                  <Zap className="w-16 h-16 text-warning mb-4" />
-                  <h4 className="text-xl font-bold mb-2">Prize Pool</h4>
-                  <div className="space-y-2 text-sm">
+            <div className="glass-card p-5 md:p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+                <div className="order-2 md:order-1 earning-card p-5 md:p-6 bg-gradient-to-br from-secondary/10 to-warning/10">
+                  <Zap className="w-12 h-12 md:w-16 md:h-16 text-warning mb-3 md:mb-4" />
+                  <h4 className="text-lg md:text-xl font-bold mb-2">Prize Pool</h4>
+                  <div className="space-y-1.5 text-sm">
                     <p className="flex justify-between">
                       <span className="text-foreground/60">Min reward:</span>
                       <span className="font-bold">10 TIV</span>
@@ -207,30 +207,30 @@ const Index = () => {
                 </div>
                 <div className="order-1 md:order-2">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-warning to-secondary flex items-center justify-center">
-                      <Zap className="w-6 h-6 text-white" />
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-warning to-secondary flex items-center justify-center flex-shrink-0">
+                      <Zap className="w-5 h-5 md:w-6 md:h-6 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold">Spin to Win</h3>
+                    <h3 className="text-xl md:text-2xl font-bold">Spin to Win</h3>
                   </div>
-                  <p className="text-foreground/80 mb-6">
+                  <p className="text-sm md:text-base text-foreground/80 mb-5">
                     Spin the wheel once every 24 hours for a chance to win TIV tokens! 
                     Build a 100-day streak to DOUBLE all your spin rewards. Every spin is guaranteed to win.
                   </p>
-                  <ul className="space-y-3 mb-6">
-                    <li className="flex items-start gap-2">
+                  <ul className="space-y-2.5 mb-5">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>100% win rate - always get rewards</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Build streaks for 2x multipliers</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Win up to 1000 TIV per spin</span>
                     </li>
                   </ul>
-                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                  <Button variant="gradient" size="lg" className="w-full md:w-auto min-h-[48px]" onClick={() => navigate("/auth")}>
                     Try Your Luck <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </div>
@@ -238,41 +238,41 @@ const Index = () => {
             </div>
 
             {/* Learn & Earn Service */}
-            <div className="glass-card p-8 hover-lift">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="glass-card p-5 md:p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
                 <div>
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-profitiv-purple flex items-center justify-center">
-                      <GraduationCap className="w-6 h-6 text-white" />
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-secondary to-profitiv-purple flex items-center justify-center flex-shrink-0">
+                      <GraduationCap className="w-5 h-5 md:w-6 md:h-6 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold">Learn & Earn</h3>
+                    <h3 className="text-xl md:text-2xl font-bold">Learn & Earn</h3>
                   </div>
-                  <p className="text-foreground/80 mb-6">
+                  <p className="text-sm md:text-base text-foreground/80 mb-5">
                     Complete educational courses and quizzes to earn money. Expand your knowledge while 
                     building your bank account. Courses cover topics from finance to technology.
                   </p>
-                  <ul className="space-y-3 mb-6">
-                    <li className="flex items-start gap-2">
+                  <ul className="space-y-2.5 mb-5">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Earn $1-$10 per completed course</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Courses take 10-30 minutes</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Pass quiz to claim rewards</span>
                     </li>
                   </ul>
-                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                  <Button variant="gradient" size="lg" className="w-full md:w-auto min-h-[48px]" onClick={() => navigate("/auth")}>
                     Start Learning <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </div>
-                <div className="earning-card p-6 bg-gradient-to-br from-secondary/10 to-profitiv-purple/10">
-                  <BookOpen className="w-16 h-16 text-secondary mb-4" />
-                  <h4 className="text-xl font-bold mb-2">Course Library</h4>
-                  <div className="space-y-2 text-sm">
+                <div className="earning-card p-5 md:p-6 bg-gradient-to-br from-secondary/10 to-profitiv-purple/10">
+                  <BookOpen className="w-12 h-12 md:w-16 md:h-16 text-secondary mb-3 md:mb-4" />
+                  <h4 className="text-lg md:text-xl font-bold mb-2">Course Library</h4>
+                  <div className="space-y-1.5 text-sm">
                     <p className="flex justify-between">
                       <span className="text-foreground/60">Available courses:</span>
                       <span className="font-bold">50+</span>
@@ -291,12 +291,12 @@ const Index = () => {
             </div>
 
             {/* TIV Marketplace */}
-            <div className="glass-card p-8 hover-lift">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="order-2 md:order-1 earning-card p-6 bg-gradient-to-br from-warning/10 to-profitiv-teal/10">
-                  <CoinsIcon className="w-16 h-16 text-warning mb-4" />
-                  <h4 className="text-xl font-bold mb-2">Market Info</h4>
-                  <div className="space-y-2 text-sm">
+            <div className="glass-card p-5 md:p-8 hover-lift">
+              <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+                <div className="order-2 md:order-1 earning-card p-5 md:p-6 bg-gradient-to-br from-warning/10 to-profitiv-teal/10">
+                  <CoinsIcon className="w-12 h-12 md:w-16 md:h-16 text-warning mb-3 md:mb-4" />
+                  <h4 className="text-lg md:text-xl font-bold mb-2">Market Info</h4>
+                  <div className="space-y-1.5 text-sm">
                     <p className="flex justify-between">
                       <span className="text-foreground/60">Current rate:</span>
                       <span className="font-bold">$0.02/TIV</span>
@@ -313,30 +313,30 @@ const Index = () => {
                 </div>
                 <div className="order-1 md:order-2">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-warning to-profitiv-teal flex items-center justify-center">
-                      <CoinsIcon className="w-6 h-6 text-white" />
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-warning to-profitiv-teal flex items-center justify-center flex-shrink-0">
+                      <CoinsIcon className="w-5 h-5 md:w-6 md:h-6 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold">TIV Marketplace</h3>
+                    <h3 className="text-xl md:text-2xl font-bold">TIV Marketplace</h3>
                   </div>
-                  <p className="text-foreground/80 mb-6">
+                  <p className="text-sm md:text-base text-foreground/80 mb-5">
                     Trade TIV tokens with other users for real cash. Set your own prices or buy at market rate. 
                     TIVs earned from activities can be traded with the community.
                   </p>
-                  <ul className="space-y-3 mb-6">
-                    <li className="flex items-start gap-2">
+                  <ul className="space-y-2.5 mb-5">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Buy & sell TIV tokens instantly</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Set custom prices or use market rate</span>
                     </li>
-                    <li className="flex items-start gap-2">
+                    <li className="flex items-start gap-2 text-sm md:text-base">
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                       <span>Low 2% marketplace fee</span>
                     </li>
                   </ul>
-                  <Button variant="gradient" size="lg" onClick={() => navigate("/auth")}>
+                  <Button variant="gradient" size="lg" className="w-full md:w-auto min-h-[48px]" onClick={() => navigate("/auth")}>
                     Visit Marketplace <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </div>
@@ -350,44 +350,44 @@ const Index = () => {
       <EarningMethods />
 
       {/* Testimonials */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
               Success <span className="text-gradient-hero">Stories</span>
             </h2>
-            <p className="text-lg sm:text-xl text-foreground/80 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg lg:text-xl text-foreground/80 max-w-2xl mx-auto px-4">
               Real people, real earnings. See how Profitiv has changed lives.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6">
             {testimonials.map((testimonial, index) => (
-              <div key={testimonial.name} className="glass-card p-6 sm:p-8 hover-lift">
+              <div key={testimonial.name} className="glass-card p-5 md:p-6 hover-lift">
                 {/* Header */}
-                <div className="flex items-center space-x-3 sm:space-x-4 mb-4 sm:mb-6">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center flex-shrink-0">
-                    <span className="text-white font-bold text-sm sm:text-base">{testimonial.avatar}</span>
+                <div className="flex items-center space-x-3 mb-4 md:mb-5">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center flex-shrink-0">
+                    <span className="text-white font-bold text-base">{testimonial.avatar}</span>
                   </div>
                   <div className="min-w-0">
-                    <h4 className="font-semibold truncate">{testimonial.name}</h4>
-                    <p className="text-xs sm:text-sm text-foreground/60 truncate">{testimonial.role}</p>
+                    <h4 className="font-semibold text-base truncate">{testimonial.name}</h4>
+                    <p className="text-sm text-foreground/60 truncate">{testimonial.role}</p>
                   </div>
                 </div>
 
                 {/* Quote */}
-                <blockquote className="text-sm sm:text-base text-foreground/80 mb-4 sm:mb-6 italic line-clamp-4">
+                <blockquote className="text-sm md:text-base text-foreground/80 mb-4 md:mb-5 italic line-clamp-3">
                   "{testimonial.quote}"
                 </blockquote>
 
                 {/* Stats */}
                 <div className="flex items-center justify-between pt-4 border-t border-profitiv-purple/20">
                   <div>
-                    <div className="text-xl sm:text-2xl font-bold text-gradient-hero">{testimonial.earnings}</div>
-                    <div className="text-xs sm:text-sm text-foreground/60">Total Earned</div>
+                    <div className="text-xl md:text-2xl font-bold text-gradient-hero">{testimonial.earnings}</div>
+                    <div className="text-xs md:text-sm text-foreground/60">Total Earned</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs sm:text-sm font-medium text-profitiv-teal truncate">{testimonial.method}</div>
+                    <div className="text-sm font-medium text-profitiv-teal truncate max-w-[100px]">{testimonial.method}</div>
                     <div className="flex items-center space-x-1 justify-end mt-1">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className="w-3 h-3 fill-profitiv-teal text-profitiv-teal" />
