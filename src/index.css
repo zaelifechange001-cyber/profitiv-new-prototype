@@ -465,19 +465,19 @@
     animation: profitivGradient 6s linear infinite;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.6)) drop-shadow(0 0 40px rgba(255, 107, 207, 0.4));
+    filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.3)) drop-shadow(0 0 16px rgba(255, 107, 207, 0.2));
   }
 
-  /* Intense neon glow behind wordmark */
+  /* Soft neon glow behind wordmark */
   .profitiv-wordmark::after {
     content: "";
     position: absolute;
-    inset: -8px;
+    inset: -4px;
     z-index: -1;
-    border-radius: 8px;
-    filter: blur(24px);
-    opacity: 0.8;
-    background: linear-gradient(90deg, rgba(0, 229, 255, 0.5), rgba(0, 184, 255, 0.4), rgba(138, 43, 226, 0.4), rgba(255, 107, 207, 0.5));
+    border-radius: 6px;
+    filter: blur(14px);
+    opacity: 0.4;
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.25), rgba(0, 184, 255, 0.2), rgba(138, 43, 226, 0.2), rgba(255, 107, 207, 0.25));
   }
 
   @keyframes profitivGradient {
