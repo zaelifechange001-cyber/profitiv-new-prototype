@@ -90,7 +90,7 @@ const Index = () => {
       <Navigation />
       
       {/* Role Switcher Header */}
-      <section className="py-6 md:py-8 px-5 text-center">
+      <section className="py-6 md:py-8 px-5 text-center cv-auto">
         <h1 className="text-3xl md:text-4xl font-bold mb-2">
           <span className="text-gradient-hero">Profitiv Pulse</span>
         </h1>
@@ -103,7 +103,7 @@ const Index = () => {
           <HeroSection />
 
       {/* Service Description Sections */}
-      <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8 bg-background/50">
+      <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8 bg-background/50 cv-auto">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
@@ -334,7 +334,7 @@ const Index = () => {
       <EarningMethods />
 
       {/* Testimonials */}
-      <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8">
+      <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8 cv-auto">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">

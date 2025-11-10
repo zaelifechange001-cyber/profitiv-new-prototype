@@ -2,7 +2,7 @@ import { memo } from "react";
 
 const BackgroundAnimationComponent = () => {
   return (
-    <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" style={{ contain: 'layout style paint' }}>
+    <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden isolate" style={{ contain: 'layout style paint', backfaceVisibility: 'hidden' }}>
       {/* Secondary depth glow - faint darker layer */}
       <div 
         className="absolute inset-0 opacity-25"
