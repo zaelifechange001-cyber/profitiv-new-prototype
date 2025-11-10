@@ -86,7 +86,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <BackgroundAnimation />
       <Navigation />
       
       {/* Role Switcher Header */}
