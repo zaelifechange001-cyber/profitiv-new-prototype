@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import EarningMethods from "@/components/EarningMethods";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Navigation from "@/components/Navigation";
+import { BackgroundAnimation } from "@/components/BackgroundAnimation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, CheckCircle, Video, Zap, GraduationCap, Users, Trophy, CoinsIcon, Play, BookOpen, DollarSign, Rocket, Target, BarChart3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -77,6 +78,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <BackgroundAnimation />
       <Navigation />
       
       {/* Role Switcher Header */}

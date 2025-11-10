@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
+import { BackgroundAnimation } from "@/components/BackgroundAnimation";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -109,6 +110,7 @@ export default function CreatorsDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
+      <BackgroundAnimation />
       {/* Header */}
       <div className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">

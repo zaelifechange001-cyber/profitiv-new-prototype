@@ -6,35 +6,44 @@
 
 @layer base {
   :root {
-    /* Dark theme base colors */
-    --background: 222 84% 5%;
+    /* Profitiv Pulse - Graphite base with holo accents */
+    --graphite: 220 15% 6%;
+    --graphite-2: 220 12% 8%;
+    --background: 220 15% 6%;
     --foreground: 210 40% 98%;
 
     /* Glass morphism cards */
-    --card: 222 84% 5%;
+    --card: 220 15% 6%;
     --card-foreground: 210 40% 98%;
-    --card-glass: 222 47% 11% / 0.6;
+    --card-glass: 0 0% 100% / 0.025;
+    --glass: 0 0% 100% / 0.03;
 
     /* Popover styles */
-    --popover: 222 84% 5%;
+    --popover: 220 15% 6%;
     --popover-foreground: 210 40% 98%;
 
-    /* Primary purple theme */
-    --primary: 258 90% 66%;
+    /* Holo purple primary */
+    --holo-purple: 270 100% 56%;
+    --primary: 270 100% 56%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 258 90% 76%;
+    --primary-glow: 270 100% 66%;
 
-    /* Secondary teal accents */
-    --secondary: 174 60% 51%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 174 60% 61%;
+    /* Holo cyan/aqua secondary */
+    --holo-cyan: 180 100% 50%;
+    --secondary: 180 100% 50%;
+    --secondary-foreground: 220 15% 6%;
+    --secondary-glow: 180 100% 60%;
+
+    /* Violet and aqua variants */
+    --violet-core: 262 100% 70%;
+    --aqua: 165 100% 70%;
 
     /* Muted backgrounds */
-    --muted: 217 33% 18%;
+    --muted: 215 16% 47%;
     --muted-foreground: 215 20% 65%;
 
     /* Accent colors */
-    --accent: 258 90% 66%;
+    --accent: 270 100% 56%;
     --accent-foreground: 0 0% 100%;
 
     /* Status colors */
@@ -43,59 +52,56 @@
     --success: 142 76% 36%;
     --success-foreground: 210 40% 98%;
     --warning: 38 92% 50%;
-    --warning-foreground: 222 84% 5%;
+    --warning-foreground: 220 15% 6%;
 
     /* Borders and inputs */
-    --border: 258 90% 66% / 0.2;
-    --input: 217 33% 18%;
-    --ring: 258 90% 66%;
+    --border: 0 0% 100% / 0.04;
+    --input: 220 12% 8%;
+    --ring: 270 100% 56%;
 
-    --radius: 0.75rem;
+    --radius: 0.875rem;
 
-    /* Custom Profitiv colors */
-    --profitiv-purple: 258 90% 66%;
-    --profitiv-purple-light: 258 90% 76%;
-    --profitiv-purple-dark: 258 90% 56%;
-    --profitiv-teal: 174 60% 51%;
-    --profitiv-teal-light: 174 60% 61%;
-    --profitiv-teal-dark: 174 60% 41%;
+    /* Custom Profitiv Pulse colors */
+    --profitiv-purple: 270 100% 56%;
+    --profitiv-purple-light: 270 100% 66%;
+    --profitiv-purple-dark: 270 100% 46%;
+    --profitiv-cyan: 180 100% 50%;
+    --profitiv-cyan-light: 180 100% 60%;
+    --profitiv-cyan-dark: 180 100% 40%;
+    --profitiv-violet: 262 100% 70%;
+    --profitiv-aqua: 165 100% 70%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(222 84% 5%), hsl(258 90% 56%));
-    --gradient-secondary: linear-gradient(135deg, hsl(258 90% 66%), hsl(174 60% 51%));
-    --gradient-hero: linear-gradient(135deg, hsl(222 84% 5%) 0%, hsl(258 90% 56%) 100%);
-    --gradient-card: linear-gradient(135deg, hsl(222 47% 11% / 0.6), hsl(258 90% 56% / 0.6));
-    --gradient-button: linear-gradient(135deg, hsl(258 90% 66%), hsl(174 60% 51%));
-    --gradient-button-hover: linear-gradient(135deg, hsl(258 90% 56%), hsl(174 60% 41%));
+    --gradient-primary: linear-gradient(135deg, hsl(270 100% 56%), hsl(180 100% 50%));
+    --gradient-secondary: linear-gradient(90deg, hsl(270 100% 56%), hsl(180 100% 50%));
+    --gradient-hero: linear-gradient(160deg, hsl(220 15% 6%) 0%, hsl(270 30% 10%) 30%, hsl(220 15% 6%) 60%);
+    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    --gradient-button: linear-gradient(90deg, hsl(270 100% 56%), hsl(180 100% 50%));
+    --gradient-button-hover: linear-gradient(90deg, hsl(270 100% 46%), hsl(180 100% 40%));
 
     /* Glass effects */
-    --glass-bg: hsl(222 47% 11% / 0.6);
-    --glass-border: hsl(258 90% 66% / 0.2);
-    --glass-blur: blur(16px);
+    --glass-bg: rgba(255,255,255,0.025);
+    --glass-border: rgba(255,255,255,0.04);
+    --glass-blur: blur(12px);
 
     /* Shadows */
-    --shadow-glow: 0 0 40px hsl(258 90% 66% / 0.4);
-    --shadow-card: 0 10px 30px -10px hsl(258 90% 66% / 0.3);
-    --shadow-button: 0 10px 25px hsl(258 90% 66% / 0.5);
+    --shadow-glow: 0 0 40px hsl(270 100% 56% / 0.4);
+    --shadow-card: 0 8px 40px rgba(15, 23, 42, 0.06);
+    --shadow-button: 0 10px 30px hsl(270 100% 56% / 0.08);
+    --shadow-elegant: 0 10px 30px -10px hsl(270 100% 56% / 0.3);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease: cubic-bezier(0.16, 0.84, 0.24, 1);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
   }
 }
 
@@ -106,8 +112,9 @@
 
   body {
     @apply bg-background text-foreground;
-    background: var(--gradient-hero);
+    background: hsl(var(--graphite));
     min-height: 100vh;
+    overflow-x: hidden;
   }
 }
 

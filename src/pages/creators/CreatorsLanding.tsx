@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import { BackgroundAnimation } from "@/components/BackgroundAnimation";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -42,18 +43,7 @@ export default function CreatorsLanding() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-        
-        {/* Animated floating orbs */}
-        <div className="floating-orb orb-1" />
-        <div className="floating-orb orb-2" />
-        <div className="floating-orb orb-3" />
-        
-        {/* Animated grid */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
-      </div>
+      <BackgroundAnimation />
 
       {/* Navigation */}
       <nav className="container mx-auto px-4 py-6 flex items-center justify-between">
