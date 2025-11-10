@@ -127,98 +127,45 @@
 }
 
 @layer components {
-  /* Glass morphism components with card pulse */
+  /* Glass morphism components - simplified animations */
   .glass-card {
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
     transition: var(--transition-smooth);
-    animation: cardPulse 4s ease-in-out infinite;
     position: relative;
     overflow: hidden;
-  }
-
-  /* Holographic sheen effect inside cards */
-  .glass-card::before {
-    content: "";
-    position: absolute;
-    inset: -30% -20%;
-    pointer-events: none;
-    background: conic-gradient(from 180deg, rgba(143, 0, 255, 0.06), rgba(0, 255, 255, 0.06), transparent 80%);
-    animation: cardSpin 15s linear infinite;
-    opacity: 0.9;
-  }
-
-  @keyframes cardSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    will-change: transform, box-shadow;
   }
 
   @keyframes cardPulse {
     0%, 100% { 
-      box-shadow: 0 0 20px rgba(138, 43, 226, 0.25); 
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.2); 
     }
     50% { 
-      box-shadow: 0 0 35px rgba(0, 255, 255, 0.4); 
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3); 
     }
   }
 
   .glass-card:hover {
     border-color: hsl(var(--profitiv-cyan) / 0.6);
     transform: translateY(-2px);
-    box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
   }
 
-  /* Role-based glow variations */
-  [data-role="earner"] .glass-card {
-    animation: cardPulseEarner 4s ease-in-out infinite;
-  }
-
-  [data-role="creator"] .glass-card {
-    animation: cardPulseCreator 4s ease-in-out infinite;
-  }
-
-  @keyframes cardPulseEarner {
-    0%, 100% { 
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); 
-    }
-    50% { 
-      box-shadow: 0 0 35px rgba(111, 255, 209, 0.45); 
-    }
-  }
-
-  @keyframes cardPulseCreator {
-    0%, 100% { 
-      box-shadow: 0 0 20px rgba(155, 107, 255, 0.3); 
-    }
-    50% { 
-      box-shadow: 0 0 35px rgba(255, 0, 204, 0.4); 
-    }
-  }
-
-  /* Button variants with stronger glow */
+  /* Button variants - optimized */
   .btn-gradient {
     background: var(--gradient-button);
     transition: var(--transition-smooth);
-    box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
-    animation: btnPulse 3s ease-in-out infinite;
+    box-shadow: 0 0 12px rgba(138, 43, 226, 0.3);
+    will-change: transform, box-shadow;
   }
 
   .btn-gradient:hover {
     background: var(--gradient-button-hover);
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
     transform: translateY(-2px);
-  }
-
-  @keyframes btnPulse {
-    0%, 100% { 
-      box-shadow: 0 0 15px rgba(138, 43, 226, 0.4); 
-    }
-    50% { 
-      box-shadow: 0 0 25px rgba(138, 43, 226, 0.6), 0 0 35px rgba(0, 255, 255, 0.3); 
-      opacity: 0.95;
-    }
   }
 
   .btn-glass {
@@ -313,47 +260,22 @@
     }
   }
 
-  /* Earning cards with stronger borders and balance-based glow */
+  /* Earning cards - simplified */
   .earning-card {
     background: var(--gradient-card);
     backdrop-filter: var(--glass-blur);
     border: 1.5px solid hsl(var(--profitiv-cyan) / 0.3);
     border-radius: 16px;
     transition: var(--transition-smooth);
-    animation: cardPulse 4s ease-in-out infinite;
     position: relative;
     overflow: hidden;
-  }
-
-  .earning-card::before {
-    content: "";
-    position: absolute;
-    inset: -30% -20%;
-    pointer-events: none;
-    background: conic-gradient(from 180deg, rgba(143, 0, 255, 0.04), rgba(0, 255, 255, 0.04), transparent 80%);
-    animation: cardSpin 12s linear infinite;
-    opacity: 0.8;
+    will-change: transform, box-shadow;
   }
 
   .earning-card:hover {
     border-color: hsl(var(--profitiv-cyan) / 0.6);
     transform: translateY(-4px);
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
-  }
-
-  /* High balance glow - add this class when balance is high */
-  .earning-card.high-balance {
-    animation: cardPulseGold 3s ease-in-out infinite;
-    border-color: hsl(45 100% 60% / 0.4);
-  }
-
-  @keyframes cardPulseGold {
-    0%, 100% { 
-      box-shadow: 0 0 25px rgba(255, 215, 0, 0.3); 
-    }
-    50% { 
-      box-shadow: 0 0 40px rgba(255, 215, 0, 0.5); 
-    }
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.35);
   }
 
   /* Status badges */
@@ -411,19 +333,17 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* Glow animations - more intense */
+  /* Glow animations - optimized */
   .glow-pulse {
-    animation: glow-pulse 3s ease-in-out infinite alternate;
+    animation: glow-pulse 4s ease-in-out infinite alternate;
   }
 
   @keyframes glow-pulse {
     from {
-      box-shadow: 0 0 25px hsl(var(--profitiv-purple) / 0.5);
-      opacity: 0.95;
+      box-shadow: 0 0 20px hsl(var(--profitiv-purple) / 0.4);
     }
     to {
-      box-shadow: 0 0 40px hsl(var(--profitiv-purple) / 0.7), 0 0 50px hsl(var(--profitiv-cyan) / 0.5);
-      opacity: 1;
+      box-shadow: 0 0 30px hsl(var(--profitiv-purple) / 0.6);
     }
   }
 

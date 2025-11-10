@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, DollarSign, Users, Play, Video, Trophy, LogOut } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 
-const Navigation = () => {
+const Navigation = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const location = useLocation();
@@ -28,21 +28,22 @@ const Navigation = () => {
     navigate("/");
   };
 
-  // Nav items for authenticated users
-  const authNavItems = [
-    { name: "Dashboard", path: "/dashboard", icon: DollarSign },
-    { name: "Earn", path: "/earn", icon: Trophy },
-    { name: "Pricing", path: "/pricing", icon: Users },
-    { name: "Affiliate", path: "/affiliate", icon: Users },
-  ];
+  // Memoize nav items to prevent recreating on every render
+  const navItems = useMemo(() => {
+    const authNavItems = [
+      { name: "Dashboard", path: "/dashboard", icon: DollarSign },
+      { name: "Earn", path: "/earn", icon: Trophy },
+      { name: "Pricing", path: "/pricing", icon: Users },
+      { name: "Affiliate", path: "/affiliate", icon: Users },
+    ];
 
-  // Nav items for non-authenticated users (minimal)
-  const publicNavItems = [
-    { name: "Home", path: "/", icon: DollarSign },
-    { name: "Pricing", path: "/pricing", icon: Users },
-  ];
+    const publicNavItems = [
+      { name: "Home", path: "/", icon: DollarSign },
+      { name: "Pricing", path: "/pricing", icon: Users },
+    ];
 
-  const navItems = user ? authNavItems : publicNavItems;
+    return user ? authNavItems : publicNavItems;
+  }, [user]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b">
@@ -176,6 +177,8 @@ const Navigation = () => {
       )}
     </nav>
   );
-};
+});
+
+Navigation.displayName = 'Navigation';
 
 export default Navigation;

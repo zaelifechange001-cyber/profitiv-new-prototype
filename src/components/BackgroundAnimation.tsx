@@ -1,61 +1,36 @@
-export const BackgroundAnimation = () => {
+import { memo } from 'react';
+
+export const BackgroundAnimation = memo(() => {
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-      {/* Secondary depth glow - faint darker layer */}
+      {/* Static gradient base - no animation */}
       <div 
-        className="absolute inset-0 opacity-25"
+        className="absolute inset-0 opacity-30"
         style={{
           background: 'radial-gradient(circle at 50% 50%, rgba(26, 0, 38, 0.4), transparent 70%)',
-          filter: 'blur(150px)',
+          willChange: 'opacity',
         }}
       />
       
-      {/* Stripes overlay with cyan/purple */}
+      {/* Floating orb 1 - reduced blur */}
       <div 
-        className="absolute inset-0 opacity-40 mix-blend-overlay animate-stripes"
+        className="absolute w-[500px] h-[500px] left-[5%] top-[8%] rounded-full opacity-60 animate-orb1"
         style={{
-          background: 'repeating-linear-gradient(135deg, rgba(138,43,226,0.04) 0 6px, rgba(0,255,255,0.04) 6px 12px)',
+          background: 'radial-gradient(circle, rgba(138,43,226,0.3), rgba(255,0,204,0.15))',
+          filter: 'blur(60px)',
+          willChange: 'transform',
         }}
       />
       
-      {/* Floating orb 1 - purple/pink glow */}
+      {/* Floating orb 2 - reduced blur */}
       <div 
-        className="absolute w-[600px] h-[600px] left-[5%] top-[8%] rounded-full opacity-80 animate-orb1"
+        className="absolute w-[400px] h-[400px] right-[5%] bottom-[8%] rounded-full opacity-60 animate-orb2"
         style={{
-          background: 'radial-gradient(circle, rgba(138,43,226,0.4), rgba(255,0,204,0.2))',
-          filter: 'blur(100px)',
-        }}
-      />
-      
-      {/* Floating orb 2 - cyan/blue glow */}
-      <div 
-        className="absolute w-[500px] h-[500px] right-[5%] bottom-[8%] rounded-full opacity-80 animate-orb2"
-        style={{
-          background: 'radial-gradient(circle, rgba(0,255,255,0.35), rgba(0,127,255,0.25))',
-          filter: 'blur(100px)',
-        }}
-      />
-      
-      {/* Additional center glow */}
-      <div 
-        className="absolute w-[700px] h-[700px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60"
-        style={{
-          background: 'radial-gradient(circle, rgba(138,43,226,0.15), transparent 60%)',
-          filter: 'blur(120px)',
-          animation: 'wavePulse 22s ease-in-out infinite',
-        }}
-      />
-      
-      {/* Pulse wave overlay - more intense */}
-      <div 
-        className="fixed inset-0 -z-[9] pointer-events-none animate-wavePulse"
-        style={{
-          background: `
-            radial-gradient(1200px 600px at 15% 25%, rgba(138,43,226,0.12), transparent 18%),
-            radial-gradient(1000px 500px at 85% 75%, rgba(0,255,255,0.1), transparent 18%)
-          `,
+          background: 'radial-gradient(circle, rgba(0,255,255,0.25), rgba(0,127,255,0.15))',
+          filter: 'blur(60px)',
+          willChange: 'transform',
         }}
       />
     </div>
   );
-};
+});
