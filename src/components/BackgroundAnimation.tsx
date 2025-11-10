@@ -10,34 +10,36 @@ const BackgroundAnimationComponent = () => {
     const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
     if (!ctx) return;
 
-    // Dynamically adapt resolution to reduce fill-rate on large screens without changing visuals
-    const getEffectiveDPR = () => {
+    // Adaptive internal resolution to guarantee smoothness without changing visuals
+    const getBaseDPR = () => {
       const base = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
-      // Reduce internal resolution slightly on very large viewports to avoid GPU overdraw
       const width = window.innerWidth;
-      const scale = width > 2000 ? 0.65 : width > 1400 ? 0.8 : 1;
-      return Math.max(0.75, Math.min(1.25, base * scale));
+      const scaleHint = width > 2400 ? 0.6 : width > 1800 ? 0.8 : 1;
+      return Math.max(0.75, Math.min(1.25, base * scaleHint));
     };
 
     const state = {
-      dpr: getEffectiveDPR(),
+      baseDpr: getBaseDPR(),
+      scale: 1, // dynamically adjusted between 0.45..1 to keep 60fps
       width: 0,
       height: 0,
       t0: performance.now(),
     };
 
+    const effectiveDpr = () => Math.max(0.45, Math.min(1, state.scale)) * state.baseDpr;
+
     const resize = () => {
       const { innerWidth, innerHeight } = window;
       state.width = innerWidth;
       state.height = innerHeight;
-      const dpr = (state.dpr = getEffectiveDPR());
+      state.baseDpr = getBaseDPR();
+      const dpr = effectiveDpr();
       canvas.width = Math.floor(innerWidth * dpr);
       canvas.height = Math.floor(innerHeight * dpr);
       canvas.style.width = innerWidth + "px";
       canvas.style.height = innerHeight + "px";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-
     resize();
     window.addEventListener("resize", resize, { passive: true });
 
@@ -62,6 +64,19 @@ const BackgroundAnimationComponent = () => {
     };
     buildStripes();
 
+    // Detect if 'overlay' composite is supported
+    let supportsOverlay = true;
+    try {
+      const prev = ctx.globalCompositeOperation as GlobalCompositeOperation;
+      // @ts-ignore
+      ctx.globalCompositeOperation = 'overlay';
+      // @ts-ignore
+      supportsOverlay = ctx.globalCompositeOperation === 'overlay';
+      ctx.globalCompositeOperation = prev;
+    } catch {
+      supportsOverlay = false;
+    }
+
     const radial = (
       x: number,
       y: number,
@@ -83,9 +98,28 @@ const BackgroundAnimationComponent = () => {
     };
 
     let rafId = 0;
+    let lastNow = performance.now();
+    let frameSum = 0;
+    let frameCount = 0;
     const render = (now: number) => {
       const t = (now - state.t0) / 1000; // seconds
       const { width: w, height: h } = state;
+
+      // Adaptive quality control targeting ~60fps
+      const dt = now - lastNow; lastNow = now; frameSum += dt; frameCount++;
+      if (frameCount >= 60) {
+        const avg = frameSum / frameCount;
+        // Refresh base DPR in case of zoom/monitor change
+        state.baseDpr = getBaseDPR();
+        if (avg > 18 && state.scale > 0.45) { // frame time too high -> reduce internal resolution
+          state.scale = Math.max(0.45, state.scale * 0.9);
+          resize();
+        } else if (avg < 14 && state.scale < 1) { // plenty of headroom -> increase quality
+          state.scale = Math.min(1, state.scale * 1.05);
+          resize();
+        }
+        frameSum = 0; frameCount = 0;
+      }
 
       ctx.clearRect(0, 0, w, h);
 
@@ -106,7 +140,7 @@ const BackgroundAnimationComponent = () => {
       if (stripesPattern) {
         ctx.save();
         ctx.globalAlpha = 0.4;
-        ctx.globalCompositeOperation = 'overlay' as GlobalCompositeOperation;
+        ctx.globalCompositeOperation = (supportsOverlay ? 'overlay' : 'source-over') as GlobalCompositeOperation;
         ctx.translate(w / 2, h / 2);
         ctx.rotate((-45 * Math.PI) / 180); // 135deg background -> rotate -45deg pattern canvas
         const offset = (t * 60) % 12; // scroll speed similar to CSS
