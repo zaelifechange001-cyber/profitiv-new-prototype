@@ -99,31 +99,6 @@ const Index = () => {
           <span className="text-gradient-hero">Profitiv Pulse</span>
         </h1>
         <p className="text-sm md:text-base text-foreground/60 mb-5">Creators • Brands • Earners</p>
-        {/* Hide role switcher buttons on mobile/tablet - they appear in menu instead */}
-        <div className="hidden lg:flex gap-3 justify-center flex-wrap max-w-md mx-auto">
-          <Button
-            onClick={() => {
-              setActiveRole("earner");
-              triggerPulse();
-            }}
-            className={activeRole === "earner" ? "btn-gradient flex-1 min-h-[48px]" : "flex-1 min-h-[48px]"}
-            variant={activeRole === "earner" ? "default" : "outline"}
-            size="lg"
-          >
-            Earner Home
-          </Button>
-          <Button
-            onClick={() => {
-              setActiveRole("creator");
-              triggerPulse();
-            }}
-            className={activeRole === "creator" ? "btn-gradient flex-1 min-h-[48px]" : "flex-1 min-h-[48px]"}
-            variant={activeRole === "creator" ? "default" : "outline"}
-            size="lg"
-          >
-            Creator Home
-          </Button>
-        </div>
       </section>
 
       {/* Earner Home */}
