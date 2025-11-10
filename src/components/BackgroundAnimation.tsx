@@ -1,6 +1,15 @@
 export const BackgroundAnimation = () => {
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+      {/* Secondary depth glow - faint darker layer */}
+      <div 
+        className="absolute inset-0 opacity-25"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, rgba(26, 0, 38, 0.4), transparent 70%)',
+          filter: 'blur(150px)',
+        }}
+      />
+      
       {/* Stripes overlay with cyan/purple */}
       <div 
         className="absolute inset-0 opacity-40 mix-blend-overlay animate-stripes"

@@ -114,7 +114,7 @@
     @apply bg-background text-foreground;
     background: linear-gradient(-45deg, #0c0c10, #1a0026, #001f3f, #0c0c10);
     background-size: 400% 400%;
-    animation: pulseGradient 18s ease infinite;
+    animation: pulseGradient 22s ease infinite;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -146,7 +146,7 @@
     inset: -30% -20%;
     pointer-events: none;
     background: conic-gradient(from 180deg, rgba(143, 0, 255, 0.06), rgba(0, 255, 255, 0.06), transparent 80%);
-    animation: cardSpin 10s linear infinite;
+    animation: cardSpin 15s linear infinite;
     opacity: 0.9;
   }
 
@@ -202,12 +202,23 @@
     background: var(--gradient-button);
     transition: var(--transition-smooth);
     box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
+    animation: btnPulse 3s ease-in-out infinite;
   }
 
   .btn-gradient:hover {
     background: var(--gradient-button-hover);
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
     transform: translateY(-2px);
+  }
+
+  @keyframes btnPulse {
+    0%, 100% { 
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.4); 
+    }
+    50% { 
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.6), 0 0 35px rgba(0, 255, 255, 0.3); 
+      opacity: 0.95;
+    }
   }
 
   .btn-glass {
@@ -407,10 +418,12 @@
 
   @keyframes glow-pulse {
     from {
-      box-shadow: 0 0 25px hsl(var(--profitiv-purple) / 0.6);
+      box-shadow: 0 0 25px hsl(var(--profitiv-purple) / 0.5);
+      opacity: 0.95;
     }
     to {
-      box-shadow: 0 0 40px hsl(var(--profitiv-purple) / 0.9), 0 0 50px hsl(var(--profitiv-cyan) / 0.6);
+      box-shadow: 0 0 40px hsl(var(--profitiv-purple) / 0.7), 0 0 50px hsl(var(--profitiv-cyan) / 0.5);
+      opacity: 1;
     }
   }
 
