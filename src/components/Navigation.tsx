@@ -147,7 +147,7 @@ const Navigation = () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                 >
-                  Earner Home
+                  For Earners
                 </Button>
                 <Button 
                   variant="outline" 
@@ -171,20 +171,11 @@ const Navigation = () => {
               >
                 For Creators
               </Button>
-              {user ? (
+              {user && (
                 <Button variant="glass" className="w-full min-h-[48px]" onClick={handleLogout}>
                   <LogOut className="w-4 h-4 mr-2" />
                   Logout
                 </Button>
-              ) : (
-                <>
-                  <Button variant="glass" className="w-full min-h-[48px]" onClick={() => { navigate("/auth"); setIsOpen(false); }}>
-                    Login
-                  </Button>
-                  <Button variant="gradient" className="w-full min-h-[48px]" onClick={() => { navigate("/auth"); setIsOpen(false); }}>
-                    Sign Up
-                  </Button>
-                </>
               )}
             </div>
           </div>

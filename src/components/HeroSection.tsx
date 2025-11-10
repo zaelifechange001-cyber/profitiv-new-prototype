@@ -53,7 +53,7 @@ const HeroSection = () => {
                 Start Earning Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button variant="glass" size="hero" className="w-full sm:w-auto min-h-[52px]">
+              <Button variant="glass" size="hero" className="w-full sm:w-auto min-h-[52px]" onClick={(e) => e.preventDefault()}>
                 Watch Demo
                 <Play className="w-5 h-5" />
               </Button>
@@ -100,7 +100,7 @@ const HeroSection = () => {
                 </div>
 
                 {/* Withdraw Button */}
-                <Button variant="gradient" className="w-full min-h-[48px] text-base">
+                <Button variant="gradient" className="w-full min-h-[48px] text-base" onClick={(e) => e.preventDefault()}>
                   Withdraw Funds
                 </Button>
               </div>
