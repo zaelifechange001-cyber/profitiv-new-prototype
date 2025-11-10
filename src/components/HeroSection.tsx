@@ -4,7 +4,7 @@ import { memo } from "react";
 
 const HeroSectionComponent = () => {
   return (
-    <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-8 md:pt-28 md:pb-12">
+    <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-8 md:pt-36 md:pb-12">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-profitiv-purple/10 to-profitiv-teal/10" />
       <div className="absolute top-20 left-10 w-48 h-48 md:w-72 md:h-72 bg-profitiv-purple/20 rounded-full blur-3xl animate-pulse" />
