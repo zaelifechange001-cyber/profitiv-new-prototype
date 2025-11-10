@@ -133,6 +133,36 @@ const Navigation = () => {
                 </Link>
               );
             })}
+            
+            {/* Earner/Creator Home Links - Only on Homepage */}
+            {location.pathname === "/" && (
+              <div className="pt-2 pb-2 space-y-2 px-2">
+                <div className="text-xs text-foreground/60 px-2 pb-1">Switch View</div>
+                <Button 
+                  variant="gradient" 
+                  className="w-full min-h-[48px]" 
+                  onClick={() => { 
+                    setIsOpen(false);
+                    navigate("/?role=earner");
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                >
+                  Earner Home
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full min-h-[48px]" 
+                  onClick={() => { 
+                    setIsOpen(false);
+                    navigate("/?role=creator");
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                >
+                  Creator Home
+                </Button>
+              </div>
+            )}
+            
             <div className="pt-4 space-y-3 px-2">
               <Button 
                 variant="outline" 

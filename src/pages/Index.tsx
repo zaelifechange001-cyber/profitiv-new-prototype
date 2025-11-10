@@ -42,8 +42,20 @@ const Index = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeRole, setActiveRole] = useState<"earner" | "creator">("earner");
+  
+  // Get role from URL params or default to "earner"
+  const searchParams = new URLSearchParams(window.location.search);
+  const roleParam = searchParams.get("role") as "earner" | "creator" | null;
+  const [activeRole, setActiveRole] = useState<"earner" | "creator">(roleParam || "earner");
   const triggerPulse = useProfitivPulse();
+  
+  // Update role when URL changes
+  useEffect(() => {
+    const role = new URLSearchParams(window.location.search).get("role") as "earner" | "creator" | null;
+    if (role && (role === "earner" || role === "creator")) {
+      setActiveRole(role);
+    }
+  }, [window.location.search]);
 
   useEffect(() => {
     // Check auth state
@@ -87,7 +99,8 @@ const Index = () => {
           <span className="text-gradient-hero">Profitiv Pulse</span>
         </h1>
         <p className="text-sm md:text-base text-foreground/60 mb-5">Creators • Brands • Earners</p>
-        <div className="flex gap-3 justify-center flex-wrap max-w-md mx-auto">
+        {/* Hide role switcher buttons on mobile/tablet - they appear in menu instead */}
+        <div className="hidden lg:flex gap-3 justify-center flex-wrap max-w-md mx-auto">
           <Button
             onClick={() => {
               setActiveRole("earner");
