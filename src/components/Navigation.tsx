@@ -80,7 +80,7 @@ const Navigation = () => {
               className="min-h-[44px] text-muted-foreground hover:text-primary" 
               onClick={() => navigate("/?role=creator")}
             >
-              Creators & Brands
+              Promote
             </Button>
             {user ? (
               <Button variant="glass" size="sm" className="min-h-[44px]" onClick={handleLogout}>
@@ -147,7 +147,7 @@ const Navigation = () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                 >
-                  For Earners
+                  Earn
                 </Button>
                 <Button 
                   variant="outline" 
@@ -158,7 +158,7 @@ const Navigation = () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                 >
-                  Creators & Brands
+                  Promote
                 </Button>
               </div>
             )}
