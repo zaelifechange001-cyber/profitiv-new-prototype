@@ -1,75 +1,205 @@
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 
 const BackgroundAnimationComponent = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
+    if (!ctx) return;
+
+    // Dynamically adapt resolution to reduce fill-rate on large screens without changing visuals
+    const getEffectiveDPR = () => {
+      const base = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+      // Reduce internal resolution slightly on very large viewports to avoid GPU overdraw
+      const width = window.innerWidth;
+      const scale = width > 2000 ? 0.65 : width > 1400 ? 0.8 : 1;
+      return Math.max(0.75, Math.min(1.25, base * scale));
+    };
+
+    const state = {
+      dpr: getEffectiveDPR(),
+      width: 0,
+      height: 0,
+      t0: performance.now(),
+    };
+
+    const resize = () => {
+      const { innerWidth, innerHeight } = window;
+      state.width = innerWidth;
+      state.height = innerHeight;
+      const dpr = (state.dpr = getEffectiveDPR());
+      canvas.width = Math.floor(innerWidth * dpr);
+      canvas.height = Math.floor(innerHeight * dpr);
+      canvas.style.width = innerWidth + "px";
+      canvas.style.height = innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+
+    // Create a reusable stripes pattern (diagonal 135deg)
+    let stripesPattern: CanvasPattern | null = null;
+    const buildStripes = () => {
+      const stripeSize = 12; // 6px purple + 6px cyan like CSS repeating-linear-gradient
+      const off = document.createElement("canvas");
+      off.width = stripeSize;
+      off.height = stripeSize;
+      const octx = off.getContext("2d");
+      if (!octx) return;
+      // Transparent background
+      octx.clearRect(0, 0, stripeSize, stripeSize);
+      // Draw two subtle stripes with low alpha
+      octx.fillStyle = "rgba(138,43,226,0.04)"; // purple
+      octx.fillRect(0, 0, stripeSize, 6);
+      octx.fillStyle = "rgba(0,255,255,0.04)"; // cyan
+      octx.fillRect(0, 6, stripeSize, 6);
+      // Pattern used with rotation on main canvas
+      stripesPattern = ctx.createPattern(off, "repeat");
+    };
+    buildStripes();
+
+    const radial = (
+      x: number,
+      y: number,
+      r: number,
+      stops: Array<[number, string]>,
+      globalAlpha = 1,
+      composite: GlobalCompositeOperation = "lighter"
+    ) => {
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      for (const [p, c] of stops) g.addColorStop(p, c);
+      ctx.save();
+      ctx.globalAlpha = globalAlpha;
+      ctx.globalCompositeOperation = composite;
+      ctx.fillStyle = g as any;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    let rafId = 0;
+    const render = (now: number) => {
+      const t = (now - state.t0) / 1000; // seconds
+      const { width: w, height: h } = state;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Secondary depth glow (faint darker layer)
+      radial(
+        w * 0.5,
+        h * 0.5,
+        Math.max(w, h) * 0.7,
+        [
+          [0, "rgba(26,0,38,0.4)"],
+          [1, "rgba(26,0,38,0)"]
+        ],
+        1,
+        "source-over"
+      );
+
+      // Stripes overlay with slight movement to emulate CSS animation
+      if (stripesPattern) {
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.globalCompositeOperation = 'overlay' as GlobalCompositeOperation;
+        ctx.translate(w / 2, h / 2);
+        ctx.rotate((-45 * Math.PI) / 180); // 135deg background -> rotate -45deg pattern canvas
+        const offset = (t * 60) % 12; // scroll speed similar to CSS
+        ctx.translate(-w / 2 - offset, -h / 2 - offset);
+        ctx.fillStyle = stripesPattern;
+        ctx.fillRect(0, 0, w + 24, h + 24);
+        ctx.restore();
+      }
+
+      // Floating orb 1 - purple/pink glow
+      const orb1Size = 600;
+      const orb1X = w * 0.05 + 20 * Math.sin(t * 0.4);
+      const orb1Y = h * 0.08 + 30 * Math.cos(t * 0.35);
+      radial(
+        orb1X,
+        orb1Y,
+        orb1Size,
+        [
+          [0, "rgba(138,43,226,0.4)"],
+          [1, "rgba(255,0,204,0.0)"]
+        ]
+      );
+
+      // Floating orb 2 - cyan/blue glow
+      const orb2Size = 500;
+      const orb2X = w * 0.95 + 25 * Math.cos(t * 0.45);
+      const orb2Y = h * 0.92 + 20 * Math.sin(t * 0.38);
+      radial(
+        orb2X,
+        orb2Y,
+        orb2Size,
+        [
+          [0, "rgba(0,255,255,0.35)"],
+          [1, "rgba(0,127,255,0.0)"]
+        ]
+      );
+
+      // Additional center glow with pulse
+      const pulse = 0.85 + 0.15 * Math.sin((t / 22) * 2 * Math.PI);
+      radial(
+        w * 0.5,
+        h * 0.5,
+        700 * pulse,
+        [
+          [0, "rgba(138,43,226,0.15)"],
+          [0.6, "rgba(138,43,226,0.0)"]
+        ],
+        0.6
+      );
+
+      // Pulse wave overlay (two distant radial glows)
+      radial(
+        w * 0.15,
+        h * 0.25,
+        600 + 20 * Math.sin(t * 0.5),
+        [
+          [0, "rgba(138,43,226,0.12)"],
+          [0.18, "rgba(138,43,226,0.0)"]
+        ],
+        1,
+        "lighter"
+      );
+
+      radial(
+        w * 0.85,
+        h * 0.75,
+        500 + 20 * Math.cos(t * 0.5),
+        [
+          [0, "rgba(0,255,255,0.1)"],
+          [0.18, "rgba(0,255,255,0.0)"]
+        ],
+        1,
+        "lighter"
+      );
+
+      rafId = requestAnimationFrame(render);
+    };
+
+    rafId = requestAnimationFrame(render);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden isolate" style={{ contain: 'layout style paint', backfaceVisibility: 'hidden' }}>
-      {/* Secondary depth glow - faint darker layer */}
-      <div 
-        className="absolute inset-0 opacity-25"
-        style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(26, 0, 38, 0.4), transparent 70%)',
-          filter: 'blur(150px)',
-          transform: 'translateZ(0)',
-          willChange: 'transform',
-        }}
-      />
-      
-      {/* Stripes overlay with cyan/purple */}
-      <div 
-        className="absolute inset-0 opacity-40 mix-blend-overlay animate-stripes"
-        style={{
-          background: 'repeating-linear-gradient(135deg, rgba(138,43,226,0.04) 0 6px, rgba(0,255,255,0.04) 6px 12px)',
-          transform: 'translateZ(0)',
-          willChange: 'transform',
-        }}
-      />
-      
-      {/* Floating orb 1 - purple/pink glow */}
-      <div 
-        className="absolute w-[600px] h-[600px] left-[5%] top-[8%] rounded-full opacity-80 animate-orb1"
-        style={{
-          background: 'radial-gradient(circle, rgba(138,43,226,0.4), rgba(255,0,204,0.2))',
-          filter: 'blur(100px)',
-          transform: 'translateZ(0)',
-          willChange: 'transform',
-        }}
-      />
-      
-      {/* Floating orb 2 - cyan/blue glow */}
-      <div 
-        className="absolute w-[500px] h-[500px] right-[5%] bottom-[8%] rounded-full opacity-80 animate-orb2"
-        style={{
-          background: 'radial-gradient(circle, rgba(0,255,255,0.35), rgba(0,127,255,0.25))',
-          filter: 'blur(100px)',
-          transform: 'translateZ(0)',
-          willChange: 'transform',
-        }}
-      />
-      
-      {/* Additional center glow */}
-      <div 
-        className="absolute w-[700px] h-[700px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60"
-        style={{
-          background: 'radial-gradient(circle, rgba(138,43,226,0.15), transparent 60%)',
-          filter: 'blur(120px)',
-          animation: 'wavePulse 22s ease-in-out infinite',
-          transform: 'translateZ(0)',
-          willChange: 'transform, opacity',
-        }}
-      />
-      
-      {/* Pulse wave overlay - more intense */}
-      <div 
-        className="fixed inset-0 -z-[9] pointer-events-none animate-wavePulse"
-        style={{
-          background: `
-            radial-gradient(1200px 600px at 15% 25%, rgba(138,43,226,0.12), transparent 18%),
-            radial-gradient(1000px 500px at 85% 75%, rgba(0,255,255,0.1), transparent 18%)
-          `,
-          transform: 'translateZ(0)',
-          willChange: 'transform, opacity',
-        }}
-      />
+    <div
+      className="fixed inset-0 -z-10 pointer-events-none overflow-hidden isolate gpu-hint"
+      style={{ contain: "layout style paint", backfaceVisibility: "hidden" }}
+      aria-hidden
+    >
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
     </div>
   );
 };
