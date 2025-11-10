@@ -163,21 +163,14 @@ const Navigation = () => {
               </div>
             )}
             
-            <div className="pt-4 space-y-3 px-2">
-              <Button 
-                variant="outline" 
-                className="w-full min-h-[48px]" 
-                onClick={() => { navigate("/creators"); setIsOpen(false); }}
-              >
-                For Creators
-              </Button>
-              {user && (
+            {user && (
+              <div className="pt-4 px-2">
                 <Button variant="glass" className="w-full min-h-[48px]" onClick={handleLogout}>
                   <LogOut className="w-4 h-4 mr-2" />
                   Logout
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -441,7 +441,7 @@ const Index = () => {
                   <Button 
                     variant="outline" 
                     size="lg"
-                    onClick={() => navigate("/auth")}
+                    onClick={() => navigate("/creators")}
                   >
                     Sign In
                   </Button>
