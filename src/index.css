@@ -137,6 +137,8 @@
     animation: cardPulse 4s ease-in-out infinite;
     position: relative;
     overflow: hidden;
+    transform: translateZ(0);
+    will-change: transform, box-shadow;
   }
 
   /* Holographic sheen effect inside cards */
@@ -203,6 +205,8 @@
     transition: var(--transition-smooth);
     box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
     animation: btnPulse 3s ease-in-out infinite;
+    transform: translateZ(0);
+    will-change: transform, box-shadow;
   }
 
   .btn-gradient:hover {
@@ -323,6 +327,8 @@
     animation: cardPulse 4s ease-in-out infinite;
     position: relative;
     overflow: hidden;
+    transform: translateZ(0);
+    will-change: transform, box-shadow;
   }
 
   .earning-card::before {
