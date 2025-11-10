@@ -6,89 +6,89 @@
 
 @layer base {
   :root {
-    /* Profitiv Pulse - Graphite base with holo accents */
-    --graphite: 220 15% 6%;
-    --graphite-2: 220 12% 8%;
-    --background: 220 15% 6%;
-    --foreground: 210 40% 98%;
+    /* Profitiv Pulse Fusion - Deep Blue base with electric glows */
+    --graphite: 220 50% 6%;
+    --graphite-2: 220 45% 8%;
+    --background: 220 50% 6%;
+    --foreground: 0 0% 100%;
 
-    /* Glass morphism cards */
-    --card: 220 15% 6%;
-    --card-foreground: 210 40% 98%;
-    --card-glass: 0 0% 100% / 0.025;
-    --glass: 0 0% 100% / 0.03;
+    /* Glass morphism cards with stronger borders */
+    --card: 220 45% 8%;
+    --card-foreground: 0 0% 100%;
+    --card-glass: 255 255 255 / 0.05;
+    --glass: 255 255 255 / 0.05;
 
     /* Popover styles */
-    --popover: 220 15% 6%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 45% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    /* Holo purple primary */
-    --holo-purple: 270 100% 56%;
-    --primary: 270 100% 56%;
+    /* Electric violet primary */
+    --holo-purple: 270 100% 58%;
+    --primary: 270 100% 58%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 270 100% 66%;
+    --primary-glow: 270 100% 70%;
 
-    /* Holo cyan/aqua secondary */
+    /* Bright cyan secondary */
     --holo-cyan: 180 100% 50%;
     --secondary: 180 100% 50%;
-    --secondary-foreground: 220 15% 6%;
-    --secondary-glow: 180 100% 60%;
+    --secondary-foreground: 220 50% 6%;
+    --secondary-glow: 180 100% 65%;
 
     /* Violet and aqua variants */
-    --violet-core: 262 100% 70%;
-    --aqua: 165 100% 70%;
+    --violet-core: 270 100% 65%;
+    --aqua: 180 100% 50%;
 
     /* Muted backgrounds */
-    --muted: 215 16% 47%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 20% 60%;
+    --muted-foreground: 220 15% 70%;
 
-    /* Accent colors */
-    --accent: 270 100% 56%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent colors - bright cyan */
+    --accent: 180 100% 50%;
+    --accent-foreground: 220 50% 6%;
 
     /* Status colors */
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
     --success: 142 76% 36%;
-    --success-foreground: 210 40% 98%;
+    --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
-    --warning-foreground: 220 15% 6%;
+    --warning-foreground: 220 50% 6%;
 
-    /* Borders and inputs */
-    --border: 0 0% 100% / 0.04;
-    --input: 220 12% 8%;
-    --ring: 270 100% 56%;
+    /* Borders and inputs with stronger glow */
+    --border: 255 255 255 / 0.15;
+    --input: 220 45% 10%;
+    --ring: 180 100% 50%;
 
-    --radius: 0.875rem;
+    --radius: 1rem;
 
     /* Custom Profitiv Pulse colors */
-    --profitiv-purple: 270 100% 56%;
-    --profitiv-purple-light: 270 100% 66%;
+    --profitiv-purple: 270 100% 58%;
+    --profitiv-purple-light: 270 100% 70%;
     --profitiv-purple-dark: 270 100% 46%;
     --profitiv-cyan: 180 100% 50%;
-    --profitiv-cyan-light: 180 100% 60%;
+    --profitiv-cyan-light: 180 100% 65%;
     --profitiv-cyan-dark: 180 100% 40%;
-    --profitiv-violet: 262 100% 70%;
-    --profitiv-aqua: 165 100% 70%;
+    --profitiv-violet: 270 100% 65%;
+    --profitiv-aqua: 180 100% 50%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(270 100% 56%), hsl(180 100% 50%));
-    --gradient-secondary: linear-gradient(90deg, hsl(270 100% 56%), hsl(180 100% 50%));
-    --gradient-hero: linear-gradient(160deg, hsl(220 15% 6%) 0%, hsl(270 30% 10%) 30%, hsl(220 15% 6%) 60%);
-    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    --gradient-button: linear-gradient(90deg, hsl(270 100% 56%), hsl(180 100% 50%));
-    --gradient-button-hover: linear-gradient(90deg, hsl(270 100% 46%), hsl(180 100% 40%));
+    --gradient-primary: linear-gradient(135deg, hsl(270 100% 58%), hsl(180 100% 50%));
+    --gradient-secondary: linear-gradient(90deg, hsl(270 100% 58%), hsl(180 100% 50%));
+    --gradient-hero: linear-gradient(-45deg, #0c0c10, #1a0026, #001f3f, #0c0c10);
+    --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    --gradient-button: linear-gradient(90deg, hsl(270 100% 58%), hsl(180 100% 50%));
+    --gradient-button-hover: linear-gradient(90deg, hsl(270 100% 68%), hsl(180 100% 60%));
 
-    /* Glass effects */
-    --glass-bg: rgba(255,255,255,0.025);
-    --glass-border: rgba(255,255,255,0.04);
+    /* Glass effects - stronger */
+    --glass-bg: rgba(255,255,255,0.05);
+    --glass-border: rgba(255,255,255,0.15);
     --glass-blur: blur(12px);
 
-    /* Shadows */
-    --shadow-glow: 0 0 40px hsl(270 100% 56% / 0.4);
-    --shadow-card: 0 8px 40px rgba(15, 23, 42, 0.06);
-    --shadow-button: 0 10px 30px hsl(270 100% 56% / 0.08);
-    --shadow-elegant: 0 10px 30px -10px hsl(270 100% 56% / 0.3);
+    /* Shadows - more intense glows */
+    --shadow-glow: 0 0 40px hsl(270 100% 58% / 0.5), 0 0 60px hsl(180 100% 50% / 0.3);
+    --shadow-card: 0 0 25px rgba(138, 43, 226, 0.25);
+    --shadow-button: 0 0 30px hsl(180 100% 50% / 0.6);
+    --shadow-elegant: 0 0 35px rgba(0, 255, 255, 0.4);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -112,50 +112,70 @@
 
   body {
     @apply bg-background text-foreground;
-    background: hsl(var(--graphite));
+    background: linear-gradient(-45deg, #0c0c10, #1a0026, #001f3f, #0c0c10);
+    background-size: 400% 400%;
+    animation: pulseGradient 18s ease infinite;
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  @keyframes pulseGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 }
 
 @layer components {
-  /* Glass morphism components */
+  /* Glass morphism components with card pulse */
   .glass-card {
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
     transition: var(--transition-smooth);
+    animation: cardPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes cardPulse {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(138, 43, 226, 0.25); 
+    }
+    50% { 
+      box-shadow: 0 0 35px rgba(0, 255, 255, 0.4); 
+    }
   }
 
   .glass-card:hover {
-    border-color: hsl(var(--profitiv-purple) / 0.4);
+    border-color: hsl(var(--profitiv-cyan) / 0.6);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-card);
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
   }
 
-  /* Button variants */
+  /* Button variants with stronger glow */
   .btn-gradient {
     background: var(--gradient-button);
     transition: var(--transition-smooth);
-    box-shadow: var(--shadow-card);
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
   }
 
   .btn-gradient:hover {
     background: var(--gradient-button-hover);
-    box-shadow: var(--shadow-button);
-    transform: translateY(-1px);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+    transform: translateY(-2px);
   }
 
   .btn-glass {
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border: 1.5px solid hsl(var(--profitiv-cyan));
     transition: var(--transition-smooth);
   }
 
   .btn-glass:hover {
-    background: hsl(var(--profitiv-purple) / 0.2);
-    border-color: hsl(var(--profitiv-purple) / 0.4);
+    background: hsl(var(--profitiv-cyan) / 0.1);
+    border-color: hsl(var(--profitiv-cyan) / 0.8);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
   }
 
   /* Text gradients */
@@ -182,27 +202,40 @@
     transform: translateY(-4px);
   }
 
-  /* Progress bars */
+  /* Progress bars with glow */
   .progress-bar {
-    background: var(--gradient-secondary);
-    border-radius: 4px;
-    height: 8px;
-    transition: width 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 10px;
   }
 
-  /* Earning cards */
+  .progress-bar > div {
+    height: 100%;
+    background: linear-gradient(90deg, hsl(var(--profitiv-cyan)), hsl(var(--profitiv-purple)));
+    transition: width 0.8s cubic-bezier(0.2, 0.9, 0.2, 1);
+    animation: progressGlow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes progressGlow {
+    from { box-shadow: 0 0 10px hsl(var(--profitiv-cyan)); }
+    to { box-shadow: 0 0 25px hsl(var(--profitiv-purple)); }
+  }
+
+  /* Earning cards with stronger borders */
   .earning-card {
     background: var(--gradient-card);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
+    border: 1.5px solid hsl(var(--profitiv-cyan) / 0.3);
+    border-radius: 16px;
     transition: var(--transition-smooth);
+    animation: cardPulse 4s ease-in-out infinite;
   }
 
   .earning-card:hover {
-    border-color: hsl(var(--profitiv-purple) / 0.4);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-card);
+    border-color: hsl(var(--profitiv-cyan) / 0.6);
+    transform: translateY(-4px);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
   }
 
   /* Status badges */
@@ -260,17 +293,31 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* Glow animations */
+  /* Glow animations - more intense */
   .glow-pulse {
-    animation: glow-pulse 2s ease-in-out infinite alternate;
+    animation: glow-pulse 3s ease-in-out infinite alternate;
   }
 
   @keyframes glow-pulse {
     from {
-      box-shadow: 0 0 20px hsl(var(--profitiv-purple) / 0.5);
+      box-shadow: 0 0 25px hsl(var(--profitiv-purple) / 0.6);
     }
     to {
-      box-shadow: 0 0 30px hsl(var(--profitiv-purple) / 0.8), 0 0 40px hsl(var(--profitiv-teal) / 0.5);
+      box-shadow: 0 0 40px hsl(var(--profitiv-purple) / 0.9), 0 0 50px hsl(var(--profitiv-cyan) / 0.6);
     }
+  }
+
+  /* Divider with animated flow */
+  .divider-glow {
+    height: 2px;
+    background: linear-gradient(90deg, hsl(var(--profitiv-purple)), hsl(var(--profitiv-cyan)));
+    background-size: 200% 200%;
+    animation: dividerFlow 8s linear infinite;
+    border-radius: 2px;
+  }
+
+  @keyframes dividerFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
   }
 }
