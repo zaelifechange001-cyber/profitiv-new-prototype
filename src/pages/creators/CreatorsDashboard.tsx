@@ -110,6 +110,7 @@ export default function CreatorsDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
+      <BackgroundAnimation />
       {/* Header */}
       <div className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
