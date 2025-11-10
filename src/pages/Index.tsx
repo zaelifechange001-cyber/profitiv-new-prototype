@@ -417,10 +417,13 @@ const Index = () => {
                   Creator • Brand
                 </div>
                 <h2 className="text-5xl font-bold mb-6">
-                  Launch campaigns that reach <span className="text-gradient-hero">real audiences</span>
+                  Where Your Content Works Harder — <span className="text-gradient-hero">Powered by Real Engagement</span>
                 </h2>
-                <p className="text-xl text-foreground/60 mb-8 max-w-2xl mx-auto">
-                  Upload promotional videos or courses, set reward budgets, and pay only for verified engagement. Grow your reach with measurable results.
+                <p className="text-xl text-foreground/60 mb-4 max-w-2xl mx-auto">
+                  Launch campaigns that don't just get views — they build momentum. Profitiv connects your brand with earners who turn attention into real impact.
+                </p>
+                <p className="text-base text-foreground/50 italic mb-8 max-w-2xl mx-auto">
+                  Start a campaign → Grow your reach → Reward engagement
                 </p>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Button 
@@ -431,7 +434,7 @@ const Index = () => {
                       navigate("/creators");
                     }}
                   >
-                    Get Started
+                    Start a Campaign
                   </Button>
                   <Button 
                     variant="outline" 

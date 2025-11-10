@@ -23,12 +23,15 @@ const HeroSectionComponent = () => {
             {/* Main Headline */}
             <div className="space-y-3 md:space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                <span className="text-gradient-hero">Earn Money</span>
+                <span className="text-gradient-hero">Earn From the Brands</span>
                 <br />
-                <span className="text-foreground">Online Today</span>
+                <span className="text-foreground">You Help Grow</span>
               </h1>
               <p className="text-base sm:text-lg lg:text-xl text-foreground/80 max-w-3xl leading-relaxed mx-auto lg:mx-0">
-                Transform your spare time into real income through videos, games, and more.
+                Watch, learn, and engage with real creators and brands. Every interaction moves campaigns forward — and every milestone earns you TIV rewards.
+              </p>
+              <p className="text-sm sm:text-base text-foreground/60 italic max-w-3xl mx-auto lg:mx-0">
+                Your time. Your engagement. Your Profitiv.
               </p>
             </div>
 
