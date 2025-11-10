@@ -135,6 +135,24 @@
     border-radius: var(--radius);
     transition: var(--transition-smooth);
     animation: cardPulse 4s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Holographic sheen effect inside cards */
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    inset: -30% -20%;
+    pointer-events: none;
+    background: conic-gradient(from 180deg, rgba(143, 0, 255, 0.06), rgba(0, 255, 255, 0.06), transparent 80%);
+    animation: cardSpin 10s linear infinite;
+    opacity: 0.9;
+  }
+
+  @keyframes cardSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
   @keyframes cardPulse {
@@ -150,6 +168,33 @@
     border-color: hsl(var(--profitiv-cyan) / 0.6);
     transform: translateY(-2px);
     box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+  }
+
+  /* Role-based glow variations */
+  [data-role="earner"] .glass-card {
+    animation: cardPulseEarner 4s ease-in-out infinite;
+  }
+
+  [data-role="creator"] .glass-card {
+    animation: cardPulseCreator 4s ease-in-out infinite;
+  }
+
+  @keyframes cardPulseEarner {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); 
+    }
+    50% { 
+      box-shadow: 0 0 35px rgba(111, 255, 209, 0.45); 
+    }
+  }
+
+  @keyframes cardPulseCreator {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(155, 107, 255, 0.3); 
+    }
+    50% { 
+      box-shadow: 0 0 35px rgba(255, 0, 204, 0.4); 
+    }
   }
 
   /* Button variants with stronger glow */
@@ -202,19 +247,34 @@
     transform: translateY(-4px);
   }
 
-  /* Progress bars with glow */
+  /* Progress bars with kinetic light streaks */
   .progress-bar {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     overflow: hidden;
     height: 10px;
+    position: relative;
   }
 
   .progress-bar > div {
     height: 100%;
     background: linear-gradient(90deg, hsl(var(--profitiv-cyan)), hsl(var(--profitiv-purple)));
-    transition: width 0.8s cubic-bezier(0.2, 0.9, 0.2, 1);
+    transition: width 0.9s cubic-bezier(0.2, 0.9, 0.2, 1);
     animation: progressGlow 2s ease-in-out infinite alternate;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Light streak effect */
+  .progress-bar > div::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: lightStreak 2s ease-in-out infinite;
   }
 
   @keyframes progressGlow {
@@ -222,7 +282,27 @@
     to { box-shadow: 0 0 25px hsl(var(--profitiv-purple)); }
   }
 
-  /* Earning cards with stronger borders */
+  @keyframes lightStreak {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+
+  /* Near completion - intensify glow */
+  .progress-bar > div[style*="width: 9"],
+  .progress-bar > div[style*="width: 10"] {
+    animation: progressGlowIntense 1.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes progressGlowIntense {
+    from { 
+      box-shadow: 0 0 15px hsl(var(--profitiv-cyan)); 
+    }
+    to { 
+      box-shadow: 0 0 35px hsl(var(--profitiv-purple)), 0 0 50px hsl(var(--profitiv-cyan)); 
+    }
+  }
+
+  /* Earning cards with stronger borders and balance-based glow */
   .earning-card {
     background: var(--gradient-card);
     backdrop-filter: var(--glass-blur);
@@ -230,12 +310,39 @@
     border-radius: 16px;
     transition: var(--transition-smooth);
     animation: cardPulse 4s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .earning-card::before {
+    content: "";
+    position: absolute;
+    inset: -30% -20%;
+    pointer-events: none;
+    background: conic-gradient(from 180deg, rgba(143, 0, 255, 0.04), rgba(0, 255, 255, 0.04), transparent 80%);
+    animation: cardSpin 12s linear infinite;
+    opacity: 0.8;
   }
 
   .earning-card:hover {
     border-color: hsl(var(--profitiv-cyan) / 0.6);
     transform: translateY(-4px);
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+  }
+
+  /* High balance glow - add this class when balance is high */
+  .earning-card.high-balance {
+    animation: cardPulseGold 3s ease-in-out infinite;
+    border-color: hsl(45 100% 60% / 0.4);
+  }
+
+  @keyframes cardPulseGold {
+    0%, 100% { 
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.3); 
+    }
+    50% { 
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.5); 
+    }
   }
 
   /* Status badges */
@@ -319,5 +426,46 @@
   @keyframes dividerFlow {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
+  }
+
+  /* Marketplace platinum holographic cards */
+  .marketplace-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 18px;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    animation: marketplaceShimmer 6s ease-in-out infinite;
+  }
+
+  .marketplace-card::before {
+    content: "";
+    position: absolute;
+    inset: -50% -30%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.08) 50%, transparent 70%);
+    animation: shimmerRotate 8s linear infinite;
+  }
+
+  @keyframes shimmerRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes marketplaceShimmer {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(159, 97, 255, 0.15), 0 0 40px rgba(0, 255, 255, 0.1);
+    }
+  }
+
+  .marketplace-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(143, 0, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.15);
   }
 }
