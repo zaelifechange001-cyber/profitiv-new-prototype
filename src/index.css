@@ -441,6 +441,69 @@
     100% { background-position: 200% 50%; }
   }
 
+  /* Profitiv Wordmark Logo */
+  .profitiv-logo {
+    display: inline-block;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+  }
+
+  .profitiv-wordmark {
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    position: relative;
+    display: inline-block;
+    padding: 6px 2px;
+    line-height: 1;
+    background: linear-gradient(90deg, #6C63FF 0%, #8A2BE2 55%, #00E5FF 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: profitivGradient 6s linear infinite;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Soft neon glow behind wordmark */
+  .profitiv-wordmark::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 4px;
+    filter: blur(12px);
+    opacity: 0.55;
+    background: linear-gradient(90deg, rgba(108, 99, 255, 0.22), rgba(138, 43, 226, 0.15), rgba(0, 229, 255, 0.18));
+  }
+
+  @keyframes profitivGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Hover micro-interaction */
+  .profitiv-logo:hover .profitiv-wordmark {
+    transform: translateY(-2px);
+    text-shadow: 0 6px 20px rgba(108, 99, 255, 0.18);
+  }
+
+  /* Responsive logo sizes */
+  @media (min-width: 1200px) {
+    .profitiv-wordmark {
+      font-size: 34px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .profitiv-wordmark {
+      font-size: 20px;
+    }
+  }
+
   /* Marketplace platinum holographic cards */
   .marketplace-card {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));

@@ -49,11 +49,8 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center">
-              <DollarSign className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-gradient-hero">Profitiv</span>
+          <Link to="/" className="profitiv-logo" aria-label="Profitiv home" title="Profitiv">
+            <span className="profitiv-wordmark">Profitiv</span>
           </Link>
 
           {/* Desktop Navigation */}
