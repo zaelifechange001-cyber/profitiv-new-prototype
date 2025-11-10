@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, DollarSign, Play, Users, Zap } from "lucide-react";
+import { memo } from "react";
 
-const HeroSection = () => {
+const HeroSectionComponent = () => {
   return (
     <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-8 md:pt-28 md:pb-12">
       {/* Background Effects */}
@@ -112,5 +113,9 @@ const HeroSection = () => {
     </section>
   );
 };
+
+HeroSectionComponent.displayName = 'HeroSection';
+
+const HeroSection = memo(HeroSectionComponent);
 
 export default HeroSection;

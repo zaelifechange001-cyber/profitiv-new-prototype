@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import HeroSection from "@/components/HeroSection";
 import EarningMethods from "@/components/EarningMethods";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
@@ -6,7 +6,7 @@ import Navigation from "@/components/Navigation";
 import { BackgroundAnimation } from "@/components/BackgroundAnimation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, CheckCircle, Video, Zap, GraduationCap, Users, Trophy, CoinsIcon, Play, BookOpen, DollarSign, Rocket, Target, BarChart3 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useProfitivPulse } from "@/components/ProfitivPulse";
@@ -40,22 +40,18 @@ const testimonials = [
 
 const Index = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   
-  // Get role from URL params or default to "earner"
-  const searchParams = new URLSearchParams(window.location.search);
-  const roleParam = searchParams.get("role") as "earner" | "creator" | null;
-  const [activeRole, setActiveRole] = useState<"earner" | "creator">(roleParam || "earner");
-  const triggerPulse = useProfitivPulse();
+  // Get role from URL params or default to "earner" - memoized for performance
+  const activeRole = useMemo(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const roleParam = searchParams.get("role") as "earner" | "creator" | null;
+    return roleParam && (roleParam === "earner" || roleParam === "creator") ? roleParam : "earner";
+  }, [location.search]);
   
-  // Update role when URL changes
-  useEffect(() => {
-    const role = new URLSearchParams(window.location.search).get("role") as "earner" | "creator" | null;
-    if (role && (role === "earner" || role === "creator")) {
-      setActiveRole(role);
-    }
-  }, [window.location.search]);
+  const triggerPulse = useProfitivPulse();
 
   useEffect(() => {
     // Check auth state

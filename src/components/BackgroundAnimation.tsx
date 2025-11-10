@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-export const BackgroundAnimation = memo(() => {
+const BackgroundAnimationComponent = () => {
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" style={{ contain: 'layout style paint' }}>
       {/* Secondary depth glow - faint darker layer */}
@@ -72,4 +72,8 @@ export const BackgroundAnimation = memo(() => {
       />
     </div>
   );
-});
+};
+
+BackgroundAnimationComponent.displayName = 'BackgroundAnimation';
+
+export const BackgroundAnimation = memo(BackgroundAnimationComponent);

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Play, Users, TrendingUp, Clock, DollarSign, Sparkles, GraduationCap, Video, Zap, Trophy, BookOpen, CoinsIcon } from "lucide-react";
+import { memo } from "react";
 
 // Individual Earnings (Instant Rewards)
 const individualEarnings = [
@@ -114,7 +115,7 @@ const communityPools = [
   }
 ];
 
-const EarningMethods = () => {
+const EarningMethodsComponent = () => {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -140,5 +141,9 @@ const EarningMethods = () => {
     </section>
   );
 };
+
+EarningMethodsComponent.displayName = 'EarningMethods';
+
+const EarningMethods = memo(EarningMethodsComponent);
 
 export default EarningMethods;
