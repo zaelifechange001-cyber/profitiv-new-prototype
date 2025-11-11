@@ -23,19 +23,18 @@ const Dashboard = () => {
       return;
     }
 
-    // Fetch user role from user_roles table
-    const { data: roleData } = await supabase
+    // Fetch user role(s) from user_roles table
+    const { data: roles, error } = await supabase
       .from('user_roles')
       .select('role')
-      .eq('user_id', user.id)
-      .single();
+      .eq('user_id', user.id);
 
-    if (roleData?.role) {
-      setUserRole(roleData.role as "creator" | "earner");
+    if (!error && roles && roles.length > 0) {
+      // If multiple roles exist, default to the first (can enhance later)
+      setUserRole(roles[0].role as "creator" | "earner");
     } else {
-      // If no role assigned, redirect to home or show error
-      navigate("/");
-      return;
+      // No role assigned yet – render friendly message (no redirect loop)
+      setUserRole(null);
     }
     
     setLoading(false);
@@ -50,6 +49,24 @@ const Dashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
+
+  if (userRole === null) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <div className="max-w-md w-full border border-border/50 rounded-2xl p-6 bg-card shadow-sm text-center space-y-3">
+          <h2 className="text-xl font-semibold">Role Required</h2>
+          <p className="text-sm text-muted-foreground">
+            Your account doesn’t have a role yet. Please choose a path to continue.
+          </p>
+          <div className="flex gap-2 justify-center pt-2">
+            <Button variant="outline" onClick={() => navigate('/?role=earner')}>Go to Earn</Button>
+            <Button variant="outline" onClick={() => navigate('/?role=creator')}>Go to Promote</Button>
+            <Button variant="ghost" onClick={handleLogout}>Sign out</Button>
+          </div>
+        </div>
       </div>
     );
   }
