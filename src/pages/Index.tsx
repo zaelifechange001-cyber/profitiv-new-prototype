@@ -372,43 +372,69 @@ const Index = () => {
       {activeRole === "creator" && (
         <div className="animate-fade-in">
           {/* Creator Hero */}
-          <section className="py-20 px-4">
-            <div className="container mx-auto">
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="inline-block px-4 py-2 rounded-full bg-purple-light/10 text-purple-light font-bold text-sm mb-6">
-                  Creator • Brand
+          <section className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background pointer-events-none" />
+            <div className="max-w-4xl mx-auto text-center relative z-10">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+                Creators & Brands
+              </h1>
+              <p className="text-xl md:text-2xl text-muted-foreground mb-8">
+                The platform that connects creators and brands
+              </p>
+            </div>
+          </section>
+
+          {/* Three Feature Cards */}
+          <section className="py-16 px-4 sm:px-6 lg:px-8 bg-background/50 relative">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Sign Up Card */}
+                <div className="glass-card p-8 text-center hover-lift">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Sign Up</h3>
+                  <p className="text-muted-foreground">
+                    Join Profitiv and set up your creator or brand profile
+                  </p>
                 </div>
-                <h2 className="text-5xl font-bold mb-6">
-                  Where Your Content Works Harder — <span className="text-gradient-hero">Powered by Real Engagement</span>
-                </h2>
-                <p className="text-xl text-foreground/60 mb-4 max-w-2xl mx-auto">
-                  Launch campaigns that don't just get views — they build momentum. Profitiv connects your brand with earners who turn attention into real impact.
-                </p>
-                <p className="text-base text-foreground/50 italic mb-8 max-w-2xl mx-auto">
-                  Start a campaign → Grow your reach → Reward engagement
-                </p>
-                <div className="flex gap-4 justify-center flex-wrap">
-                  <Button 
-                    className="btn-gradient" 
-                    size="lg"
-                    onClick={() => {
-                      triggerPulse();
-                      navigate("/creators");
-                    }}
-                  >
-                    Start a Campaign
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="lg"
-                    onClick={() => navigate("/creators")}
-                  >
-                    Sign In
-                  </Button>
+
+                {/* Launch Campaigns Card */}
+                <div className="glass-card p-8 text-center hover-lift">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Launch Campaigns</h3>
+                  <p className="text-muted-foreground">
+                    Create branded campaigns or apply for contributor opportunities
+                  </p>
+                </div>
+
+                {/* Earn & Collaborate Card */}
+                <div className="glass-card p-8 text-center hover-lift">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Earn & Collaborate</h3>
+                  <p className="text-muted-foreground">
+                    Collaborate with brands and earn for your creative work
+                  </p>
                 </div>
               </div>
             </div>
           </section>
+
+          {/* TIV Marketplace for Creators */}
+          <TIVMarketplace role="creator" />
+
+          {/* How Profitiv Sustains Growth */}
+          <SustainabilitySection />
 
           {/* How It Works for Creators */}
           <HowItWorksCreators />
@@ -416,14 +442,8 @@ const Index = () => {
           {/* Creator Dashboard */}
           <CreatorDashboard />
 
-          {/* TIV Marketplace for Creators */}
-          <TIVMarketplace role="creator" />
-
           {/* Why Creators Choose Profitiv */}
           <CreatorBenefits />
-
-          {/* How Profitiv Sustains Growth */}
-          <SustainabilitySection />
 
           {/* Testimonials */}
           <TestimonialsSection 
