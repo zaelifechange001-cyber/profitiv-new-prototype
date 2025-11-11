@@ -5,6 +5,12 @@ import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Navigation from "@/components/Navigation";
 import HowItWorksEarners from "@/components/HowItWorksEarners";
 import HowItWorksCreators from "@/components/HowItWorksCreators";
+import EarnerDashboard from "@/components/EarnerDashboard";
+import CreatorDashboard from "@/components/CreatorDashboard";
+import TIVMarketplace from "@/components/TIVMarketplace";
+import SustainabilitySection from "@/components/SustainabilitySection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import CreatorBenefits from "@/components/CreatorBenefits";
 import { BackgroundAnimation } from "@/components/BackgroundAnimation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, CheckCircle, Video, Zap, GraduationCap, Users, Trophy, CoinsIcon, Play, BookOpen, DollarSign, Rocket, Target, BarChart3 } from "lucide-react";
@@ -338,77 +344,27 @@ const Index = () => {
       {/* Earning Methods */}
       <EarningMethods />
 
+      {/* Earner Dashboard */}
+      <EarnerDashboard />
+
+      {/* TIV Marketplace for Earners */}
+      <TIVMarketplace role="earner" />
+
+      {/* How Profitiv Sustains Growth */}
+      <SustainabilitySection />
+
       {/* Testimonials */}
-      <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8 cv-auto">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
-              Success <span className="text-gradient-hero">Stories</span>
-            </h2>
-            <p className="text-base md:text-lg lg:text-xl text-foreground/80 max-w-2xl mx-auto px-4">
-              Real people, real earnings. See how Profitiv has changed lives.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6">
-            {testimonials.map((testimonial, index) => (
-              <div key={testimonial.name} className="glass-card p-5 md:p-6 hover-lift">
-                {/* Header */}
-                <div className="flex items-center space-x-3 mb-4 md:mb-5">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-profitiv-purple to-profitiv-teal flex items-center justify-center flex-shrink-0">
-                    <span className="text-white font-bold text-base">{testimonial.avatar}</span>
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold text-base truncate">{testimonial.name}</h4>
-                    <p className="text-sm text-foreground/60 truncate">{testimonial.role}</p>
-                  </div>
-                </div>
-
-                {/* Quote */}
-                <blockquote className="text-sm md:text-base text-foreground/80 mb-4 md:mb-5 italic line-clamp-3">
-                  "{testimonial.quote}"
-                </blockquote>
-
-                {/* Stats */}
-                <div className="flex items-center justify-between pt-4 border-t border-profitiv-purple/20">
-                  <div>
-                    <div className="text-xl md:text-2xl font-bold text-gradient-hero">{testimonial.earnings}</div>
-                    <div className="text-xs md:text-sm text-foreground/60">Total Earned</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium text-profitiv-teal truncate max-w-[100px]">{testimonial.method}</div>
-                    <div className="flex items-center space-x-1 justify-end mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-profitiv-teal text-profitiv-teal" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection 
+        role="earner"
+        testimonials={[
+          { quote: "I love that Profitiv pays out quickly and the tasks are straightforward.", author: "Kayla" },
+          { quote: "Marketplace made it easy for me to turn TIVs into cash.", author: "Jon" }
+        ]}
+        ctaText="Ready to start earning?"
+        ctaLink="/auth"
+      />
 
       <SubscriptionPlans />
-
-      {/* Final CTA */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="glass-card p-6 sm:p-8 lg:p-12 text-center glow-pulse">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-8">
-              Ready to <span className="text-gradient-hero">Start Earning?</span>
-            </h2>
-
-            <div className="flex justify-center">
-              <Button variant="hero" size="hero" className="group" onClick={() => navigate("/auth")}>
-                Start Earning Now
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
         </div>
       )}
 
@@ -457,69 +413,28 @@ const Index = () => {
           {/* How It Works for Creators */}
           <HowItWorksCreators />
 
-          {/* Creator Features */}
-          <section className="py-16 px-4">
-            <div className="container mx-auto">
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="glass-card p-8">
-                  <Rocket className="w-12 h-12 text-purple-light mb-4" />
-                  <h4 className="text-xl font-bold mb-3">Upload content</h4>
-                  <p className="text-foreground/60">Add videos or course materials and set reward per verified action.</p>
-                </div>
-                <div className="glass-card p-8">
-                  <Target className="w-12 h-12 text-teal-light mb-4" />
-                  <h4 className="text-xl font-bold mb-3">Reach audiences</h4>
-                  <p className="text-foreground/60">Target users by interest groups and run reward-funded campaigns that convert.</p>
-                </div>
-                <div className="glass-card p-8">
-                  <BarChart3 className="w-12 h-12 text-purple-light mb-4" />
-                  <h4 className="text-xl font-bold mb-3">Track rewards</h4>
-                  <p className="text-foreground/60">See verified views, completions, and payout obligations at a glance.</p>
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* Creator Dashboard */}
+          <CreatorDashboard />
 
-          {/* Creator Stats */}
-          <section className="py-16 px-4 bg-background/50">
-            <div className="container mx-auto">
-              <h3 className="text-3xl font-bold text-center mb-12">Why creators choose Profitiv</h3>
-              <div className="grid md:grid-cols-3 gap-8 text-center">
-                <div className="glass-card p-8">
-                  <div className="text-4xl font-bold text-gradient-hero mb-2">95%</div>
-                  <div className="text-foreground/60">Verified views</div>
-                </div>
-                <div className="glass-card p-8">
-                  <div className="text-4xl font-bold text-gradient-hero mb-2">3-day</div>
-                  <div className="text-foreground/60">Avg payout processing</div>
-                </div>
-                <div className="glass-card p-8">
-                  <div className="text-4xl font-bold text-gradient-hero mb-2">$0</div>
-                  <div className="text-foreground/60">Free onboarding</div>
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* TIV Marketplace for Creators */}
+          <TIVMarketplace role="creator" />
 
-          {/* Final CTA for Creators */}
-          <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-              <div className="glass-card p-6 sm:p-8 lg:p-12 text-center glow-pulse">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-8">
-                  Ready to <span className="text-gradient-hero">Launch Your Campaign?</span>
-                </h2>
-                <div className="flex justify-center">
-                  <Button variant="hero" size="hero" className="group" onClick={() => {
-                    triggerPulse();
-                    navigate("/creators");
-                  }}>
-                    Get Started Now
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* Why Creators Choose Profitiv */}
+          <CreatorBenefits />
+
+          {/* How Profitiv Sustains Growth */}
+          <SustainabilitySection />
+
+          {/* Testimonials */}
+          <TestimonialsSection 
+            role="creator"
+            testimonials={[
+              { quote: "Profitiv created measurable lift for our launch.", author: "Maya, Founder" },
+              { quote: "Campaigns finished faster with better engagement.", author: "Aaron, Creator" }
+            ]}
+            ctaText="Ready to launch your first campaign?"
+            ctaLink="/creators"
+          />
         </div>
       )}
 
