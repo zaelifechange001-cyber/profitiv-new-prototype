@@ -5,8 +5,6 @@ import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Navigation from "@/components/Navigation";
 import HowItWorksEarners from "@/components/HowItWorksEarners";
 import HowItWorksCreators from "@/components/HowItWorksCreators";
-import EarnerDashboard from "@/components/EarnerDashboard";
-import CreatorDashboard from "@/components/CreatorDashboard";
 import EarnerDashboardPreview from "@/components/EarnerDashboardPreview";
 import CreatorDashboardPreview from "@/components/CreatorDashboardPreview";
 import TIVMarketplace from "@/components/TIVMarketplace";
@@ -349,8 +347,8 @@ const Index = () => {
       {/* Earning Methods */}
       <EarningMethods />
 
-      {/* Earner Dashboard */}
-      <EarnerDashboard />
+      {/* Earner Dashboard Preview */}
+      <EarnerDashboardPreview />
 
       {/* TIV Marketplace for Earners */}
       <TIVMarketplace role="earner" />
@@ -497,9 +495,6 @@ const Index = () => {
 
           {/* Creator Dashboard Preview */}
           <CreatorDashboardPreview />
-
-          {/* Creator Dashboard */}
-          <CreatorDashboard />
 
           {/* Why Creators Choose Profitiv */}
           <CreatorBenefits />

@@ -1,56 +1,51 @@
+import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+
 const EarnerDashboardPreview = () => {
   return (
-    <section className="py-16 px-5 sm:px-6 lg:px-8 bg-background/50">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Your <span className="text-gradient-hero">Earning Dashboard</span>
+    <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-background/30 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-profitiv-teal/5 via-transparent to-transparent pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+            Your Earning <span className="text-gradient-hero">Dashboard</span>
           </h2>
-          <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
-            Track your TIV balance, progress in campaigns, and completed rewards — all updated live.
+          <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
+            Overview of your rewards, tasks, and active pools — all in one place.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* TIV Balance Card */}
-          <div className="glass-card p-6 hover-lift">
-            <h3 className="text-lg font-semibold mb-2 text-profitiv-purple">Your TIV Balance</h3>
-            <p className="text-4xl font-bold mb-1">3,250 TIVs</p>
-            <p className="text-sm text-foreground/60 mb-4">≈ $6,500 USD Value</p>
-            
-            {/* Progress Bar */}
-            <div className="h-2 bg-muted rounded-full overflow-hidden mb-2">
-              <div className="h-full bg-gradient-to-r from-profitiv-purple to-profitiv-teal w-[65%]" />
-            </div>
-            <p className="text-xs text-foreground/60">Goal: 5,000 TIVs</p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <Card className="glass-card p-6 hover-lift">
+            <h4 className="text-sm font-semibold text-muted-foreground mb-2">Total Earned</h4>
+            <div className="text-4xl font-bold text-foreground mb-2">$1,240</div>
+            <p className="text-sm text-muted-foreground">Lifetime</p>
+          </Card>
 
-          {/* Completed Campaigns Card */}
-          <div className="glass-card p-6 hover-lift">
-            <h3 className="text-lg font-semibold mb-2 text-profitiv-teal">Completed Campaigns</h3>
-            <p className="text-4xl font-bold mb-1">18</p>
-            <p className="text-sm text-foreground/60 mb-4">Campaigns Finished</p>
-            
-            {/* Progress Bar */}
-            <div className="h-2 bg-muted rounded-full overflow-hidden mb-2">
-              <div className="h-full bg-gradient-to-r from-profitiv-teal to-profitiv-purple w-[90%]" />
-            </div>
-            <p className="text-xs text-foreground/60">You're in the top 5% of earners!</p>
-          </div>
+          <Card className="glass-card p-6 hover-lift">
+            <h4 className="text-sm font-semibold text-muted-foreground mb-2">TIV Balance</h4>
+            <div className="text-4xl font-bold text-foreground mb-2">1,420</div>
+            <p className="text-sm text-muted-foreground">Available to trade or redeem</p>
+          </Card>
 
-          {/* Withdraw Progress Card */}
-          <div className="glass-card p-6 hover-lift">
-            <h3 className="text-lg font-semibold mb-2 text-success">Withdraw Progress</h3>
-            <p className="text-4xl font-bold mb-1">$1,250</p>
-            <p className="text-sm text-foreground/60 mb-4">Withdrawn This Month</p>
-            
-            {/* Progress Bar */}
-            <div className="h-2 bg-muted rounded-full overflow-hidden mb-2">
-              <div className="h-full bg-success w-[50%]" />
-            </div>
-            <p className="text-xs text-foreground/60">Goal: $2,500 this month</p>
-          </div>
+          <Card className="glass-card p-6 hover-lift">
+            <h4 className="text-sm font-semibold text-muted-foreground mb-2">Withdrawable</h4>
+            <div className="text-4xl font-bold text-foreground mb-2">$420</div>
+            <p className="text-sm text-muted-foreground">Ready after verification</p>
+          </Card>
         </div>
+
+        <Card className="glass-card p-6 hover-lift">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-bold text-foreground">Campaign Video — 1,000 views</h3>
+            <span className="text-sm text-profitiv-teal font-semibold">Reward: 15 TIV</span>
+          </div>
+          <Progress value={56} className="mb-4" />
+          <p className="text-sm text-muted-foreground">
+            Join the pool • Your stake: $5 • Expected reward when goal met
+          </p>
+        </Card>
       </div>
     </section>
   );
