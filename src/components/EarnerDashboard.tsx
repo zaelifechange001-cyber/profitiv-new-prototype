@@ -100,7 +100,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
                 Your Earning <span className="text-gradient-hero">Dashboard</span>
               </h1>
               <p className="text-lg text-foreground/80">
-                Overview of your rewards, tasks, and active pools — all in one place.
+                Overview of your rewards, tasks, and active campaigns — all in one place.
               </p>
             </div>
             <div className="flex gap-3">

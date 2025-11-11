@@ -36,16 +36,16 @@ const CreatorDashboardPreview = () => {
           </Card>
         </div>
 
-        <Card className="glass-card p-6 hover-lift">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-foreground">Promo Campaign — 2,500 views</h3>
-            <span className="text-muted-foreground">Goal: 2,500</span>
-          </div>
-          <Progress value={72} className="mb-4" />
-          <p className="text-sm text-muted-foreground">
-            Reward pool: 15,000 TIV • Access fee split managed by platform
-          </p>
-        </Card>
+          <Card className="glass-card p-6 hover-lift">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-foreground">Promo Campaign — 2,500 completions</h3>
+              <span className="text-muted-foreground">Goal: 2,500</span>
+            </div>
+            <Progress value={72} className="mb-4" />
+            <p className="text-sm text-muted-foreground">
+              1,800 / 2,500 completions • Reward budget: 15,000 TIV
+            </p>
+          </Card>
       </div>
     </section>
   );

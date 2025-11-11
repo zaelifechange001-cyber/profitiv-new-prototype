@@ -14,7 +14,7 @@ interface Campaign {
   title: string;
   video_url: string;
   description: string;
-  investment_amount: number;
+  investment_amount: number; // Note: DB column name (stores campaign budget)
   goal_views: number;
   current_views: number;
   reward_per_view: number;

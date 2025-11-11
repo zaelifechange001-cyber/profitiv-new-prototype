@@ -31,7 +31,7 @@ const NavigationComponent = () => {
   // Nav items memoized for performance
   const authNavItems = useMemo(() => [
     { name: "Dashboard", path: "/dashboard", icon: DollarSign },
-    { name: "Earn", path: "/earn", icon: Trophy },
+    { name: "Campaigns", path: "/videos", icon: Play },
     { name: "Pricing", path: "/pricing", icon: Users },
     { name: "Affiliate", path: "/affiliate", icon: Users },
   ], []);

@@ -12,7 +12,7 @@ const EarnerDashboardPreview = () => {
             Your Earning <span className="text-gradient-hero">Dashboard</span>
           </h2>
           <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
-            Overview of your rewards, tasks, and active pools — all in one place.
+            Overview of your rewards, tasks, and active campaigns — all in one place.
           </p>
         </div>
 
@@ -36,16 +36,16 @@ const EarnerDashboardPreview = () => {
           </Card>
         </div>
 
-        <Card className="glass-card p-6 hover-lift">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-foreground">Campaign Video — 1,000 views</h3>
-            <span className="text-sm text-profitiv-teal font-semibold">Reward: 15 TIV</span>
-          </div>
-          <Progress value={56} className="mb-4" />
-          <p className="text-sm text-muted-foreground">
-            Join the pool • Your stake: $5 • Expected reward when goal met
-          </p>
-        </Card>
+          <Card className="glass-card p-6 hover-lift">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-foreground">Featured Campaign — 1,000 completions</h3>
+              <span className="text-sm text-profitiv-teal font-semibold">Reward: 15 TIV</span>
+            </div>
+            <Progress value={56} className="mb-4" />
+            <p className="text-sm text-muted-foreground">
+              560 / 1,000 completed • Earn rewards for verified engagement
+            </p>
+          </Card>
       </div>
     </section>
   );
