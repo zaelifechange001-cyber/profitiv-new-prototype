@@ -7,6 +7,8 @@ import HowItWorksEarners from "@/components/HowItWorksEarners";
 import HowItWorksCreators from "@/components/HowItWorksCreators";
 import EarnerDashboard from "@/components/EarnerDashboard";
 import CreatorDashboard from "@/components/CreatorDashboard";
+import EarnerDashboardPreview from "@/components/EarnerDashboardPreview";
+import CreatorDashboardPreview from "@/components/CreatorDashboardPreview";
 import TIVMarketplace from "@/components/TIVMarketplace";
 import SustainabilitySection from "@/components/SustainabilitySection";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -112,6 +114,9 @@ const Index = () => {
 
           {/* How It Works */}
           <HowItWorksEarners />
+
+          {/* Earner Dashboard Preview */}
+          <EarnerDashboardPreview />
 
       {/* Service Description Sections */}
       <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8 bg-background/50 cv-auto">
@@ -489,6 +494,9 @@ const Index = () => {
 
           {/* How It Works for Creators */}
           <HowItWorksCreators />
+
+          {/* Creator Dashboard Preview */}
+          <CreatorDashboardPreview />
 
           {/* Creator Dashboard */}
           <CreatorDashboard />
