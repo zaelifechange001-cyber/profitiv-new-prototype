@@ -77,13 +77,6 @@ const Index = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Redirect to dashboard if user is logged in
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, [user, navigate]);
-
   if (loading) {
     return (
       <div className="min-h-screen">
@@ -95,7 +88,9 @@ const Index = () => {
     );
   }
 
+  // If user is logged in, redirect to dashboard
   if (user) {
+    navigate("/dashboard");
     return null;
   }
 
@@ -354,8 +349,8 @@ const Index = () => {
       {/* Earning Methods */}
       <EarningMethods />
 
-      {/* Earner Dashboard Preview */}
-      <EarnerDashboardPreview />
+      {/* Earner Dashboard */}
+      <EarnerDashboard />
 
       {/* TIV Marketplace for Earners */}
       <TIVMarketplace role="earner" />
@@ -502,6 +497,9 @@ const Index = () => {
 
           {/* Creator Dashboard Preview */}
           <CreatorDashboardPreview />
+
+          {/* Creator Dashboard */}
+          <CreatorDashboard />
 
           {/* Why Creators Choose Profitiv */}
           <CreatorBenefits />
