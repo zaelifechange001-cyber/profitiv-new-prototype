@@ -26,26 +26,29 @@ const HowItWorksEarners = () => {
   ];
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-background">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-foreground">
-            How Profitiv Works for Earners
+    <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-background/50 cv-auto relative overflow-hidden">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-profitiv-teal/5 via-transparent to-transparent pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+            How Profitiv Works for <span className="text-gradient-hero">Earners</span>
           </h2>
-          <p className="text-lg text-foreground/80 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
             Start earning by supporting creators, completing actions, and helping campaigns grow — all powered by your subscription.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {steps.map((step, index) => (
-            <div key={index} className="glass-card p-6 text-center space-y-4">
-              <div className="flex justify-center">
-                <div className="w-16 h-16 rounded-full bg-profitiv-teal/20 flex items-center justify-center">
+            <div key={index} className="glass-card p-6 text-center space-y-4 hover-lift group">
+              <div className="flex justify-center mb-2">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-profitiv-teal/20 to-profitiv-purple/10 flex items-center justify-center group-hover:from-profitiv-teal/30 group-hover:to-profitiv-purple/20 transition-all duration-300">
                   <step.icon className="w-8 h-8 text-profitiv-teal" />
                 </div>
               </div>
-              <h3 className="text-xl font-semibold text-foreground">
+              <h3 className="text-lg md:text-xl font-bold text-foreground">
                 {step.title}
               </h3>
               <p className="text-foreground/70 text-sm leading-relaxed">
@@ -57,8 +60,9 @@ const HowItWorksEarners = () => {
 
         <div className="text-center">
           <Button 
-            variant="hero" 
-            size="hero"
+            variant="gradient" 
+            size="lg"
+            className="min-h-[48px] px-8"
             onClick={() => window.location.href = '/auth'}
           >
             Join Profitiv & Start Earning
