@@ -8,7 +8,7 @@ import TIVMarketplaceModal from "@/components/TIVMarketplaceModal";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState<"creator" | "earner">("earner");
+  const [userRole, setUserRole] = useState<"creator" | "earner" | null>(null);
   const [loading, setLoading] = useState(true);
   const [showMarketplace, setShowMarketplace] = useState(false);
 
@@ -22,6 +22,22 @@ const Dashboard = () => {
       navigate("/auth");
       return;
     }
+
+    // Fetch user role from user_roles table
+    const { data: roleData } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .single();
+
+    if (roleData?.role) {
+      setUserRole(roleData.role as "creator" | "earner");
+    } else {
+      // If no role assigned, redirect to home or show error
+      navigate("/");
+      return;
+    }
+    
     setLoading(false);
   };
 
@@ -48,23 +64,13 @@ const Dashboard = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold">Profitiv</h1>
-              <p className="text-sm text-muted-foreground">Creators • Brands • Earners</p>
+              <p className="text-sm text-muted-foreground">
+                {userRole === "creator" ? "Creator Dashboard" : "Earner Dashboard"}
+              </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              variant={userRole === "creator" ? "default" : "ghost"}
-              onClick={() => setUserRole("creator")}
-            >
-              Creator Dashboard
-            </Button>
-            <Button
-              variant={userRole === "earner" ? "default" : "ghost"}
-              onClick={() => setUserRole("earner")}
-            >
-              Earner Dashboard
-            </Button>
             <Button variant="ghost" onClick={() => setShowMarketplace(true)}>
               Marketplace
             </Button>
@@ -79,14 +85,14 @@ const Dashboard = () => {
 
         {userRole === "creator" ? (
           <CreatorDashboard onOpenMarketplace={() => setShowMarketplace(true)} />
-        ) : (
+        ) : userRole === "earner" ? (
           <EarnerDashboard onOpenMarketplace={() => setShowMarketplace(true)} />
-        )}
+        ) : null}
 
         <TIVMarketplaceModal 
           isOpen={showMarketplace} 
           onClose={() => setShowMarketplace(false)}
-          userRole={userRole}
+          userRole={userRole || "earner"}
         />
 
         <div className="mt-6 text-sm text-muted-foreground">

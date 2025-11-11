@@ -83,43 +83,55 @@ const CreatorDashboard = ({ onOpenMarketplace }: CreatorDashboardProps) => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
       {/* Main Content */}
       <div className="lg:col-span-2 space-y-6">
-        {/* Welcome Card */}
-        <Card className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Welcome back, <strong>Creator</strong></p>
-              <h2 className="text-2xl font-bold">Creator Dashboard</h2>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-muted-foreground">Plan</p>
-              <div className="inline-block px-3 py-1 bg-muted rounded-full font-semibold text-sm mt-1">
-                Pro
+
+        {/* Stats Grid - Styled like Dashboard Preview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-profitiv-purple via-purple-600 to-profitiv-teal">
+            <div className="relative z-10">
+              <h3 className="text-white/80 text-sm font-medium mb-2">Earnings Summary</h3>
+              <p className="text-4xl font-bold text-white mb-1">$4,850</p>
+              <p className="text-white/70 text-sm">This Month</p>
+              <div className="mt-4 h-2 bg-white/20 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-white/80 rounded-full transition-all"
+                  style={{ width: '78%' }}
+                />
               </div>
+              <p className="text-white/70 text-xs mt-2">78% toward monthly goal</p>
             </div>
           </div>
-        </Card>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-2">Active Campaigns</p>
-            <p className="text-4xl font-bold mb-1">{campaigns.filter(c => c.status === 'live').length}</p>
-            <p className="text-sm text-muted-foreground">Live now</p>
-          </Card>
           
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-2">Pending Revenue (est.)</p>
-            <p className="text-4xl font-bold mb-1">$3,200</p>
-            <p className="text-sm text-muted-foreground">Auto-calculated from access fees</p>
-          </Card>
+          <div className="relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900">
+            <div className="relative z-10">
+              <h3 className="text-white/80 text-sm font-medium mb-2">Active Campaigns</h3>
+              <p className="text-4xl font-bold text-white mb-1">{campaigns.filter(c => c.status === 'live').length}</p>
+              <p className="text-white/70 text-sm">Running Campaigns</p>
+              <div className="mt-4 h-2 bg-white/20 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-emerald-400 rounded-full transition-all"
+                  style={{ width: '60%' }}
+                />
+              </div>
+              <p className="text-white/70 text-xs mt-2">3 near completion</p>
+            </div>
+          </div>
           
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-2">Verified Views</p>
-            <p className="text-4xl font-bold mb-1">
-              {campaigns.reduce((sum, c) => sum + c.views, 0).toLocaleString()}
-            </p>
-            <p className="text-sm text-muted-foreground">Quality engagements</p>
-          </Card>
+          <div className="relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500">
+            <div className="relative z-10">
+              <h3 className="text-white/80 text-sm font-medium mb-2">Engagement Tracker</h3>
+              <p className="text-4xl font-bold text-white mb-1">
+                {(campaigns.reduce((sum, c) => sum + c.views, 0) / 1000).toFixed(1)}k
+              </p>
+              <p className="text-white/70 text-sm">Verified Views</p>
+              <div className="mt-4 h-2 bg-white/20 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-white/80 rounded-full transition-all"
+                  style={{ width: '92%' }}
+                />
+              </div>
+              <p className="text-white/70 text-xs mt-2">Goal: 26,500 views</p>
+            </div>
+          </div>
         </div>
 
         {/* Live Campaigns */}

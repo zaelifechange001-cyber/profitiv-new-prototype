@@ -85,41 +85,53 @@ const EarnerDashboard = ({ onOpenMarketplace }: EarnerDashboardProps) => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
       {/* Main Content */}
       <div className="lg:col-span-2 space-y-6">
-        {/* Welcome Card */}
-        <Card className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Welcome back, <strong>Earner</strong></p>
-              <h2 className="text-2xl font-bold">Earner Dashboard</h2>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-muted-foreground">Plan</p>
-              <div className="inline-block px-3 py-1 bg-muted rounded-full font-semibold text-sm mt-1">
-                Builder
+
+        {/* Stats Grid - Styled like Dashboard Preview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-profitiv-purple via-purple-600 to-profitiv-teal">
+            <div className="relative z-10">
+              <h3 className="text-white/80 text-sm font-medium mb-2">Your TIV Balance</h3>
+              <p className="text-4xl font-bold text-white mb-1">{tivBalance.toLocaleString()} TIVs</p>
+              <p className="text-white/70 text-sm">≈ ${(tivBalance * 2).toLocaleString()} USD Value</p>
+              <div className="mt-4 h-2 bg-white/20 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-white/80 rounded-full transition-all"
+                  style={{ width: `${Math.min((tivBalance / 5000) * 100, 100)}%` }}
+                />
               </div>
+              <p className="text-white/70 text-xs mt-2">Goal: 5,000 TIVs</p>
             </div>
           </div>
-        </Card>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-2">TIV Balance</p>
-            <p className="text-4xl font-bold mb-1">{tivBalance.toLocaleString()}</p>
-            <p className="text-sm text-muted-foreground">Available to sell</p>
-          </Card>
           
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-2">Cash Balance</p>
-            <p className="text-4xl font-bold mb-1">${cashBalance}</p>
-            <p className="text-sm text-muted-foreground">Withdrawable via Stripe (after verification)</p>
-          </Card>
+          <div className="relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900">
+            <div className="relative z-10">
+              <h3 className="text-white/80 text-sm font-medium mb-2">Completed Campaigns</h3>
+              <p className="text-4xl font-bold text-white mb-1">{completedCampaigns}</p>
+              <p className="text-white/70 text-sm">Campaigns Finished</p>
+              <div className="mt-4 h-2 bg-white/20 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-emerald-400 rounded-full transition-all"
+                  style={{ width: '90%' }}
+                />
+              </div>
+              <p className="text-white/70 text-xs mt-2">You're in the top 5% of earners!</p>
+            </div>
+          </div>
           
-          <Card className="p-6">
-            <p className="text-sm text-muted-foreground mb-2">Completed Campaigns</p>
-            <p className="text-4xl font-bold mb-1">{completedCampaigns}</p>
-            <p className="text-sm text-muted-foreground">Verified completions</p>
-          </Card>
+          <div className="relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500">
+            <div className="relative z-10">
+              <h3 className="text-white/80 text-sm font-medium mb-2">Withdraw Progress</h3>
+              <p className="text-4xl font-bold text-white mb-1">${cashBalance}</p>
+              <p className="text-white/70 text-sm">Withdrawn This Month</p>
+              <div className="mt-4 h-2 bg-white/20 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-white/80 rounded-full transition-all"
+                  style={{ width: '50%' }}
+                />
+              </div>
+              <p className="text-white/70 text-xs mt-2">Goal: $2,500 this month</p>
+            </div>
+          </div>
         </div>
 
         {/* Available Campaigns */}
