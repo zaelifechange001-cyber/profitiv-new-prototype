@@ -3,6 +3,8 @@ import HeroSection from "@/components/HeroSection";
 import EarningMethods from "@/components/EarningMethods";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Navigation from "@/components/Navigation";
+import HowItWorksEarners from "@/components/HowItWorksEarners";
+import HowItWorksCreators from "@/components/HowItWorksCreators";
 import { BackgroundAnimation } from "@/components/BackgroundAnimation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, CheckCircle, Video, Zap, GraduationCap, Users, Trophy, CoinsIcon, Play, BookOpen, DollarSign, Rocket, Target, BarChart3 } from "lucide-react";
@@ -100,6 +102,9 @@ const Index = () => {
       {activeRole === "earner" && (
         <div className="animate-fade-in">
           <HeroSection />
+
+          {/* How It Works */}
+          <HowItWorksEarners />
 
       {/* Service Description Sections */}
       <section className="py-10 md:py-16 px-5 sm:px-6 lg:px-8 bg-background/50 cv-auto">
@@ -447,6 +452,9 @@ const Index = () => {
               </div>
             </div>
           </section>
+
+          {/* How It Works for Creators */}
+          <HowItWorksCreators />
 
           {/* Creator Features */}
           <section className="py-16 px-4">
