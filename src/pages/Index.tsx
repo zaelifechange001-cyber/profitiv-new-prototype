@@ -349,8 +349,8 @@ const Index = () => {
       {/* Earning Methods */}
       <EarningMethods />
 
-      {/* Earner Dashboard */}
-      <EarnerDashboard />
+      {/* Earner Dashboard Preview */}
+      <EarnerDashboardPreview />
 
       {/* TIV Marketplace for Earners */}
       <TIVMarketplace role="earner" />
@@ -497,9 +497,6 @@ const Index = () => {
 
           {/* Creator Dashboard Preview */}
           <CreatorDashboardPreview />
-
-          {/* Creator Dashboard */}
-          <CreatorDashboard />
 
           {/* Why Creators Choose Profitiv */}
           <CreatorBenefits />
