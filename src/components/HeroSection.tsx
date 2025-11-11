@@ -22,8 +22,8 @@ const HeroSectionComponent = () => {
 
             {/* Main Headline */}
             <div className="space-y-3 md:space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                <span className="text-gradient-hero">Earn From the Brands You Help Grow</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-foreground">
+                Earn From the Brands You Help Grow
               </h1>
               <p className="text-base sm:text-lg lg:text-xl text-foreground/80 max-w-3xl leading-relaxed mx-auto lg:mx-0">
                 Watch, learn, and engage with real creators and brands. Every interaction moves campaigns forward — and every milestone earns you TIV rewards.
