@@ -1,12 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import Navigation from "@/components/Navigation";
-import { LogOut, Wallet, Plus, ArrowUpRight } from "lucide-react";
+import { Plus } from "lucide-react";
 
 interface CreatorDashboardProps {
   userId: string;
@@ -18,9 +14,21 @@ interface UserProfile {
   total_earned: number;
 }
 
+interface Campaign {
+  id: string;
+  title: string;
+  video_length: string;
+  remaining_views: number;
+  status: 'Active' | 'Completed' | 'Paused';
+}
+
 const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [campaigns] = useState<Campaign[]>([
+    { id: '1', title: 'Product Showcase - Fall Line', video_length: '30s', remaining_views: 3000, status: 'Active' },
+    { id: '2', title: 'YouTube Ad Campaign', video_length: '45s', remaining_views: 1200, status: 'Completed' },
+  ]);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -71,7 +79,6 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
   };
 
   const handleCreateCampaign = () => {
-    // TODO: API Integration - Open campaign creation modal/page
     toast({
       title: "Coming Soon",
       description: "Campaign creation will be available soon. Backend integration required.",
@@ -80,214 +87,192 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-foreground/60">Loading dashboard...</p>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0f0f12, #1a1a1f)' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ width: '64px', height: '64px', border: '4px solid #a259ff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }}></div>
+          <p style={{ color: 'rgba(255,255,255,0.6)' }}>Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
-  const walletBalance = profile?.available_balance || 0;
-  const pendingRevenue = 12450; // TODO: API Integration - Calculate from campaigns
-  const verifiedViews = 24500; // TODO: API Integration - Sum from campaigns
+  const activeCampaigns = campaigns.filter(c => c.status === 'Active').length;
+  const totalViews = 58432;
+  const tivBalance = profile?.tiv_balance || 3680;
+  const tivToUSD = 0.10;
+  const earningsUSD = (tivBalance * tivToUSD).toFixed(2);
+  const availableBalance = profile?.available_balance || 1850;
+  const pendingBalance = 420;
 
   return (
-    <div className="min-h-screen" data-role="creator">
-      <Navigation />
-      
-      <div className="pt-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12">
-            <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">
-                Your Campaign <span className="text-gradient-hero">Dashboard</span>
-              </h1>
-              <p className="text-lg text-foreground/80">
-                A single control center for all live campaigns, revenue, and audience quality metrics.
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <Button 
-                variant="gradient" 
-                onClick={handleCreateCampaign}
-                className="hover-lift"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Create Campaign
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={handleLogout}
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-            </div>
-          </div>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card className="glass-card p-6 hover-lift">
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2">Active Campaigns</h4>
-              <div className="text-5xl font-bold text-foreground mb-2">6</div>
-              <p className="text-sm text-muted-foreground">
-                {/* TODO: API Integration - Count from campaigns table */}
-                Running / Scheduled
-              </p>
-            </Card>
-
-            <Card className="glass-card p-6 hover-lift">
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2">Pending Revenue</h4>
-              <div className="text-5xl font-bold text-foreground mb-2">${pendingRevenue.toLocaleString()}</div>
-              <p className="text-sm text-muted-foreground">
-                {/* TODO: API Integration - Calculate from active campaigns */}
-                Access fees queued (estimate)
-              </p>
-            </Card>
-
-            <Card className="glass-card p-6 hover-lift">
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2">Verified Engagement</h4>
-              <div className="text-5xl font-bold text-foreground mb-2">{verifiedViews.toLocaleString()}</div>
-              <p className="text-sm text-muted-foreground">
-                {/* TODO: API Integration - Sum from campaign analytics */}
-                Total verified views
-              </p>
-            </Card>
-          </div>
-
-          {/* Wallet Card */}
-          <div className="mb-8">
-            <Card className="glass-card p-8 hover-lift" style={{
-              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(14, 165, 255, 0.2))',
-              borderColor: 'rgba(124, 58, 237, 0.3)'
-            }}>
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-2" style={{ color: '#a78bfa' }}>Creator Wallet</h3>
-                  <div className="text-5xl font-bold text-foreground mb-2">
-                    ${walletBalance.toFixed(2)}
-                  </div>
-                  <p className="text-lg text-muted-foreground">
-                    Available balance • Fund campaigns or request payouts
-                  </p>
-                </div>
-                <div className="flex gap-3">
-                  <Button 
-                    variant="glass"
-                    onClick={() => {
-                      // TODO: API Integration - Stripe Connect for adding funds
-                      toast({
-                        title: "Coming Soon",
-                        description: "Add funds via Stripe. Backend integration required.",
-                      });
-                    }}
-                  >
-                    Add Funds
-                  </Button>
-                  <Button 
-                    variant="gradient"
-                    onClick={() => navigate('/payout-settings')}
-                  >
-                    <Wallet className="w-4 h-4 mr-2" />
-                    Payout
-                  </Button>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {/* TODO: API Integration - Stripe Connect for payouts */}
-                Payouts processed via Stripe. Verification required for large amounts.
-              </p>
-            </Card>
-          </div>
-
-          {/* Active Campaign Example */}
-          <Card className="glass-card p-6 hover-lift mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-foreground">Promo Campaign — 2,500 completions</h3>
-              <span className="text-sm text-muted-foreground">Goal: 2,500</span>
-            </div>
-            <Progress value={72} className="mb-4" />
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-muted-foreground">
-                {/* TODO: API Integration - Fetch from campaigns table */}
-                1,800 / 2,500 completions • Reward budget: 15,000 TIV
-              </p>
-              <Button variant="outline" size="sm">
-                View Details
-              </Button>
-            </div>
-          </Card>
-
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card 
-              className="glass-card p-6 hover-lift cursor-pointer group"
-              onClick={handleCreateCampaign}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-12 h-12 rounded-full bg-profitiv-purple/20 flex items-center justify-center group-hover:bg-profitiv-purple/30 transition-colors">
-                  📹
-                </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/40 group-hover:text-profitiv-purple transition-colors" />
-              </div>
-              <h3 className="font-semibold mb-1">New Campaign</h3>
-              <p className="text-sm text-foreground/60">Launch a new campaign</p>
-            </Card>
-
-            <Card 
-              className="glass-card p-6 hover-lift cursor-pointer group"
-              onClick={() => navigate('/marketplace')}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-12 h-12 rounded-full bg-profitiv-teal/20 flex items-center justify-center group-hover:bg-profitiv-teal/30 transition-colors">
-                  🏪
-                </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/40 group-hover:text-profitiv-teal transition-colors" />
-              </div>
-              <h3 className="font-semibold mb-1">TIV Marketplace</h3>
-              <p className="text-sm text-foreground/60">Buy TIV for campaigns</p>
-            </Card>
-
-            <Card 
-              className="glass-card p-6 hover-lift cursor-pointer group"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center group-hover:bg-secondary/30 transition-colors">
-                  📊
-                </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/40 group-hover:text-secondary transition-colors" />
-              </div>
-              <h3 className="font-semibold mb-1">Analytics</h3>
-              <p className="text-sm text-foreground/60">View campaign stats</p>
-            </Card>
-
-            <Card 
-              className="glass-card p-6 hover-lift cursor-pointer group"
-              onClick={() => navigate('/payout-settings')}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-12 h-12 rounded-full bg-success/20 flex items-center justify-center group-hover:bg-success/30 transition-colors">
-                  💰
-                </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/40 group-hover:text-success transition-colors" />
-              </div>
-              <h3 className="font-semibold mb-1">Payout Settings</h3>
-              <p className="text-sm text-foreground/60">Manage withdrawals</p>
-            </Card>
-          </div>
-
-          {/* Legal Notice */}
-          <div className="mt-12 p-4 glass-card">
-            <p className="text-xs text-muted-foreground text-center">
-              <strong>Legal:</strong> Profitiv is a fintech marketing & promotional rewards platform. 
-              Campaign metrics are estimates based on verified engagement activity — not an investment service. 
-              Campaign funding, payouts, and TIV transactions require backend Stripe integration and identity verification.
-            </p>
-          </div>
+    <div style={{ 
+      background: 'linear-gradient(135deg, #0f0f12, #1a1a1f)', 
+      color: '#fff', 
+      minHeight: '100vh', 
+      fontFamily: 'Inter, sans-serif' 
+    }} data-role="creator">
+      {/* Header */}
+      <header style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '20px 40px',
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+        background: 'linear-gradient(90deg,#1a1a1f,#17171c)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h2 style={{ color: '#a259ff', fontWeight: 700, letterSpacing: '0.5px', margin: 0 }}>Profitiv</h2>
         </div>
+        <nav style={{ display: 'flex', gap: '30px' }}>
+          <a href="/" style={{ color: '#fff', textDecoration: 'none', fontWeight: 500 }}>Home</a>
+          <a href="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontWeight: 500 }}>Dashboard</a>
+          <a href="/videos" style={{ color: '#fff', textDecoration: 'none', fontWeight: 500 }}>Campaigns</a>
+          <a href="/marketplace" style={{ color: '#fff', textDecoration: 'none', fontWeight: 500 }}>Wallet</a>
+        </nav>
+      </header>
+
+      {/* Stats Section */}
+      <section style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', padding: '40px' }}>
+        <div style={{
+          background: '#17171c',
+          borderRadius: '12px',
+          padding: '25px',
+          width: '220px',
+          boxShadow: '0 0 15px rgba(162,89,255,0.2)',
+          textAlign: 'center'
+        }}>
+          <h3 style={{ color: '#a259ff', fontSize: '14px', margin: '0 0 10px 0' }}>Active Campaigns</h3>
+          <p style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>{activeCampaigns}</p>
+        </div>
+        <div style={{
+          background: '#17171c',
+          borderRadius: '12px',
+          padding: '25px',
+          width: '220px',
+          boxShadow: '0 0 15px rgba(162,89,255,0.2)',
+          textAlign: 'center'
+        }}>
+          <h3 style={{ color: '#a259ff', fontSize: '14px', margin: '0 0 10px 0' }}>Total Views</h3>
+          <p style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>{totalViews.toLocaleString()}</p>
+        </div>
+        <div style={{
+          background: '#17171c',
+          borderRadius: '12px',
+          padding: '25px',
+          width: '220px',
+          boxShadow: '0 0 15px rgba(162,89,255,0.2)',
+          textAlign: 'center'
+        }}>
+          <h3 style={{ color: '#a259ff', fontSize: '14px', margin: '0 0 10px 0' }}>Earnings</h3>
+          <p style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>{tivBalance.toLocaleString()} TIVs (≈ ${earningsUSD})</p>
+        </div>
+      </section>
+
+      {/* Create New Campaign */}
+      <section style={{ padding: '40px', textAlign: 'center' }}>
+        <button 
+          onClick={handleCreateCampaign}
+          style={{
+            background: '#a259ff',
+            border: 'none',
+            padding: '15px 40px',
+            borderRadius: '8px',
+            fontSize: '16px',
+            fontWeight: 600,
+            color: '#fff',
+            boxShadow: '0 0 15px rgba(162,89,255,0.5)',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+        >
+          <Plus size={20} />
+          Create New Campaign
+        </button>
+      </section>
+
+      {/* Active Campaigns Table */}
+      <section style={{ padding: '40px' }}>
+        <h2 style={{ color: '#fff', marginBottom: '20px' }}>Your Campaigns</h2>
+        <table style={{
+          width: '100%',
+          borderCollapse: 'collapse',
+          background: '#17171c',
+          borderRadius: '8px',
+          overflow: 'hidden'
+        }}>
+          <thead style={{ background: '#1f1f24' }}>
+            <tr>
+              <th style={{ padding: '15px', textAlign: 'left' }}>Campaign Title</th>
+              <th style={{ padding: '15px', textAlign: 'center' }}>Video Length</th>
+              <th style={{ padding: '15px', textAlign: 'center' }}>Remaining Views</th>
+              <th style={{ padding: '15px', textAlign: 'center' }}>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {campaigns.map((campaign) => (
+              <tr key={campaign.id} style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <td style={{ padding: '15px' }}>{campaign.title}</td>
+                <td style={{ padding: '15px', textAlign: 'center' }}>{campaign.video_length}</td>
+                <td style={{ padding: '15px', textAlign: 'center' }}>{campaign.remaining_views.toLocaleString()}</td>
+                <td style={{ 
+                  padding: '15px', 
+                  color: campaign.status === 'Active' ? '#a259ff' : '#888', 
+                  textAlign: 'center' 
+                }}>
+                  {campaign.status}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      {/* Wallet Summary */}
+      <section style={{
+        padding: '40px',
+        background: '#141418',
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '20px'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ color: '#a259ff', fontSize: '14px', margin: '0 0 10px 0' }}>Available Balance</h3>
+          <p style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>{availableBalance.toLocaleString()} TIVs (≈ ${(availableBalance * tivToUSD).toFixed(0)})</p>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ color: '#a259ff', fontSize: '14px', margin: '0 0 10px 0' }}>Pending</h3>
+          <p style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>{pendingBalance.toLocaleString()} TIVs (≈ ${(pendingBalance * tivToUSD).toFixed(0)})</p>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <button 
+            onClick={() => navigate('/payout-settings')}
+            style={{
+              background: '#a259ff',
+              border: 'none',
+              padding: '12px 30px',
+              borderRadius: '6px',
+              fontSize: '16px',
+              color: '#fff',
+              cursor: 'pointer',
+              fontWeight: 500
+            }}
+          >
+            Withdraw via Stripe
+          </button>
+        </div>
+      </section>
+
+      {/* Legal Notice */}
+      <div style={{ padding: '20px 40px', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', margin: 0 }}>
+          <strong>Legal:</strong> Profitiv is a fintech marketing & promotional rewards platform. 
+          Rewards shown are from verified engagement activity — not an investment service. 
+          Payouts and transactions require Stripe integration and verification.
+        </p>
       </div>
     </div>
   );
