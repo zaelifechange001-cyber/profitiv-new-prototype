@@ -77,6 +77,13 @@ const Index = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Redirect to dashboard if user is logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
   if (loading) {
     return (
       <div className="min-h-screen">
@@ -88,9 +95,7 @@ const Index = () => {
     );
   }
 
-  // If user is logged in, redirect to dashboard
   if (user) {
-    navigate("/dashboard");
     return null;
   }
 
