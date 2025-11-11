@@ -124,14 +124,17 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
 
           {/* TIV Balance Card - Featured */}
           <div className="mb-8">
-            <Card className="glass-card p-8 hover-lift bg-gradient-to-br from-profitiv-teal/10 to-profitiv-purple/10">
+            <Card className="glass-card p-8 hover-lift" style={{
+              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(14, 165, 255, 0.2))',
+              borderColor: 'rgba(124, 58, 237, 0.3)'
+            }}>
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-profitiv-purple mb-2">Your TIV Balance</h3>
+                  <h3 className="text-lg font-semibold mb-2" style={{ color: '#a78bfa' }}>Your TIV Balance</h3>
                   <div className="text-5xl font-bold text-foreground mb-2">
                     {tivBalance.toLocaleString()} TIVs
                   </div>
-                  <p className="text-xl text-foreground/60">≈ ${tivUsdValue.toFixed(2)} USD Value</p>
+                  <p className="text-xl text-muted-foreground">≈ ${tivUsdValue.toFixed(2)} USD Value</p>
                 </div>
                 <Button 
                   variant="glass" 
@@ -173,16 +176,16 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
           {/* Active Campaign Card */}
           <Card className="glass-card p-6 hover-lift mb-8">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-foreground">Campaign Video — 1,000 views</h3>
+              <h3 className="text-xl font-bold text-foreground">Featured Campaign — 1,000 completions</h3>
               <span className="text-sm text-profitiv-teal font-semibold">Reward: 15 TIV</span>
             </div>
             <Progress value={56} className="mb-4" />
             <div className="flex justify-between items-center">
               <p className="text-sm text-muted-foreground">
                 {/* TODO: API Integration - Fetch from campaigns table */}
-                Join the pool • Your stake: $5 • Expected reward when goal met
+                560 / 1,000 completed • Expected reward upon completion
               </p>
-              <Button variant="gradient" size="sm">
+              <Button variant="gradient" size="sm" onClick={() => navigate('/videos')}>
                 Watch & Earn
               </Button>
             </div>
@@ -250,9 +253,9 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
           {/* Legal Notice */}
           <div className="mt-12 p-4 glass-card">
             <p className="text-xs text-muted-foreground text-center">
-              <strong>Legal:</strong> Rewards shown here are earned from verified engagement activity on Profitiv. 
-              This platform is a marketing & engagement service — not an investment product. 
-              Withdrawals, payouts, and marketplace trades require backend payment integration and verification.
+              <strong>Legal:</strong> Profitiv is a fintech marketing & promotional rewards platform. 
+              Rewards are earned from verified engagement with brand campaigns — not an investment service. 
+              Withdrawals and TIV trades require backend payment integration and identity verification.
             </p>
           </div>
         </div>

@@ -160,15 +160,18 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
 
           {/* Wallet Card */}
           <div className="mb-8">
-            <Card className="glass-card p-8 hover-lift bg-gradient-to-br from-profitiv-purple/10 to-profitiv-teal/10">
+            <Card className="glass-card p-8 hover-lift" style={{
+              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(14, 165, 255, 0.2))',
+              borderColor: 'rgba(124, 58, 237, 0.3)'
+            }}>
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-profitiv-purple mb-2">Creator Wallet</h3>
+                  <h3 className="text-lg font-semibold mb-2" style={{ color: '#a78bfa' }}>Creator Wallet</h3>
                   <div className="text-5xl font-bold text-foreground mb-2">
                     ${walletBalance.toFixed(2)}
                   </div>
-                  <p className="text-lg text-foreground/60">
-                    Available balance • Use to fund campaigns or request payouts
+                  <p className="text-lg text-muted-foreground">
+                    Available balance • Fund campaigns or request payouts
                   </p>
                 </div>
                 <div className="flex gap-3">
@@ -195,7 +198,7 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
               </div>
               <p className="text-sm text-muted-foreground">
                 {/* TODO: API Integration - Stripe Connect for payouts */}
-                Payouts processed automatically via Stripe. Requires verification for large amounts.
+                Payouts processed via Stripe. Verification required for large amounts.
               </p>
             </Card>
           </div>
@@ -203,14 +206,14 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
           {/* Active Campaign Example */}
           <Card className="glass-card p-6 hover-lift mb-8">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-foreground">Promo Campaign — 2,500 views</h3>
+              <h3 className="text-xl font-bold text-foreground">Promo Campaign — 2,500 completions</h3>
               <span className="text-sm text-muted-foreground">Goal: 2,500</span>
             </div>
             <Progress value={72} className="mb-4" />
             <div className="flex justify-between items-center">
               <p className="text-sm text-muted-foreground">
                 {/* TODO: API Integration - Fetch from campaigns table */}
-                Reward pool: 15,000 TIV • Access fee split managed by platform
+                1,800 / 2,500 completions • Reward budget: 15,000 TIV
               </p>
               <Button variant="outline" size="sm">
                 View Details
@@ -279,9 +282,9 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
           {/* Legal Notice */}
           <div className="mt-12 p-4 glass-card">
             <p className="text-xs text-muted-foreground text-center">
-              <strong>Legal:</strong> Campaign metrics shown are estimates based on current engagement. 
-              Profitiv is a marketing & engagement platform — not an investment service. 
-              All campaign funding, payouts, and TIV transactions require backend integration with Stripe and verification systems.
+              <strong>Legal:</strong> Profitiv is a fintech marketing & promotional rewards platform. 
+              Campaign metrics are estimates based on verified engagement activity — not an investment service. 
+              Campaign funding, payouts, and TIV transactions require backend Stripe integration and identity verification.
             </p>
           </div>
         </div>
