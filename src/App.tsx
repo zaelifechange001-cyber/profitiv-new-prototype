@@ -38,53 +38,53 @@ const App = () => {
   
   return (
     <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <OAuthErrorHandler />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/earn" element={<EarnPage />} />
-          <Route path="/videos" element={<VideosPage />} />
-          <Route path="/spin-to-win" element={<SpinToWinPage />} />
-          <Route path="/learn-earn" element={<LearnEarnPage />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
-          <Route path="/affiliate" element={<AffiliatePage />} />
-          <Route path="/pools/:type" element={<PoolsPage />} />
-          <Route path="/pools" element={<PoolsPage />} />
-          <Route path="/payout-settings" element={<PayoutSettings />} />
-          <Route path="/pricing" element={<SubscriptionsPage />} />
-          <Route path="/subscriptions" element={<SubscriptionsPage />} />
-          
-          {/* Creators Routes */}
-          <Route path="/creators" element={<CreatorsLanding />} />
-          <Route path="/creators/dashboard" element={<CreatorsDashboard />} />
-          
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminOverview />} />
-            <Route path="users" element={<AdminUsers />} />
-            <Route path="financial" element={<AdminFinancial />} />
-            <Route path="videos" element={<AdminVideos />} />
-            <Route path="courses" element={<AdminCourses />} />
-            <Route path="pools" element={<AdminPools />} />
-            <Route path="services" element={<AdminServices />} />
-            <Route path="tiv-market" element={<AdminTIVMarket />} />
-            <Route path="withdrawals" element={<AdminWithdrawals />} />
-            <Route path="subscriptions" element={<AdminSubscriptions />} />
-            <Route path="logs" element={<AdminLogs />} />
-          </Route>
-          
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </TooltipProvider>
-    </BrowserRouter>
-  </QueryClientProvider>
-);
+      <BrowserRouter>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <OAuthErrorHandler />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/earn" element={<EarnPage />} />
+            <Route path="/videos" element={<VideosPage />} />
+            <Route path="/spin-to-win" element={<SpinToWinPage />} />
+            <Route path="/learn-earn" element={<LearnEarnPage />} />
+            <Route path="/marketplace" element={<MarketplacePage />} />
+            <Route path="/affiliate" element={<AffiliatePage />} />
+            <Route path="/pools/:type" element={<PoolsPage />} />
+            <Route path="/pools" element={<PoolsPage />} />
+            <Route path="/payout-settings" element={<PayoutSettings />} />
+            <Route path="/pricing" element={<SubscriptionsPage />} />
+            <Route path="/subscriptions" element={<SubscriptionsPage />} />
+            
+            {/* Creators Routes */}
+            <Route path="/creators" element={<CreatorsLanding />} />
+            <Route path="/creators/dashboard" element={<CreatorsDashboard />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminOverview />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="financial" element={<AdminFinancial />} />
+              <Route path="videos" element={<AdminVideos />} />
+              <Route path="courses" element={<AdminCourses />} />
+              <Route path="pools" element={<AdminPools />} />
+              <Route path="services" element={<AdminServices />} />
+              <Route path="tiv-market" element={<AdminTIVMarket />} />
+              <Route path="withdrawals" element={<AdminWithdrawals />} />
+              <Route path="subscriptions" element={<AdminSubscriptions />} />
+              <Route path="logs" element={<AdminLogs />} />
+            </Route>
+            
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </TooltipProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
 };
 
 export default App;
