@@ -372,61 +372,112 @@ const Index = () => {
       {activeRole === "creator" && (
         <div className="animate-fade-in">
           {/* Creator Hero */}
-          <section className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background pointer-events-none" />
-            <div className="max-w-4xl mx-auto text-center relative z-10">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-                Creators & Brands
-              </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-                The platform that connects creators and brands
-              </p>
-            </div>
-          </section>
-
-          {/* Three Feature Cards */}
-          <section className="py-16 px-4 sm:px-6 lg:px-8 bg-background/50 relative">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Sign Up Card */}
-                <div className="glass-card p-8 text-center hover-lift">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                    </svg>
+          <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-8 md:pt-36 md:pb-12">
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-background via-profitiv-purple/10 to-profitiv-teal/10" />
+            <div className="absolute top-20 left-10 w-48 h-48 md:w-72 md:h-72 bg-profitiv-purple/20 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-20 right-10 w-64 h-64 md:w-96 md:h-96 bg-profitiv-teal/20 rounded-full blur-3xl animate-pulse delay-1000" />
+            
+            <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+                {/* Left Column - Main Content */}
+                <div className="text-center lg:text-left space-y-5 md:space-y-7">
+                  {/* Hero Badge */}
+                  <div className="inline-flex items-center space-x-2 glass-card px-4 py-2.5 rounded-full">
+                    <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
+                    <span className="text-xs md:text-sm font-medium text-success">Live Now - Join 1,000+ Active Creators</span>
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Sign Up</h3>
-                  <p className="text-muted-foreground">
-                    Join Profitiv and set up your creator or brand profile
-                  </p>
+
+                  {/* Main Headline */}
+                  <div className="space-y-3 md:space-y-4">
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-foreground">
+                      Where Your Content Works Harder — Powered by Real Engagement
+                    </h1>
+                    <p className="text-base sm:text-lg lg:text-xl text-foreground/80 max-w-3xl leading-relaxed mx-auto lg:mx-0">
+                      Launch campaigns that don't just get views — they build momentum. Profitiv connects your brand with earners who turn attention into real impact.
+                    </p>
+                    <p className="text-sm sm:text-base text-foreground/60 italic max-w-3xl mx-auto lg:mx-0">
+                      Start a campaign → Grow your reach → Reward engagement.
+                    </p>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-4 sm:gap-6 max-w-md mx-auto lg:mx-0">
+                    <div className="text-center lg:text-left">
+                      <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gradient-hero">$500K+</div>
+                      <div className="text-xs text-foreground/60">Revenue Share</div>
+                    </div>
+                    <div className="text-center lg:text-left">
+                      <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gradient-hero">5K+</div>
+                      <div className="text-xs text-foreground/60">Creators</div>
+                    </div>
+                    <div className="text-center lg:text-left">
+                      <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gradient-hero">24/7</div>
+                      <div className="text-xs text-foreground/60">Support</div>
+                    </div>
+                  </div>
+
+                  {/* CTA Buttons */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 max-w-md mx-auto lg:mx-0">
+                    <Button variant="hero" size="hero" className="group w-full sm:w-auto min-h-[52px]" onClick={() => window.location.href = '/auth'}>
+                      Launch Your Campaign
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                    <Button variant="glass" size="hero" className="w-full sm:w-auto min-h-[52px]" onClick={(e) => e.preventDefault()}>
+                      Watch Demo
+                      <Play className="w-5 h-5" />
+                    </Button>
+                  </div>
                 </div>
 
-                {/* Launch Campaigns Card */}
-                <div className="glass-card p-8 text-center hover-lift">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">Launch Campaigns</h3>
-                  <p className="text-muted-foreground">
-                    Create branded campaigns or apply for contributor opportunities
-                  </p>
-                </div>
+                {/* Right Column - Campaign Dashboard */}
+                <div className="flex justify-center lg:justify-end mt-6 lg:mt-0">
+                  <div className="max-w-md w-full">
+                    <div className="glass-card p-6 glow-pulse">
+                      {/* Header */}
+                      <h2 className="text-xl md:text-2xl font-bold text-white mb-5">
+                        Your Campaign <span className="text-foreground/60">Dashboard</span>
+                      </h2>
 
-                {/* Earn & Collaborate Card */}
-                <div className="glass-card p-8 text-center hover-lift">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                      {/* Active Campaigns */}
+                      <div className="glass-card p-5 mb-5 bg-gradient-to-br from-profitiv-purple/20 to-profitiv-teal/20">
+                        <div className="text-center">
+                          <p className="text-sm text-foreground/60 mb-2">Active Campaigns</p>
+                          <div className="text-3xl md:text-4xl font-bold text-white mb-1">8</div>
+                          <div className="text-sm text-profitiv-teal font-medium">+3 this week</div>
+                        </div>
+                      </div>
+
+                      {/* Campaign Stats */}
+                      <div className="mb-5">
+                        <h3 className="text-base md:text-lg font-semibold text-white mb-3">Campaign Stats</h3>
+                        <div className="space-y-2.5">
+                          <div className="flex items-center justify-between p-3.5 rounded-lg bg-background/10 backdrop-blur-sm min-h-[48px]">
+                            <div className="flex items-center space-x-3">
+                              <BarChart3 className="w-5 h-5 text-profitiv-teal flex-shrink-0" />
+                              <span className="text-white text-sm md:text-base">Total Views</span>
+                            </div>
+                            <span className="text-profitiv-teal font-semibold text-sm md:text-base">125K</span>
+                          </div>
+                          <div className="flex items-center justify-between p-3.5 rounded-lg bg-background/10 backdrop-blur-sm min-h-[48px]">
+                            <div className="flex items-center space-x-3">
+                              <Users className="w-5 h-5 text-profitiv-teal flex-shrink-0" />
+                              <span className="text-white text-sm md:text-base">Engaged Users</span>
+                            </div>
+                            <span className="text-profitiv-teal font-semibold text-sm md:text-base">92%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* View Dashboard Button */}
+                      <Button variant="gradient" className="w-full min-h-[48px] text-base" onClick={(e) => e.preventDefault()}>
+                        View Full Dashboard
+                      </Button>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Earn & Collaborate</h3>
-                  <p className="text-muted-foreground">
-                    Collaborate with brands and earn for your creative work
-                  </p>
                 </div>
               </div>
+
             </div>
           </section>
 
