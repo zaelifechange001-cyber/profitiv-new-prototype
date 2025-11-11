@@ -29,7 +29,7 @@ export default function PoolsPage() {
   const [pools, setPools] = useState<CommunityPool[]>([]);
   const [userParticipations, setUserParticipations] = useState<Set<string>>(new Set());
   const [selectedPool, setSelectedPool] = useState<CommunityPool | null>(null);
-  const [investmentAmount, setInvestmentAmount] = useState("");
+  const [entryAmount, setEntryAmount] = useState("");
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -90,11 +90,11 @@ export default function PoolsPage() {
   const handleJoinPool = async () => {
     if (!selectedPool) return;
 
-    const amount = parseFloat(investmentAmount);
+    const amount = parseFloat(entryAmount);
     if (isNaN(amount) || amount < selectedPool.min_investment) {
       toast({
         title: "Invalid Amount",
-        description: `Minimum investment is $${selectedPool.min_investment}`,
+        description: `Minimum entry amount is $${selectedPool.min_investment}`,
         variant: "destructive",
       });
       return;
@@ -151,7 +151,7 @@ export default function PoolsPage() {
       // Log activity
       await supabase.from("user_activities").insert({
         user_id: user.id,
-        activity_type: "investment",
+        activity_type: "pool_entry",
         description: `Joined pool: ${selectedPool.pool_name}`,
         amount: -amount,
       });
@@ -162,7 +162,7 @@ export default function PoolsPage() {
       });
 
       setSelectedPool(null);
-      setInvestmentAmount("");
+      setEntryAmount("");
       fetchPools();
       fetchUserParticipations();
     } catch (error: any) {
@@ -232,7 +232,7 @@ export default function PoolsPage() {
               {type && <span className="text-foreground/60"> - {type}</span>}
             </h1>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              Join investment pools and earn together
+              Join community pools and earn together
             </p>
           </div>
 
@@ -253,7 +253,7 @@ export default function PoolsPage() {
               <div className="text-3xl font-bold text-gradient-hero mb-2">
                 ${pools.reduce((sum, p) => sum + Number(p.current_amount), 0).toFixed(2)}
               </div>
-              <p className="text-foreground/60">Total Invested</p>
+              <p className="text-foreground/60">Total in Pools</p>
             </div>
             <div className="glass-card p-6 text-center">
               <Trophy className="w-8 h-8 mx-auto mb-3 text-warning" />
@@ -310,7 +310,7 @@ export default function PoolsPage() {
 
                       <div className="grid grid-cols-2 gap-4 text-sm py-3 border-t border-border/50">
                         <div>
-                          <p className="text-foreground/60">Min Investment</p>
+                          <p className="text-foreground/60">Min Entry</p>
                           <p className="font-bold text-gradient-hero">${Number(pool.min_investment).toFixed(2)}</p>
                         </div>
                         <div>
@@ -325,7 +325,7 @@ export default function PoolsPage() {
                       <Button
                         onClick={() => {
                           setSelectedPool(pool);
-                          setInvestmentAmount(pool.min_investment.toString());
+                          setEntryAmount(pool.min_investment.toString());
                         }}
                         disabled={joined}
                         variant="gradient"
@@ -346,18 +346,18 @@ export default function PoolsPage() {
             <DialogHeader>
               <DialogTitle>Join {selectedPool?.pool_name}</DialogTitle>
               <DialogDescription>
-                Enter your investment amount to join this pool
+                Enter your participation amount to join this pool
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label>Investment Amount ($)</Label>
+                <Label>Participation Amount ($)</Label>
                 <Input
                   type="number"
                   step="0.01"
                   min={selectedPool?.min_investment}
-                  value={investmentAmount}
-                  onChange={(e) => setInvestmentAmount(e.target.value)}
+                  value={entryAmount}
+                  onChange={(e) => setEntryAmount(e.target.value)}
                   placeholder={`Min: $${selectedPool?.min_investment}`}
                 />
                 <p className="text-xs text-muted-foreground mt-1">

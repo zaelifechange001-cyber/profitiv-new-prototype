@@ -463,7 +463,7 @@ const Index = () => {
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Dashboard</a></li>
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Earn Money</a></li>
                 <li><a href="#" className="hover:text-profitiv-teal transition-colors">Affiliates</a></li>
-                <li><a href="#" className="hover:text-profitiv-teal transition-colors">Investments</a></li>
+                <li><a href="#" className="hover:text-profitiv-teal transition-colors">Pools</a></li>
               </ul>
             </div>
             

@@ -174,7 +174,7 @@ const EarnPage = () => {
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Video Investment Pools */}
+                {/* Video Participation Pools */}
                 <Link to="/pools/video" className="group">
                   <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-cyan-600/10 border border-cyan-500/20 p-6 hover:border-cyan-500/40 transition-all duration-300 hover:scale-[1.02] h-full">
                     <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-gradient-to-tl from-cyan-500/20 to-blue-600/20 rounded-full blur-3xl" />
@@ -192,7 +192,7 @@ const EarnPage = () => {
                         </div>
                       </div>
                       
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">Video Investment Pools</h3>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">Video Participation Pools</h3>
                       <p className="text-sm text-foreground/60 mb-6 line-clamp-2">
                         Join other users in funding a video campaign. Once the community reaches the target views, your deposit flips into profit.
                       </p>
@@ -297,7 +297,7 @@ const EarnPage = () => {
                         </div>
                         <div className="flex flex-col items-end gap-1">
                           <div className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-xs font-medium text-emerald-400">
-                            Invest & Learn
+                            Participate & Learn
                           </div>
                           <div className="text-xs text-foreground/50">1-2 weeks</div>
                         </div>
@@ -305,7 +305,7 @@ const EarnPage = () => {
                       
                       <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">Learning Pools</h3>
                       <p className="text-sm text-foreground/60 mb-6 line-clamp-2">
-                        Users invest together in community learning campaigns. When enough people finish the course, everyone doubles their investment.
+                        Users participate together in community learning campaigns. When enough people finish the course, everyone doubles their rewards.
                       </p>
 
                       <div className="flex items-end justify-between">

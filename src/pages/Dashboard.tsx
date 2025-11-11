@@ -55,7 +55,7 @@ const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [activities, setActivities] = useState<UserActivity[]>([]);
-  const [activeInvestments, setActiveInvestments] = useState<any[]>([]);
+  const [activeParticipations, setActiveParticipations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -180,7 +180,7 @@ const Dashboard = () => {
       case 'spin':
       case 'spin to win':
         return Sparkles;
-      case 'investment':
+      case 'pool_participation':
         return TrendingUp;
       case 'quiz':
       case 'learning':
@@ -198,7 +198,7 @@ const Dashboard = () => {
       case 'spin':
       case 'spin to win':
         return 'text-profitiv-purple';
-      case 'investment':
+      case 'pool_participation':
         return 'text-success';
       case 'quiz':
       case 'learning':
@@ -211,7 +211,7 @@ const Dashboard = () => {
   useEffect(() => {
     let isMounted = true;
 
-    const fetchActiveInvestments = async () => {
+    const fetchActiveParticipations = async () => {
       if (!user) return;
       
       try {
@@ -227,13 +227,13 @@ const Dashboard = () => {
         if (!isMounted) return;
         
         if (error) throw error;
-        setActiveInvestments(data || []);
+        setActiveParticipations(data || []);
       } catch (error) {
-        console.error('Error fetching investments:', error);
+        console.error('Error fetching pool participations:', error);
       }
     };
 
-    fetchActiveInvestments();
+    fetchActiveParticipations();
 
     return () => {
       isMounted = false;
@@ -366,24 +366,24 @@ const Dashboard = () => {
               </CardContent>
             </div>
 
-            {/* Total Amount Invested */}
+            {/* Total Amount in Pools */}
             <div className="glass-card p-6 hover-lift">
               <CardHeader className="p-0 mb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium text-foreground/60">Total Amount Invested</CardTitle>
+                  <CardTitle className="text-sm font-medium text-foreground/60">Total in Active Pools</CardTitle>
                   <TrendingUp className="w-4 h-4 text-secondary" />
                 </div>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="text-3xl font-bold text-gradient-hero mb-1">
-                  ${activeInvestments.reduce((sum, inv) => sum + Number(inv.investment_amount), 0).toFixed(2)}
+                  ${activeParticipations.reduce((sum, inv) => sum + Number(inv.investment_amount), 0).toFixed(2)}
                 </div>
                 <div className="flex items-center space-x-1">
                   <ArrowUpRight className="w-4 h-4 text-success" />
-                  <span className="text-sm text-success">{activeInvestments.length}</span>
-                  <span className="text-sm text-foreground/60">investments</span>
+                  <span className="text-sm text-success">{activeParticipations.length}</span>
+                  <span className="text-sm text-foreground/60">active pools</span>
                 </div>
-                <p className="text-xs text-foreground/50 mt-2">Total invested in Profitiv</p>
+                <p className="text-xs text-foreground/50 mt-2">Total amount in community pools</p>
               </CardContent>
             </div>
 
@@ -410,43 +410,43 @@ const Dashboard = () => {
 
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Active Investments Table */}
+            {/* Active Pool Participation */}
             <div className="glass-card p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold">Active Investments</h3>
+                <h3 className="text-xl font-semibold">Active Pool Participation</h3>
                 <Button variant="glass" size="sm">View All</Button>
               </div>
               
               <div className="space-y-4">
-                {activeInvestments.length > 0 ? (
-                  activeInvestments.map((investment) => (
-                    <div key={investment.id} className="earning-card p-4">
+                {activeParticipations.length > 0 ? (
+                  activeParticipations.map((participation) => (
+                    <div key={participation.id} className="earning-card p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div>
-                          <h4 className="font-medium">{investment.pool?.pool_name || 'Pool'}</h4>
+                          <h4 className="font-medium">{participation.pool?.pool_name || 'Pool'}</h4>
                           <p className="text-sm text-foreground/60">
-                            Joined {new Date(investment.joined_at).toLocaleDateString()}
+                            Joined {new Date(participation.joined_at).toLocaleDateString()}
                           </p>
                         </div>
                         <div className="badge badge-success">
-                          {investment.pool?.status || 'Active'}
+                          {participation.pool?.status || 'Active'}
                         </div>
                       </div>
                       
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <p className="text-foreground/60">Investment Amount</p>
-                          <p className="font-semibold">${investment.investment_amount.toFixed(2)}</p>
+                          <p className="text-foreground/60">Your Entry Amount</p>
+                          <p className="font-semibold">${participation.investment_amount.toFixed(2)}</p>
                         </div>
                         <div>
                           <p className="text-foreground/60">Pool Goal</p>
-                          <p className="font-semibold text-success">${investment.pool?.goal_amount.toFixed(2)}</p>
+                          <p className="font-semibold text-success">${participation.pool?.goal_amount.toFixed(2)}</p>
                         </div>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p className="text-center text-foreground/60 py-8">No active investments yet</p>
+                  <p className="text-center text-foreground/60 py-8">No active pool participation yet</p>
                 )}
               </div>
             </div>

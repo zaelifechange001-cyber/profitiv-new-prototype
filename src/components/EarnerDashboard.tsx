@@ -38,7 +38,7 @@ const EarnerDashboard = () => {
 
         <Card className="glass-card p-6 hover-lift">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-foreground">Investment Video — 1,000 views</h3>
+            <h3 className="text-xl font-bold text-foreground">Campaign Video — 1,000 views</h3>
             <span className="text-sm text-profitiv-teal font-semibold">Reward: 15 TIV</span>
           </div>
           <Progress value={56} className="mb-4" />

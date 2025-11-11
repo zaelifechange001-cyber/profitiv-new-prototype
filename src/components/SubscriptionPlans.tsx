@@ -57,7 +57,7 @@ const plans = [
     description: "For serious earners and business builders",
     features: [
       "All Premium tier benefits",
-      "Double video returns (2x investment)",
+      "Double video rewards (2x entry)",
       "VIP affiliate offers (20% commission)",
       "Instant payouts (no minimum)",
       "Personal account manager",

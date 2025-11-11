@@ -55,7 +55,7 @@ const individualEarnings = [
 const communityPools = [
   {
     icon: Video,
-    title: "Video Investment Pools",
+    title: "Video Participation Pools",
     description: "Join other users in funding a video campaign. Once the community reaches the target views, your deposit flips into profit",
     earnings: "2x - 3x returns",
     time: "24-48 hours",
@@ -78,7 +78,7 @@ const communityPools = [
     color: "from-purple-500 to-indigo-600",
     features: [
       "Team pooling system",
-      "Shared investment",
+      "Shared participation",
       "Higher returns together",
       "Community rewards"
     ]
@@ -101,7 +101,7 @@ const communityPools = [
   {
     icon: BookOpen,
     title: "Learning Pools",
-    description: "Users invest together in community learning campaigns. When enough people finish the course, everyone doubles their investment",
+    description: "Users participate together in community learning campaigns. When enough people finish the course, everyone doubles their rewards",
     earnings: "2x returns",
     time: "1-2 weeks",
     difficulty: "Intermediate",
@@ -109,7 +109,7 @@ const communityPools = [
     features: [
       "Community courses",
       "Shared learning goals",
-      "Doubled investments",
+      "Doubled rewards",
       "Educational rewards"
     ]
   }
