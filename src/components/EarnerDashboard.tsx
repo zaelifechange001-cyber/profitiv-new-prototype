@@ -192,20 +192,85 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
     >
       <style>{`
         #profitiv-app, #profitiv-app * { box-sizing: border-box; }
-        @keyframes pulseGlow { 0% { box-shadow: 0 0 10px rgba(162,89,255,0.5); } 50% { box-shadow: 0 0 25px rgba(162,89,255,0.7); } 100% { box-shadow: 0 0 10px rgba(162,89,255,0.5); } }
+
+        /* Animated background layer to match Creator and avoid inline override */
+        #profitiv-app[data-role='earner'] { position: relative; }
+        #profitiv-app[data-role='earner']::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, #0a0514, #180f2e, #291c4b);
+          background-size: 400% 400%;
+          animation: profitivPulse 16s ease infinite;
+          z-index: 0;
+          pointer-events: none;
+        }
+        #profitiv-app[data-role='earner'] > * { position: relative; z-index: 1; }
+
+        @keyframes profitivPulse {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulseGlow {
+          0% { box-shadow: 0 0 10px rgba(162,89,255,0.5); }
+          50% { box-shadow: 0 0 25px rgba(162,89,255,0.7); }
+          100% { box-shadow: 0 0 10px rgba(162,89,255,0.5); }
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .pv-card { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(1,2,6,0.5); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); }
-        .pv-stat-card { background: linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(0,191,255,0.2) 100%); border-radius: 20px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+
+        /* Neon glow accents aligned with Creator look */
+        .pv-card {
+          background: rgba(22, 15, 40, 0.6);
+          border-radius: 16px;
+          padding: 24px;
+          box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          backdrop-filter: blur(12px);
+        }
+        .pv-stat-card {
+          background: linear-gradient(135deg, rgba(124,58,237,0.28) 0%, rgba(0,191,255,0.18) 100%);
+          border-radius: 20px;
+          padding: 24px;
+          box-shadow: 0 0 22px rgba(139, 92, 246, 0.25);
+          border: 1px solid rgba(139, 92, 246, 0.22);
+          backdrop-filter: blur(12px);
+        }
         .pv-card h4 { margin: 0 0 8px; color: #E9F0FF; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; }
         .pv-card .big { font-size: 32px; font-weight: 800; margin-top: 8px; color: #FFFFFF; }
         .pv-stat-card .big { font-size: 36px; }
-        .pv-btn-primary { padding: 12px 20px; border-radius: 12px; border: 0; cursor: pointer; font-weight: 700; background: linear-gradient(90deg, #7c3aed, #00bfff); color: #fff; transition: transform 0.2s; }
-        .pv-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,191,255,0.3); }
-        .pv-btn-ghost { padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #E9F0FF; transition: all 0.2s; }
+
+        .pv-btn-primary {
+          padding: 12px 20px;
+          border-radius: 12px;
+          border: 0;
+          cursor: pointer;
+          font-weight: 700;
+          background: #8b5cf6;
+          color: #fff;
+          transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+        .pv-btn-primary:hover {
+          transform: translateY(-2px);
+          background: #9b6df9;
+          box-shadow: 0 0 25px rgba(139, 92, 246, 0.75);
+        }
+        .pv-btn-ghost {
+          padding: 12px 20px;
+          border-radius: 12px;
+          cursor: pointer;
+          font-weight: 700;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.15);
+          color: #E9F0FF;
+          transition: all 0.2s;
+        }
         .pv-btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
         .pv-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #E9F0FF; }
         .bar { height: 12px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; }
-        .bar-fill { display: block; height: 100%; background: linear-gradient(90deg, #00bfff, #7c3aed); transition: width 0.6s ease; box-shadow: 0 0 10px rgba(0,191,255,0.5); }
+        .bar-fill { display: block; height: 100%; background: linear-gradient(90deg, #00bfff, #7c3aed); transition: width 0.6s ease; box-shadow: 0 0 10px rgba(0,191,255,0.45); }
         .muted { color: #B9C2E6; font-size: 13px; }
       `}</style>
 
