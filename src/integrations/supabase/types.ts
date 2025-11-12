@@ -479,24 +479,45 @@ export type Database = {
           created_at: string | null
           features: Json | null
           id: string
+          max_campaigns: number | null
+          max_target_views: number | null
+          monthly_cap: number | null
           name: string
+          payout_delay_days: number | null
           price: number
+          revenue_share_percent: number | null
+          role: string | null
+          weekly_cap: number | null
         }
         Insert: {
           active?: boolean | null
           created_at?: string | null
           features?: Json | null
           id?: string
+          max_campaigns?: number | null
+          max_target_views?: number | null
+          monthly_cap?: number | null
           name: string
+          payout_delay_days?: number | null
           price: number
+          revenue_share_percent?: number | null
+          role?: string | null
+          weekly_cap?: number | null
         }
         Update: {
           active?: boolean | null
           created_at?: string | null
           features?: Json | null
           id?: string
+          max_campaigns?: number | null
+          max_target_views?: number | null
+          monthly_cap?: number | null
           name?: string
+          payout_delay_days?: number | null
           price?: number
+          revenue_share_percent?: number | null
+          role?: string | null
+          weekly_cap?: number | null
         }
         Relationships: []
       }
@@ -665,6 +686,7 @@ export type Database = {
           expires_at: string | null
           id: string
           plan_id: string | null
+          role: string | null
           started_at: string | null
           status: string
           user_id: string
@@ -674,6 +696,7 @@ export type Database = {
           expires_at?: string | null
           id?: string
           plan_id?: string | null
+          role?: string | null
           started_at?: string | null
           status?: string
           user_id: string
@@ -683,6 +706,7 @@ export type Database = {
           expires_at?: string | null
           id?: string
           plan_id?: string | null
+          role?: string | null
           started_at?: string | null
           status?: string
           user_id?: string
@@ -814,10 +838,7 @@ export type Database = {
         }
         Returns: Json
       }
-      buy_tiv_from_marketplace: {
-        Args: { _listing_id: string }
-        Returns: Json
-      }
+      buy_tiv_from_marketplace: { Args: { _listing_id: string }; Returns: Json }
       convert_tiv_to_usd: {
         Args: { _tiv_amount: number; _user_id: string }
         Returns: Json
@@ -837,14 +858,8 @@ export type Database = {
         Args: { _amount: number; _rate: number }
         Returns: Json
       }
-      process_auto_payout: {
-        Args: { _user_id: string }
-        Returns: Json
-      }
-      spin_wheel: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
+      process_auto_payout: { Args: { _user_id: string }; Returns: Json }
+      spin_wheel: { Args: never; Returns: Json }
       submit_quiz_answers: {
         Args: { _answers: Json; _course_id: string; _quiz_id: string }
         Returns: Json

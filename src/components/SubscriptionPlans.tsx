@@ -1,152 +1,238 @@
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Check, Star } from "lucide-react";
+import { Check, Star, Zap } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
-const plans = [
-  {
-    name: "Free",
-    price: "$0",
-    period: "/month",
-    description: "Basic access to earning opportunities",
-    features: [
-      "Watch videos ($0.01-$0.05 per video)",
-      "Play simple games ($0.01-$0.10 per game)",
-      "Basic affiliate offers (5% commission)",
-      "Minimum $5 payouts",
-    ],
-    buttonText: "Sign Up Free",
-    popular: false,
-    variant: "glass" as const,
-  },
-  {
-    name: "Basic",
-    price: "$25",
-    period: "/month",
-    description: "Enhanced earning rates and opportunities",
-    features: [
-      "Watch premium videos ($0.05-$0.15 per video)",
-      "Play advanced games ($0.05-$0.25 per game)",
-      "Expanded affiliate offers (10% commission)",
-      "Minimum $2 payouts",
-      "Priority customer support",
-    ],
-    buttonText: "Get Started",
-    popular: true,
-    variant: "gradient" as const,
-  },
-  {
-    name: "Premium",
-    price: "$50",
-    period: "/month",
-    description: "Maximum earning potential across all methods",
-    features: [
-      "Highest paying videos ($0.10-$0.30 per video)",
-      "Premium games ($0.10-$0.50 per game)",
-      "Premium affiliate offers (15% commission)",
-      "Minimum $1 payouts",
-      "Advanced analytics dashboard",
-      "VIP customer support",
-    ],
-    buttonText: "Upgrade Now",
-    popular: false,
-    variant: "glass" as const,
-  },
-  {
-    name: "Enterprise",
-    price: "$75",
-    period: "/month",
-    description: "For serious earners and business builders",
-    features: [
-      "All Premium tier benefits",
-      "Double video rewards (2x entry)",
-      "VIP affiliate offers (20% commission)",
-      "Instant payouts (no minimum)",
-      "Personal account manager",
-      "Custom earning strategies",
-    ],
-    buttonText: "Go Enterprise",
-    popular: false,
-    variant: "glass" as const,
-  },
-];
+interface SubscriptionPlan {
+  id: string;
+  role: 'earner' | 'creator';
+  name: string;
+  price: number;
+  weekly_cap?: number;
+  monthly_cap?: number;
+  max_campaigns?: number;
+  max_target_views?: number;
+  revenue_share_percent?: number;
+  payout_delay_days?: number;
+  features: string[];
+}
 
-const SubscriptionPlans = () => {
+interface SubscriptionPlansProps {
+  role?: 'earner' | 'creator';
+  userId?: string;
+}
+
+const SubscriptionPlans = ({ role, userId }: SubscriptionPlansProps) => {
+  const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null);
+
+  useEffect(() => {
+    fetchPlans();
+  }, [role]);
+
+  const fetchPlans = async () => {
+    try {
+      const query = supabase
+        .from('subscription_plans')
+        .select('*')
+        .order('price', { ascending: true });
+
+      if (role) {
+        query.eq('role', role);
+      }
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+      
+      // Cast and filter the data to match our interface
+      const typedPlans = (data || [])
+        .filter(plan => plan.role === 'earner' || plan.role === 'creator')
+        .map(plan => ({
+          ...plan,
+          role: plan.role as 'earner' | 'creator',
+          features: Array.isArray(plan.features) ? plan.features as string[] : []
+        }));
+      
+      setPlans(typedPlans);
+    } catch (error) {
+      console.error('Error fetching plans:', error);
+      toast.error('Failed to load subscription plans');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubscribe = async (plan: SubscriptionPlan) => {
+    if (!userId) {
+      toast.error('Please sign in to subscribe');
+      return;
+    }
+
+    setSelectedPlan(plan);
+    setShowModal(true);
+  };
+
+  const confirmSubscription = async () => {
+    if (!selectedPlan || !userId) return;
+
+    try {
+      const { error } = await supabase
+        .from('user_subscriptions')
+        .upsert({
+          user_id: userId,
+          plan_id: selectedPlan.id,
+          role: selectedPlan.role,
+          status: 'active',
+          started_at: new Date().toISOString(),
+        }, {
+          onConflict: 'user_id,role'
+        });
+
+      if (error) throw error;
+
+      toast.success(`Successfully subscribed to ${selectedPlan.name} plan!`);
+      setShowModal(false);
+      
+      // Redirect to appropriate dashboard
+      if (selectedPlan.role === 'creator') {
+        window.location.href = '/creators/dashboard';
+      } else {
+        window.location.href = '/dashboard';
+      }
+    } catch (error) {
+      console.error('Error subscribing:', error);
+      toast.error('Failed to subscribe. Please try again.');
+    }
+  };
+
+  const getVariant = (index: number) => {
+    if (index === 1) return "gradient" as const; // Middle plan most popular
+    return "glass" as const;
+  };
+
+  if (loading) {
+    return <div className="text-center py-20">Loading plans...</div>;
+  }
+
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 cv-auto">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Choose Your <span className="text-gradient-hero">Subscription</span>
-          </h2>
-          <p className="text-xl text-foreground/80 max-w-2xl mx-auto">
-            Unlock higher earning potential with our premium subscription tiers. Start free and upgrade as you grow.
-          </p>
-        </div>
-
-        {/* Plans Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {plans.map((plan, index) => (
-            <div
-              key={plan.name}
-              className={`relative glass-card p-8 hover-lift ${
-                plan.popular ? "ring-2 ring-profitiv-teal glow-pulse" : ""
-              }`}
-            >
-              {/* Popular Badge */}
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-profitiv-teal to-profitiv-purple px-4 py-1 rounded-full flex items-center space-x-1">
-                    <Star className="w-4 h-4 text-white" />
-                    <span className="text-sm font-semibold text-white">Most Popular</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Plan Header */}
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold text-gradient-hero">{plan.price}</span>
-                  <span className="text-foreground/60">{plan.period}</span>
-                </div>
-                <p className="text-foreground/70">{plan.description}</p>
-              </div>
-
-              {/* Features */}
-              <div className="space-y-4 mb-8">
-                {plan.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-start space-x-3">
-                    <div className="w-5 h-5 rounded-full bg-profitiv-teal/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-profitiv-teal" />
-                    </div>
-                    <span className="text-sm text-foreground/80">{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* CTA Button */}
-              <Button 
-                variant={plan.variant} 
-                className="w-full"
-                size="lg"
-              >
-                {plan.buttonText}
-              </Button>
+    <>
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {!role && (
+            <div className="text-center mb-16">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Choose Your <span className="text-gradient-hero">Path</span>
+              </h2>
+              <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
+                Power Your Profitiv Journey. Unlock higher limits, faster payouts, and premium access.
+              </p>
             </div>
-          ))}
-        </div>
+          )}
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <p className="text-foreground/60 mb-4">
-            All plans include secure payments, 24/7 support, and instant account setup
-          </p>
-          <Button variant="link" className="text-profitiv-teal">
-            View detailed comparison →
-          </Button>
+          {/* Plans Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {plans.map((plan, index) => (
+              <div
+                key={plan.id}
+                className={`relative glass-card p-8 hover-lift transition-all duration-300 ${
+                  index === 1 ? "ring-2 ring-primary glow-pulse scale-105" : ""
+                }`}
+              >
+                {/* Popular Badge */}
+                {index === 1 && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-gradient-to-r from-primary to-secondary px-4 py-1 rounded-full flex items-center space-x-1">
+                      <Star className="w-4 h-4 text-white" />
+                      <span className="text-sm font-semibold text-white">Most Popular</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Plan Header */}
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                  <div className="mb-4">
+                    <span className="text-4xl font-bold text-gradient-hero">${plan.price}</span>
+                    <span className="text-foreground/60">/month</span>
+                  </div>
+                  {plan.role === 'earner' && (
+                    <p className="text-foreground/70">
+                      Max: ${plan.weekly_cap}/week or ${plan.monthly_cap}/month
+                    </p>
+                  )}
+                  {plan.role === 'creator' && (
+                    <p className="text-foreground/70">
+                      Up to {plan.max_campaigns} campaigns | {plan.max_target_views?.toLocaleString()} views
+                    </p>
+                  )}
+                </div>
+
+                {/* Features */}
+                <div className="space-y-4 mb-8">
+                  {plan.features.map((feature, featureIndex) => (
+                    <div key={featureIndex} className="flex items-start space-x-3">
+                      <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-3 h-3 text-primary" />
+                      </div>
+                      <span className="text-sm text-foreground/80">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA Button */}
+                <Button 
+                  variant={getVariant(index)} 
+                  className="w-full group"
+                  size="lg"
+                  onClick={() => handleSubscribe(plan)}
+                >
+                  <Zap className="w-4 h-4 mr-2 group-hover:animate-pulse" />
+                  Subscribe
+                </Button>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="text-center mt-16">
+            <p className="text-foreground/60 mb-4">
+              All plans include secure payments, dedicated support, and instant account setup
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Subscription Confirmation Modal */}
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="glass-card">
+          <DialogHeader>
+            <DialogTitle>Confirm Subscription</DialogTitle>
+            <DialogDescription>
+              {selectedPlan && (
+                <>
+                  <p className="mb-4">
+                    You are about to subscribe to the <strong>{selectedPlan.name}</strong> plan for <strong>${selectedPlan.price}/month</strong>.
+                  </p>
+                  <div className="bg-secondary/10 p-4 rounded-lg mb-4">
+                    <p className="text-sm text-foreground/80">
+                      Payment integration coming soon. Your plan will activate after Stripe setup is complete.
+                    </p>
+                  </div>
+                  <Button onClick={confirmSubscription} className="w-full">
+                    Confirm & Activate Plan
+                  </Button>
+                </>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

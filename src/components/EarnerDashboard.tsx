@@ -45,6 +45,12 @@ interface RewardTransaction {
   reward_type: 'tiv' | 'usd';
 }
 
+interface SubscriptionData {
+  plan_name: string;
+  weekly_cap: number;
+  monthly_cap: number;
+}
+
 const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
   'Starter': { name: 'Starter', weekly_cap: 100, monthly_cap: 500 },
   'Builder': { name: 'Builder', weekly_cap: 200, monthly_cap: 1000 },
@@ -79,9 +85,34 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       if (profileError) throw profileError;
       setProfile(profileData);
 
-      // Fetch subscription (TODO: implement actual subscription table query)
-      // For now using default Starter plan
-      setSubscription(SUBSCRIPTION_PLANS['Builder']);
+      // Fetch user subscription
+      const { data: subData } = await supabase
+        .from('user_subscriptions')
+        .select(`
+          *,
+          subscription_plans:plan_id (
+            name,
+            weekly_cap,
+            monthly_cap,
+            role
+          )
+        `)
+        .eq('user_id', userId)
+        .eq('role', 'earner')
+        .eq('status', 'active')
+        .single();
+
+      if (subData?.subscription_plans) {
+        const planData = Array.isArray(subData.subscription_plans) 
+          ? subData.subscription_plans[0] 
+          : subData.subscription_plans;
+        
+        const planName = planData.name || 'Starter';
+        setSubscription(SUBSCRIPTION_PLANS[planName] || SUBSCRIPTION_PLANS['Starter']);
+      } else {
+        // Default to Starter if no subscription
+        setSubscription(SUBSCRIPTION_PLANS['Starter']);
+      }
 
       // Fetch user activities for weekly/monthly usage calculation
       const startOfWeek = new Date();
@@ -234,13 +265,22 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
           <h2 className="text-3xl font-bold mb-2">
             Welcome back, {profile?.first_name || 'Earner'}!
           </h2>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <Badge variant="secondary" className="text-sm">
               {subscription.name} Plan
             </Badge>
             <p className="text-muted-foreground">
               ${weeklyRemaining.toFixed(2)} of ${subscription.weekly_cap} weekly limit remaining
             </p>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => navigate("/pricing")}
+              className="ml-auto"
+            >
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Upgrade Plan
+            </Button>
           </div>
         </div>
 

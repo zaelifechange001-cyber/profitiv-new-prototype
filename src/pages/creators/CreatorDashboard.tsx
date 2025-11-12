@@ -36,6 +36,8 @@ interface Campaign {
 interface CreatorPlan {
   name: string;
   max_campaigns: number;
+  max_target_views: number;
+  payout_delay_days: number;
   current_campaigns: number;
 }
 
@@ -44,6 +46,7 @@ interface CreatorProfile {
   tiv_balance: number;
   total_earned: number;
   pending_payouts: number;
+  first_name?: string;
 }
 
 export default function CreatorDashboard() {
@@ -55,10 +58,12 @@ export default function CreatorDashboard() {
     total_earned: 0,
     pending_payouts: 0
   });
-  const [creatorPlan] = useState<CreatorPlan>({
-    name: 'Pro',
-    max_campaigns: 15,
-    current_campaigns: 3
+  const [creatorPlan, setCreatorPlan] = useState<CreatorPlan>({
+    name: 'Starter',
+    max_campaigns: 5,
+    max_target_views: 5000,
+    payout_delay_days: 7,
+    current_campaigns: 0
   });
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [filter, setFilter] = useState<'all' | 'live' | 'draft' | 'paused' | 'completed'>('all');
@@ -104,11 +109,43 @@ export default function CreatorDashboard() {
       // Fetch profile
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .select('available_balance, tiv_balance, total_earned')
+        .select('available_balance, tiv_balance, total_earned, first_name')
         .eq('user_id', userId)
         .single();
 
       if (profileError) throw profileError;
+
+      // Fetch creator subscription
+      const { data: subData } = await supabase
+        .from('user_subscriptions')
+        .select(`
+          *,
+          subscription_plans:plan_id (
+            name,
+            max_campaigns,
+            max_target_views,
+            payout_delay_days,
+            role
+          )
+        `)
+        .eq('user_id', userId)
+        .eq('role', 'creator')
+        .eq('status', 'active')
+        .single();
+
+      if (subData?.subscription_plans) {
+        const planData = Array.isArray(subData.subscription_plans) 
+          ? subData.subscription_plans[0] 
+          : subData.subscription_plans;
+        
+        setCreatorPlan({
+          name: planData.name || 'Starter',
+          max_campaigns: planData.max_campaigns || 5,
+          max_target_views: planData.max_target_views || 5000,
+          payout_delay_days: planData.payout_delay_days || 7,
+          current_campaigns: campaigns.filter(c => c.status === 'live' || c.status === 'paused').length
+        });
+      }
 
       // Calculate pending payouts (mock for now)
       const pendingPayouts = 420.00;
@@ -311,15 +348,27 @@ export default function CreatorDashboard() {
       
       <div className="container mx-auto px-4 py-8 mt-16">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">
-            Welcome back, {user?.email?.split('@')[0]}
-          </h1>
-          <div className="flex items-center gap-4 text-muted-foreground">
-            <span>Plan: <strong>{creatorPlan.name}</strong></span>
-            <span>•</span>
-            <span>Campaigns: <strong>{creatorPlan.current_campaigns} / {creatorPlan.max_campaigns}</strong></span>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">
+              Welcome back, {profile.first_name || user?.email?.split('@')[0]}
+            </h1>
+            <div className="flex items-center gap-4 text-muted-foreground">
+              <Badge variant="secondary">{creatorPlan.name} Plan</Badge>
+              <span>Campaigns: <strong>{creatorPlan.current_campaigns} / {creatorPlan.max_campaigns}</strong></span>
+              <span>•</span>
+              <span>Views: <strong>{totalViews.toLocaleString()} / {creatorPlan.max_target_views.toLocaleString()}</strong></span>
+              <span>•</span>
+              <span>Payout: <strong>{creatorPlan.payout_delay_days}d delay</strong></span>
+            </div>
           </div>
+          <Button 
+            variant="outline"
+            onClick={() => navigate("/pricing")}
+          >
+            <TrendingUp className="w-4 h-4 mr-2" />
+            Upgrade Plan
+          </Button>
         </div>
 
         {/* Stats Cards */}
