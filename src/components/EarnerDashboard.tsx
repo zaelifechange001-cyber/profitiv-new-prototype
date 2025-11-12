@@ -91,25 +91,58 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-sm bg-background/30 relative z-10">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <a href="/" className="profitiv-logo" aria-label="Profitiv home" title="Profitiv">
-              <span className="profitiv-wordmark">Profitiv</span>
-            </a>
-            <div className="hidden sm:block h-8 w-px bg-border/50" />
-            <div>
-              <div className="font-bold text-foreground">Welcome back</div>
-              <div className="text-sm text-muted-foreground">Earner Dashboard</div>
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <a href="/" className="profitiv-logo" aria-label="Profitiv home" title="Profitiv">
+                <span className="profitiv-wordmark">Profitiv</span>
+              </a>
+              <div className="hidden sm:block h-8 w-px bg-border/50" />
+              <div>
+                <div className="font-bold text-foreground">Welcome back</div>
+                <div className="text-sm text-muted-foreground">Earner Dashboard</div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" onClick={() => navigate('/payout-settings')}>
-              Withdraw
-            </Button>
-            <Button variant="outline" onClick={handleLogout}>
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+            
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center gap-6">
+              <button 
+                onClick={() => navigate('/dashboard')} 
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Dashboard
+              </button>
+              <button 
+                onClick={() => navigate('/videos')} 
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Campaigns
+              </button>
+              <button 
+                onClick={() => navigate('/marketplace')} 
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Marketplace
+              </button>
+              <Button variant="outline" size="sm" onClick={() => navigate('/payout-settings')}>
+                Withdraw
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+
+            {/* Mobile Actions */}
+            <div className="md:hidden flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={() => navigate('/payout-settings')}>
+                Withdraw
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>
