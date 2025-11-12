@@ -86,7 +86,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   const withdrawable = profile?.available_balance || 0;
 
   return (
-    <div className="min-h-screen bg-background relative" data-role="earner">
+    <div className="min-h-screen relative overflow-hidden isolate-blend" data-role="earner">
       <BackgroundAnimation />
       
       {/* Header */}
