@@ -177,64 +177,6 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             </Button>
           </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div 
-              className="glass-card p-4 hover-lift cursor-pointer group"
-              onClick={() => navigate('/videos')}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-10 h-10 rounded-full bg-profitiv-teal/20 flex items-center justify-center group-hover:bg-profitiv-teal/30 transition-colors text-lg">
-                  📹
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-foreground/40 group-hover:text-profitiv-teal transition-colors" />
-              </div>
-              <h3 className="text-sm font-semibold mb-1">Watch Videos</h3>
-              <p className="text-xs text-foreground/60">Earn TIVs by watching</p>
-            </div>
-
-            <div 
-              className="glass-card p-4 hover-lift cursor-pointer group"
-              onClick={() => navigate('/learn-earn')}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-10 h-10 rounded-full bg-profitiv-purple/20 flex items-center justify-center group-hover:bg-profitiv-purple/30 transition-colors text-lg">
-                  📚
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-foreground/40 group-hover:text-profitiv-purple transition-colors" />
-              </div>
-              <h3 className="text-sm font-semibold mb-1">Learn & Earn</h3>
-              <p className="text-xs text-foreground/60">Complete courses</p>
-            </div>
-
-            <div 
-              className="glass-card p-4 hover-lift cursor-pointer group"
-              onClick={() => navigate('/spin-to-win')}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center group-hover:bg-secondary/30 transition-colors text-lg">
-                  ✨
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-foreground/40 group-hover:text-secondary transition-colors" />
-              </div>
-              <h3 className="text-sm font-semibold mb-1">Spin to Win</h3>
-              <p className="text-xs text-foreground/60">Daily rewards</p>
-            </div>
-
-            <div 
-              className="glass-card p-4 hover-lift cursor-pointer group"
-              onClick={() => navigate('/marketplace')}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-10 h-10 rounded-full bg-success/20 flex items-center justify-center group-hover:bg-success/30 transition-colors text-lg">
-                  🏪
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-foreground/40 group-hover:text-success transition-colors" />
-              </div>
-              <h3 className="text-sm font-semibold mb-1">Marketplace</h3>
-              <p className="text-xs text-foreground/60">Trade TIVs</p>
-            </div>
-          </div>
 
           {/* Legal Notice */}
           <div className="mt-12 p-4 glass-card">
