@@ -15,15 +15,11 @@ import OAuthErrorHandler from "./components/auth/OAuthErrorHandler";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import AdminOverview from "./pages/admin/AdminOverview";
 import AdminUsers from "./pages/admin/AdminUsers";
-import AdminFinancial from "./pages/admin/AdminFinancial";
-import AdminServices from "./pages/admin/AdminServices";
+import AdminCampaigns from "./pages/admin/AdminCampaigns";
+import AdminTransactions from "./pages/admin/AdminTransactions";
 import AdminTIVMarket from "./pages/admin/AdminTIVMarket";
-import AdminWithdrawals from "./pages/admin/AdminWithdrawals";
-import AdminSubscriptions from "./pages/admin/AdminSubscriptions";
-import AdminLogs from "./pages/admin/AdminLogs";
-import AdminVideos from "./pages/admin/AdminVideos";
-import AdminCourses from "./pages/admin/AdminCourses";
-import AdminPools from "./pages/admin/AdminPools";
+import AdminReports from "./pages/admin/AdminReports";
+import AdminSettings from "./pages/admin/AdminSettings";
 import PayoutSettings from "./pages/PayoutSettings";
 import VideosPage from "./pages/VideosPage";
 import LearnEarnPage from "./pages/LearnEarnPage";
@@ -66,15 +62,11 @@ const App = () => {
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminOverview />} />
               <Route path="users" element={<AdminUsers />} />
-              <Route path="financial" element={<AdminFinancial />} />
-              <Route path="videos" element={<AdminVideos />} />
-              <Route path="courses" element={<AdminCourses />} />
-              <Route path="pools" element={<AdminPools />} />
-              <Route path="services" element={<AdminServices />} />
-              <Route path="tiv-market" element={<AdminTIVMarket />} />
-              <Route path="withdrawals" element={<AdminWithdrawals />} />
-              <Route path="subscriptions" element={<AdminSubscriptions />} />
-              <Route path="logs" element={<AdminLogs />} />
+              <Route path="campaigns" element={<AdminCampaigns />} />
+              <Route path="transactions" element={<AdminTransactions />} />
+              <Route path="marketplace" element={<AdminTIVMarket />} />
+              <Route path="reports" element={<AdminReports />} />
+              <Route path="settings" element={<AdminSettings />} />
             </Route>
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

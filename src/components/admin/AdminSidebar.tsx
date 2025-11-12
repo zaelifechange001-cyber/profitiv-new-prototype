@@ -27,15 +27,11 @@ import {
 const menuItems = [
   { title: "Overview", url: "/admin", icon: LayoutDashboard },
   { title: "Users", url: "/admin/users", icon: Users },
-  { title: "Financial", url: "/admin/financial", icon: DollarSign },
-  { title: "Videos", url: "/admin/videos", icon: Video },
-  { title: "Courses", url: "/admin/courses", icon: BookOpen },
-  { title: "Pools", url: "/admin/pools", icon: UsersPool },
-  { title: "Services", url: "/admin/services", icon: Briefcase },
-  { title: "TIV Market", url: "/admin/tiv-market", icon: ShoppingCart },
-  { title: "Withdrawals", url: "/admin/withdrawals", icon: CreditCard },
-  { title: "Subscriptions", url: "/admin/subscriptions", icon: Package },
-  { title: "Logs", url: "/admin/logs", icon: FileText },
+  { title: "Campaigns", url: "/admin/campaigns", icon: Video },
+  { title: "Transactions", url: "/admin/transactions", icon: DollarSign },
+  { title: "Marketplace", url: "/admin/marketplace", icon: ShoppingCart },
+  { title: "Reports", url: "/admin/reports", icon: FileText },
+  { title: "Settings", url: "/admin/settings", icon: Briefcase },
 ];
 
 export function AdminSidebar() {
@@ -45,10 +41,13 @@ export function AdminSidebar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <Sidebar className={state === "collapsed" ? "w-14" : "w-60"} collapsible="icon">
+    <Sidebar
+      className={state === "collapsed" ? "w-14 bg-black/40 border-white/10" : "w-60 bg-black/40 border-white/10"}
+      collapsible="icon"
+    >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Admin Panel</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-white/60">Admin Panel</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -58,7 +57,9 @@ export function AdminSidebar() {
                       to={item.url} 
                       end
                       className={({ isActive }) => 
-                        isActive ? "bg-accent" : ""
+                        isActive 
+                          ? "bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white border-l-2 border-purple-500" 
+                          : "text-white/70 hover:text-white hover:bg-white/5"
                       }
                     >
                       <item.icon className="h-4 w-4" />

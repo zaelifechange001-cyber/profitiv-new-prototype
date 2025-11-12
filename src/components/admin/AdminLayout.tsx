@@ -44,14 +44,19 @@ export function AdminLayout() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-[hsl(var(--bg-1))] via-[hsl(var(--bg-2))] to-[#1b1b40]">
         <AdminSidebar />
         <div className="flex-1 flex flex-col">
-          <header className="h-14 border-b flex items-center px-4 bg-card">
-            <SidebarTrigger />
-            <h1 className="ml-4 text-lg font-semibold">Admin Dashboard</h1>
+          <header className="h-16 border-b border-white/10 flex items-center px-6 backdrop-blur-sm bg-black/20">
+            <SidebarTrigger className="text-white" />
+            <div className="ml-4 flex items-center gap-3">
+              <h1 className="text-xl font-bold text-white" style={{ textShadow: '0 0 20px rgba(124,58,237,0.5)' }}>
+                Profitiv
+              </h1>
+              <span className="text-sm text-white/60">Admin Dashboard</span>
+            </div>
           </header>
-          <main className="flex-1 p-6 bg-background overflow-auto">
+          <main className="flex-1 p-6 overflow-auto">
             <Outlet />
           </main>
         </div>

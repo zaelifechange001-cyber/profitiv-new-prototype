@@ -86,67 +86,69 @@ export default function AdminOverview() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">Overview</h2>
-        <p className="text-muted-foreground">Platform statistics and insights</p>
+        <h2 className="text-3xl font-bold text-white" style={{ textShadow: '0 0 20px rgba(124,58,237,0.5)' }}>
+          Overview
+        </h2>
+        <p className="text-white/60 mt-1">Platform statistics and insights</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white/80">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-purple-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalUsers}</div>
+            <div className="text-3xl font-bold text-white">{stats.totalUsers}</div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Today</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white/80">Active Today</CardTitle>
+            <Activity className="h-4 w-4 text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.activeUsersToday}</div>
+            <div className="text-3xl font-bold text-white">{stats.activeUsersToday}</div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Withdrawals</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white/80">Total Withdrawals</CardTitle>
+            <DollarSign className="h-4 w-4 text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${stats.totalWithdrawals.toFixed(2)}</div>
+            <div className="text-3xl font-bold text-white">${stats.totalWithdrawals.toFixed(2)}</div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Platform Profit</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white/80">Platform Profit</CardTitle>
+            <TrendingUp className="h-4 w-4 text-cyan-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${stats.totalProfit.toFixed(2)}</div>
+            <div className="text-3xl font-bold text-white">${stats.totalProfit.toFixed(2)}</div>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card>
+        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Recent Signups</CardTitle>
-            <CardDescription>Latest users who joined the platform</CardDescription>
+            <CardTitle className="text-white">Recent Signups</CardTitle>
+            <CardDescription className="text-white/60">Latest users who joined the platform</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {recentSignups.map((signup, index) => (
-                <div key={index} className="flex items-center justify-between">
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
                   <div>
-                    <p className="font-medium">{signup.full_name || 'Unknown'}</p>
-                    <p className="text-sm text-muted-foreground">{signup.email}</p>
+                    <p className="font-medium text-white">{signup.full_name || 'Unknown'}</p>
+                    <p className="text-sm text-white/50">{signup.email}</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-white/60">
                     {new Date(signup.created_at).toLocaleDateString()}
                   </p>
                 </div>
@@ -155,20 +157,20 @@ export default function AdminOverview() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Top Earners</CardTitle>
-            <CardDescription>Users with highest earnings</CardDescription>
+            <CardTitle className="text-white">Top Earners</CardTitle>
+            <CardDescription className="text-white/60">Users with highest earnings</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {topEarners.map((earner, index) => (
-                <div key={index} className="flex items-center justify-between">
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
                   <div>
-                    <p className="font-medium">{earner.full_name || 'Unknown'}</p>
-                    <p className="text-sm text-muted-foreground">{earner.email}</p>
+                    <p className="font-medium text-white">{earner.full_name || 'Unknown'}</p>
+                    <p className="text-sm text-white/50">{earner.email}</p>
                   </div>
-                  <p className="font-bold text-primary">
+                  <p className="font-bold text-white">
                     ${Number(earner.total_earned || 0).toFixed(2)}
                   </p>
                 </div>
