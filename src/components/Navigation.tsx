@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, DollarSign, Users, Play, Video, Trophy, LogOut } from "lucide-react";
+import { Menu, X, DollarSign, Users, Play, Video, Trophy, LogOut, Wallet } from "lucide-react";
 import { useState, useEffect, memo, useMemo, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -32,8 +32,8 @@ const NavigationComponent = () => {
   const authNavItems = useMemo(() => [
     { name: "Dashboard", path: "/dashboard", icon: DollarSign },
     { name: "Campaigns", path: "/videos", icon: Play },
-    { name: "Pricing", path: "/pricing", icon: Users },
-    { name: "Affiliate", path: "/affiliate", icon: Users },
+    { name: "Marketplace", path: "/marketplace", icon: DollarSign },
+    { name: "Withdraw", path: "/payout-settings", icon: Wallet },
   ], []);
 
   const publicNavItems = useMemo(() => [
