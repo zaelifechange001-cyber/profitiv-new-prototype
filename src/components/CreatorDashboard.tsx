@@ -32,6 +32,14 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const activeCampaigns = campaigns.filter(c => c.status === 'Active').length;
+  const totalViews = 58432;
+  const tivBalance = profile?.tiv_balance || 3680;
+  const tivToUSD = 0.10;
+  const earningsUSD = (tivBalance * tivToUSD).toFixed(2);
+  const availableBalance = profile?.available_balance || 1850;
+  const pendingBalance = 420;
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -87,7 +95,7 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0f0f12, #1a1a1f)' }}>
+      <div id="profitiv-app" data-theme="custom" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0f0f12, #1a1a1f)' }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{ width: '64px', height: '64px', border: '4px solid #a259ff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }}></div>
           <p style={{ color: 'rgba(255,255,255,0.6)' }}>Loading dashboard...</p>
@@ -96,21 +104,32 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
     );
   }
 
-  const activeCampaigns = campaigns.filter(c => c.status === 'Active').length;
-  const totalViews = 58432;
-  const tivBalance = profile?.tiv_balance || 3680;
-  const tivToUSD = 0.10;
-  const earningsUSD = (tivBalance * tivToUSD).toFixed(2);
-  const availableBalance = profile?.available_balance || 1850;
-  const pendingBalance = 420;
-
   return (
-    <div style={{ 
+    <div id="profitiv-app" data-theme="custom" style={{ 
       background: 'linear-gradient(135deg, #0f0f12, #1a1a1f)', 
       color: '#fff', 
       minHeight: '100vh', 
-      fontFamily: 'Inter, sans-serif' 
+      fontFamily: 'Inter, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden'
     }} data-role="creator">
+      <style>{`
+        #profitiv-app, #profitiv-app * {
+          box-sizing: border-box;
+        }
+        
+        @keyframes pulseGlow {
+          0% { box-shadow: 0 0 10px rgba(162,89,255,0.5); }
+          50% { box-shadow: 0 0 25px rgba(162,89,255,0.7); }
+          100% { box-shadow: 0 0 10px rgba(162,89,255,0.5); }
+        }
+        
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
+      
       {/* Header */}
       <header style={{
         display: 'flex',
@@ -120,8 +139,8 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
         borderBottom: '1px solid rgba(255,255,255,0.1)',
         background: 'linear-gradient(90deg,#1a1a1f,#17171c)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h2 style={{ color: '#a259ff', fontWeight: 700, letterSpacing: '0.5px', margin: 0 }}>Profitiv</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <h2 style={{ color: '#a259ff', fontWeight: 700, letterSpacing: '0.5px', margin: 0, fontSize: '24px' }}>Profitiv</h2>
         </div>
         <nav style={{ display: 'flex', gap: '30px' }}>
           <a href="/" style={{ color: '#fff', textDecoration: 'none', fontWeight: 500 }}>Home</a>
@@ -173,14 +192,14 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
         <button 
           onClick={handleCreateCampaign}
           style={{
-            background: '#a259ff',
+            background: 'linear-gradient(90deg, #7f00ff, #e100ff)',
             border: 'none',
             padding: '15px 40px',
             borderRadius: '8px',
             fontSize: '16px',
             fontWeight: 600,
             color: '#fff',
-            boxShadow: '0 0 15px rgba(162,89,255,0.5)',
+            animation: 'pulseGlow 3s infinite ease-in-out',
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
@@ -251,14 +270,15 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
           <button 
             onClick={() => navigate('/payout-settings')}
             style={{
-              background: '#a259ff',
+              background: 'linear-gradient(90deg, #7f00ff, #e100ff)',
               border: 'none',
               padding: '12px 30px',
               borderRadius: '6px',
               fontSize: '16px',
               color: '#fff',
               cursor: 'pointer',
-              fontWeight: 500
+              fontWeight: 600,
+              animation: 'pulseGlow 3s infinite ease-in-out'
             }}
           >
             Withdraw via Stripe
