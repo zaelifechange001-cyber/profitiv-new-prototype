@@ -191,6 +191,9 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       }}
     >
       <style>{`
+        #profitiv-app, #profitiv-app * { box-sizing: border-box; }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 10px rgba(162,89,255,0.5); } 50% { box-shadow: 0 0 25px rgba(162,89,255,0.7); } 100% { box-shadow: 0 0 10px rgba(162,89,255,0.5); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .pv-card { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(1,2,6,0.5); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); }
         .pv-stat-card { background: linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(0,191,255,0.2) 100%); border-radius: 20px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
         .pv-card h4 { margin: 0 0 8px; color: #E9F0FF; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; }
@@ -216,7 +219,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         background: 'rgba(255,255,255,0.05)',
         backdropFilter: 'blur(10px)'
       }}>
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h2 style={{ 
             color: '#00D9FF', 
             fontWeight: 800, 
