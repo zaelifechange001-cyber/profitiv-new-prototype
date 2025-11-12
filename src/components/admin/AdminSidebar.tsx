@@ -11,6 +11,7 @@ import {
   Video,
   BookOpen,
   Users as UsersPool,
+  Shield,
 } from "lucide-react";
 import {
   Sidebar,
@@ -30,6 +31,7 @@ const menuItems = [
   { title: "Campaigns", url: "/admin/campaigns", icon: Video },
   { title: "Transactions", url: "/admin/transactions", icon: DollarSign },
   { title: "Marketplace", url: "/admin/marketplace", icon: ShoppingCart },
+  { title: "Verifications", url: "/admin/verifications", icon: Shield },
   { title: "Reports", url: "/admin/reports", icon: FileText },
   { title: "Settings", url: "/admin/settings", icon: Briefcase },
 ];

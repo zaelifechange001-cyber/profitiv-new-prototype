@@ -20,7 +20,9 @@ import AdminTransactions from "./pages/admin/AdminTransactions";
 import AdminTIVMarket from "./pages/admin/AdminTIVMarket";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminVerifications from "./pages/admin/AdminVerifications";
 import PayoutSettings from "./pages/PayoutSettings";
+import VerificationPage from "./pages/VerificationPage";
 import VideosPage from "./pages/VideosPage";
 import LearnEarnPage from "./pages/LearnEarnPage";
 import PoolsPage from "./pages/PoolsPage";
@@ -50,8 +52,9 @@ const App = () => {
             <Route path="/affiliate" element={<AffiliatePage />} />
             <Route path="/pools/:type" element={<PoolsPage />} />
             <Route path="/pools" element={<PoolsPage />} />
-            <Route path="/payout-settings" element={<PayoutSettings />} />
-            <Route path="/pricing" element={<SubscriptionsPage />} />
+        <Route path="/payout-settings" element={<PayoutSettings />} />
+        <Route path="/pricing" element={<SubscriptionsPage />} />
+        <Route path="/verification" element={<VerificationPage />} />
             <Route path="/subscriptions" element={<SubscriptionsPage />} />
             
             {/* Creators Routes */}
@@ -65,6 +68,7 @@ const App = () => {
               <Route path="campaigns" element={<AdminCampaigns />} />
               <Route path="transactions" element={<AdminTransactions />} />
               <Route path="marketplace" element={<AdminTIVMarket />} />
+              <Route path="verifications" element={<AdminVerifications />} />
               <Route path="reports" element={<AdminReports />} />
               <Route path="settings" element={<AdminSettings />} />
             </Route>

@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Coins, DollarSign, TrendingUp, Video, ShoppingCart, Wallet, LogOut } from "lucide-react";
+import { VerificationStatusCard } from "@/components/verification/VerificationStatusCard";
 
 interface EarnerDashboardProps {
   userId: string;
@@ -260,6 +261,9 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       </nav>
 
       <div className="container py-8 space-y-8">
+        {/* Verification Status */}
+        <VerificationStatusCard />
+
         {/* Hero Header */}
         <div>
           <h2 className="text-3xl font-bold mb-2">

@@ -14,6 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Play, Pause, Edit, TrendingUp, DollarSign, Eye, Plus, Settings, Download, AlertCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import { VerificationStatusCard } from "@/components/verification/VerificationStatusCard";
 
 interface Campaign {
   id: string;
@@ -347,6 +348,11 @@ export default function CreatorDashboard() {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8 mt-16">
+        {/* Verification Status */}
+        <div className="mb-6">
+          <VerificationStatusCard />
+        </div>
+
         {/* Header */}
         <div className="mb-8 flex items-start justify-between">
           <div>

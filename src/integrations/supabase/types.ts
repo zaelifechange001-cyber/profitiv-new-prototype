@@ -721,6 +721,162 @@ export type Database = {
           },
         ]
       }
+      user_verifications: {
+        Row: {
+          address_line1: string | null
+          address_line2: string | null
+          address_proof_url: string | null
+          address_rejection_reason: string | null
+          address_reviewed_at: string | null
+          address_reviewed_by: string | null
+          address_submitted_at: string | null
+          address_verification_status:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          city: string | null
+          country: string | null
+          created_at: string | null
+          email_verified: boolean | null
+          email_verified_at: string | null
+          id: string
+          id_document_back_url: string | null
+          id_document_front_url: string | null
+          id_rejection_reason: string | null
+          id_reviewed_at: string | null
+          id_reviewed_by: string | null
+          id_selfie_url: string | null
+          id_submitted_at: string | null
+          id_verification_status:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          overall_status:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          phone_number: string | null
+          phone_otp_code: string | null
+          phone_otp_expires_at: string | null
+          phone_verified: boolean | null
+          phone_verified_at: string | null
+          state: string | null
+          updated_at: string | null
+          user_id: string
+          zip_code: string | null
+        }
+        Insert: {
+          address_line1?: string | null
+          address_line2?: string | null
+          address_proof_url?: string | null
+          address_rejection_reason?: string | null
+          address_reviewed_at?: string | null
+          address_reviewed_by?: string | null
+          address_submitted_at?: string | null
+          address_verification_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          email_verified?: boolean | null
+          email_verified_at?: string | null
+          id?: string
+          id_document_back_url?: string | null
+          id_document_front_url?: string | null
+          id_rejection_reason?: string | null
+          id_reviewed_at?: string | null
+          id_reviewed_by?: string | null
+          id_selfie_url?: string | null
+          id_submitted_at?: string | null
+          id_verification_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          overall_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          phone_number?: string | null
+          phone_otp_code?: string | null
+          phone_otp_expires_at?: string | null
+          phone_verified?: boolean | null
+          phone_verified_at?: string | null
+          state?: string | null
+          updated_at?: string | null
+          user_id: string
+          zip_code?: string | null
+        }
+        Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          address_proof_url?: string | null
+          address_rejection_reason?: string | null
+          address_reviewed_at?: string | null
+          address_reviewed_by?: string | null
+          address_submitted_at?: string | null
+          address_verification_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          email_verified?: boolean | null
+          email_verified_at?: string | null
+          id?: string
+          id_document_back_url?: string | null
+          id_document_front_url?: string | null
+          id_rejection_reason?: string | null
+          id_reviewed_at?: string | null
+          id_reviewed_by?: string | null
+          id_selfie_url?: string | null
+          id_submitted_at?: string | null
+          id_verification_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          overall_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
+          phone_number?: string | null
+          phone_otp_code?: string | null
+          phone_otp_expires_at?: string | null
+          phone_verified?: boolean | null
+          phone_verified_at?: string | null
+          state?: string | null
+          updated_at?: string | null
+          user_id?: string
+          zip_code?: string | null
+        }
+        Relationships: []
+      }
+      verification_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          id: string
+          notes: string | null
+          reviewer_id: string | null
+          status: Database["public"]["Enums"]["verification_status"]
+          user_id: string
+          verification_type: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          reviewer_id?: string | null
+          status: Database["public"]["Enums"]["verification_status"]
+          user_id: string
+          verification_type: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          reviewer_id?: string | null
+          status?: Database["public"]["Enums"]["verification_status"]
+          user_id?: string
+          verification_type?: string
+        }
+        Relationships: []
+      }
       video_views: {
         Row: {
           completed: boolean | null
@@ -854,6 +1010,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_user_verified: { Args: { _user_id: string }; Returns: boolean }
       list_tiv_on_marketplace: {
         Args: { _amount: number; _rate: number }
         Returns: Json
@@ -871,6 +1028,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      verification_status: "incomplete" | "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -999,6 +1157,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      verification_status: ["incomplete", "pending", "approved", "rejected"],
     },
   },
 } as const
