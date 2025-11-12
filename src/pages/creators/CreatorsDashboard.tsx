@@ -109,19 +109,23 @@ export default function CreatorsDashboard() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <BackgroundAnimation />
       {/* Header */}
       <div className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
-              P
+            <div className="flex items-center gap-4">
+              <a href="/" className="profitiv-logo hidden sm:block" aria-label="Profitiv home" title="Profitiv">
+                <span className="profitiv-wordmark">Profitiv</span>
+              </a>
+              <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+                P
+              </div>
+              <div>
+                <div className="font-bold">Welcome back, {user.email?.split("@")[0]}</div>
+                <div className="text-sm text-muted-foreground">Creator Dashboard</div>
+              </div>
             </div>
-            <div>
-              <div className="font-bold">Welcome back, {user.email?.split("@")[0]}</div>
-              <div className="text-sm text-muted-foreground">Creator Dashboard</div>
-            </div>
-          </div>
 
           <div className="flex items-center gap-3">
             <Dialog>
