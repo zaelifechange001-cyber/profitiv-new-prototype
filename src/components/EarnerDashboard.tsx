@@ -231,19 +231,14 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
           <div style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 600, marginTop: '6px' }}>Welcome back</div>
           <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginTop: '2px' }}>Earner Dashboard</div>
         </div>
-        <nav style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+        <nav style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
           <a
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('dashboard'); }}
             style={{
-              color: currentView === 'dashboard' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
+              color: '#fff',
               textDecoration: 'none',
-              fontWeight: 600,
-              padding: '8px 14px',
-              borderRadius: '10px',
-              background: currentView === 'dashboard' ? 'rgba(0,217,255,0.1)' : 'transparent',
-              textShadow: currentView === 'dashboard' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
-              transition: 'all 0.2s'
+              fontWeight: 500
             }}
           >
             Dashboard
@@ -252,14 +247,9 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('campaigns'); }}
             style={{
-              color: currentView === 'campaigns' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
+              color: '#fff',
               textDecoration: 'none',
-              fontWeight: 600,
-              padding: '8px 14px',
-              borderRadius: '10px',
-              background: currentView === 'campaigns' ? 'rgba(0,217,255,0.1)' : 'transparent',
-              textShadow: currentView === 'campaigns' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
-              transition: 'all 0.2s'
+              fontWeight: 500
             }}
           >
             Campaigns
@@ -268,14 +258,9 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('marketplace'); }}
             style={{
-              color: currentView === 'marketplace' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
+              color: '#fff',
               textDecoration: 'none',
-              fontWeight: 600,
-              padding: '8px 14px',
-              borderRadius: '10px',
-              background: currentView === 'marketplace' ? 'rgba(0,217,255,0.1)' : 'transparent',
-              textShadow: currentView === 'marketplace' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
-              transition: 'all 0.2s'
+              fontWeight: 500
             }}
           >
             Marketplace
@@ -284,14 +269,9 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('withdraw'); }}
             style={{
-              color: currentView === 'withdraw' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
+              color: '#fff',
               textDecoration: 'none',
-              fontWeight: 600,
-              padding: '8px 14px',
-              borderRadius: '10px',
-              background: currentView === 'withdraw' ? 'rgba(0,217,255,0.1)' : 'transparent',
-              textShadow: currentView === 'withdraw' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
-              transition: 'all 0.2s'
+              fontWeight: 500
             }}
           >
             Withdraw
@@ -300,14 +280,9 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('profile'); }}
             style={{
-              color: currentView === 'profile' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
+              color: '#fff',
               textDecoration: 'none',
-              fontWeight: 600,
-              padding: '8px 14px',
-              borderRadius: '10px',
-              background: currentView === 'profile' ? 'rgba(0,217,255,0.1)' : 'transparent',
-              textShadow: currentView === 'profile' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
-              transition: 'all 0.2s'
+              fontWeight: 500
             }}
           >
             Profile
