@@ -90,23 +90,36 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       <BackgroundAnimation />
       
       {/* Header */}
-      <header className="relative z-10 border-b border-white/10 bg-background/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header className="border-b border-border/50 backdrop-blur-sm bg-background/30 relative z-10">
+        <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
-              <span className="profitiv-wordmark">Profitiv</span>
-              <nav className="hidden md:flex gap-6">
-                <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Home</a>
-                <a href="/dashboard" className="text-sm text-foreground font-medium">Dashboard</a>
-                <a href="/videos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Campaigns</a>
-                <a href="/marketplace" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Marketplace</a>
-                <a href="/payout-settings" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Withdraw</a>
-              </nav>
+            <div className="flex items-center gap-4">
+              <a href="/" className="profitiv-logo" aria-label="Profitiv home" title="Profitiv">
+                <span className="profitiv-wordmark">Profitiv</span>
+              </a>
+              <div className="hidden sm:block h-8 w-px bg-border/50" />
+              <div className="hidden md:block">
+                <div className="font-bold text-foreground">Earner Dashboard</div>
+                <div className="text-sm text-muted-foreground">Watch, Learn & Earn</div>
+              </div>
             </div>
-            <Button variant="outline" onClick={handleLogout} size="sm">
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+            <div className="hidden md:flex items-center gap-6">
+              <a href="/videos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Campaigns</a>
+              <a href="/learn-earn" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Learn & Earn</a>
+              <a href="/spin-to-win" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Spin</a>
+              <a href="/marketplace" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Marketplace</a>
+              <a href="/payout-settings" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Withdraw</a>
+              <Button variant="outline" onClick={handleLogout} size="sm">
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+            <div className="md:hidden">
+              <Button variant="outline" onClick={handleLogout} size="sm">
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -124,22 +137,22 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="glass-card p-4 hover-lift">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="glass-card p-6 hover-lift">
               <h4 className="text-xs font-semibold text-muted-foreground mb-1">Total Earned</h4>
-              <div className="text-2xl font-bold text-foreground">${totalEarned.toFixed(2)}</div>
+              <div className="text-3xl font-bold text-foreground">${totalEarned.toFixed(2)}</div>
               <p className="text-xs text-muted-foreground mt-1">All-time earnings</p>
             </div>
 
-            <div className="glass-card p-4 hover-lift">
+            <div className="glass-card p-6 hover-lift">
               <h4 className="text-xs font-semibold text-muted-foreground mb-1">TIV Balance</h4>
-              <div className="text-2xl font-bold text-foreground">{tivBalance.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-foreground">{tivBalance.toLocaleString()}</div>
               <p className="text-xs text-muted-foreground mt-1">≈ ${tivUsdValue.toFixed(2)} USD</p>
             </div>
 
-            <div className="glass-card p-4 hover-lift">
+            <div className="glass-card p-6 hover-lift">
               <h4 className="text-xs font-semibold text-muted-foreground mb-1">Withdrawable</h4>
-              <div className="text-2xl font-bold text-foreground">${withdrawable.toFixed(2)}</div>
+              <div className="text-3xl font-bold text-foreground">${withdrawable.toFixed(2)}</div>
               <p className="text-xs text-muted-foreground mt-1">Ready to withdraw</p>
             </div>
           </div>
@@ -196,7 +209,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
 
             <div 
               className="glass-card p-4 hover-lift cursor-pointer group"
-              onClick={() => navigate('/spin')}
+              onClick={() => navigate('/spin-to-win')}
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center group-hover:bg-secondary/30 transition-colors text-lg">
