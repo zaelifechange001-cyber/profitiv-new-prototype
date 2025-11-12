@@ -182,15 +182,19 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       }}
     >
       <style>{`
-        .pv-card { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 18px; box-shadow: 0 10px 30px rgba(1,2,6,0.5); border: 1px solid rgba(255,255,255,0.05); }
-        .pv-card h4 { margin: 0 0 6px; color: #B9C2E6; font-weight: 700; font-size: 13px; }
-        .pv-card .big { font-size: 24px; font-weight: 800; margin-top: 6px; color: #FFFFFF; }
-        .pv-btn-primary { padding: 10px 16px; border-radius: 10px; border: 0; cursor: pointer; font-weight: 700; background: linear-gradient(90deg, #7c3aed, #00bfff); color: #081021; }
-        .pv-btn-ghost { padding: 10px 16px; border-radius: 10px; cursor: pointer; font-weight: 700; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #E9F0FF; }
-        .pv-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04); background: transparent; color: #E9F0FF; }
-        .bar { height: 10px; background: rgba(255,255,255,0.04); border-radius: 999px; overflow: hidden; }
-        .bar-fill { display: block; height: 100%; background: linear-gradient(90deg, #00bfff, #7c3aed); transition: width 0.6s ease; }
-        .muted { color: #A6B0D6; font-size: 13px; }
+        .pv-card { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px rgba(1,2,6,0.5); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); }
+        .pv-stat-card { background: linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(0,191,255,0.2) 100%); border-radius: 20px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .pv-card h4 { margin: 0 0 8px; color: #E9F0FF; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; }
+        .pv-card .big { font-size: 32px; font-weight: 800; margin-top: 8px; color: #FFFFFF; }
+        .pv-stat-card .big { font-size: 36px; }
+        .pv-btn-primary { padding: 12px 20px; border-radius: 12px; border: 0; cursor: pointer; font-weight: 700; background: linear-gradient(90deg, #7c3aed, #00bfff); color: #fff; transition: transform 0.2s; }
+        .pv-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,191,255,0.3); }
+        .pv-btn-ghost { padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #E9F0FF; transition: all 0.2s; }
+        .pv-btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
+        .pv-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #E9F0FF; }
+        .bar { height: 12px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; }
+        .bar-fill { display: block; height: 100%; background: linear-gradient(90deg, #00bfff, #7c3aed); transition: width 0.6s ease; box-shadow: 0 0 10px rgba(0,191,255,0.5); }
+        .muted { color: #B9C2E6; font-size: 13px; }
       `}</style>
 
       {/* Header - NO HOME LINK for signed-in earners */}
@@ -201,21 +205,24 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         padding: '18px 28px',
         borderBottom: '1px solid rgba(255,255,255,0.04)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <h2 style={{ color: '#00bfff', fontWeight: 800, letterSpacing: '0.5px', margin: 0, fontSize: '24px' }}>Profitiv</h2>
-          <div className="muted" style={{ fontSize: '12px' }}>Earners Dashboard</div>
+        <div>
+          <h2 style={{ color: '#00d9ff', fontWeight: 800, letterSpacing: '1px', margin: 0, fontSize: '28px', textShadow: '0 0 20px rgba(0,217,255,0.5)' }}>Profitiv</h2>
+          <div style={{ color: '#E9F0FF', fontSize: '14px', fontWeight: 500, marginTop: '4px' }}>Welcome back</div>
+          <div className="muted" style={{ fontSize: '13px' }}>Earner Dashboard</div>
         </div>
         <nav style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
           <a
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('dashboard'); }}
             style={{
-              color: currentView === 'dashboard' ? '#00bfff' : 'rgba(233,240,255,0.9)',
+              color: currentView === 'dashboard' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
               textDecoration: 'none',
               fontWeight: 600,
-              padding: '8px 10px',
-              borderRadius: '8px',
-              background: currentView === 'dashboard' ? 'rgba(0,191,255,0.08)' : 'transparent'
+              padding: '8px 14px',
+              borderRadius: '10px',
+              background: currentView === 'dashboard' ? 'rgba(0,217,255,0.1)' : 'transparent',
+              textShadow: currentView === 'dashboard' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
+              transition: 'all 0.2s'
             }}
           >
             Dashboard
@@ -224,12 +231,14 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('campaigns'); }}
             style={{
-              color: currentView === 'campaigns' ? '#00bfff' : 'rgba(233,240,255,0.9)',
+              color: currentView === 'campaigns' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
               textDecoration: 'none',
               fontWeight: 600,
-              padding: '8px 10px',
-              borderRadius: '8px',
-              background: currentView === 'campaigns' ? 'rgba(0,191,255,0.08)' : 'transparent'
+              padding: '8px 14px',
+              borderRadius: '10px',
+              background: currentView === 'campaigns' ? 'rgba(0,217,255,0.1)' : 'transparent',
+              textShadow: currentView === 'campaigns' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
+              transition: 'all 0.2s'
             }}
           >
             Campaigns
@@ -238,12 +247,14 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('marketplace'); }}
             style={{
-              color: currentView === 'marketplace' ? '#00bfff' : 'rgba(233,240,255,0.9)',
+              color: currentView === 'marketplace' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
               textDecoration: 'none',
               fontWeight: 600,
-              padding: '8px 10px',
-              borderRadius: '8px',
-              background: currentView === 'marketplace' ? 'rgba(0,191,255,0.08)' : 'transparent'
+              padding: '8px 14px',
+              borderRadius: '10px',
+              background: currentView === 'marketplace' ? 'rgba(0,217,255,0.1)' : 'transparent',
+              textShadow: currentView === 'marketplace' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
+              transition: 'all 0.2s'
             }}
           >
             Marketplace
@@ -252,12 +263,14 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('withdraw'); }}
             style={{
-              color: currentView === 'withdraw' ? '#00bfff' : 'rgba(233,240,255,0.9)',
+              color: currentView === 'withdraw' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
               textDecoration: 'none',
               fontWeight: 600,
-              padding: '8px 10px',
-              borderRadius: '8px',
-              background: currentView === 'withdraw' ? 'rgba(0,191,255,0.08)' : 'transparent'
+              padding: '8px 14px',
+              borderRadius: '10px',
+              background: currentView === 'withdraw' ? 'rgba(0,217,255,0.1)' : 'transparent',
+              textShadow: currentView === 'withdraw' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
+              transition: 'all 0.2s'
             }}
           >
             Withdraw
@@ -266,12 +279,14 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             href="#"
             onClick={(e) => { e.preventDefault(); setCurrentView('profile'); }}
             style={{
-              color: currentView === 'profile' ? '#00bfff' : 'rgba(233,240,255,0.9)',
+              color: currentView === 'profile' ? '#00d9ff' : 'rgba(233,240,255,0.9)',
               textDecoration: 'none',
               fontWeight: 600,
-              padding: '8px 10px',
-              borderRadius: '8px',
-              background: currentView === 'profile' ? 'rgba(0,191,255,0.08)' : 'transparent'
+              padding: '8px 14px',
+              borderRadius: '10px',
+              background: currentView === 'profile' ? 'rgba(0,217,255,0.1)' : 'transparent',
+              textShadow: currentView === 'profile' ? '0 0 10px rgba(0,217,255,0.5)' : 'none',
+              transition: 'all 0.2s'
             }}
           >
             Profile
@@ -288,30 +303,42 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         {/* DASHBOARD VIEW */}
         {currentView === 'dashboard' && (
           <div>
+            {/* Hero Section */}
+            <div style={{ marginBottom: '32px' }}>
+              <h1 style={{ fontSize: '42px', fontWeight: 800, color: '#fff', margin: 0 }}>Your Earning</h1>
+              <p style={{ fontSize: '16px', color: '#B9C2E6', marginTop: '8px' }}>Overview of your rewards, tasks, and active campaigns.</p>
+            </div>
+
             {/* Top Stats Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px', marginBottom: '24px' }}>
-              <div className="pv-card">
-                <h4>Total TIVs Earned</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+              <div className="pv-stat-card">
+                <h4>Total Earned</h4>
+                <div className="big">${profile?.total_earned.toLocaleString() || '0.00'}</div>
+                <div className="muted">All-time earnings</div>
+              </div>
+              <div className="pv-stat-card">
+                <h4>TIV Balance</h4>
                 <div className="big">{profile?.tiv_balance.toLocaleString() || '0'}</div>
-                <div className="muted">TIV balance available</div>
+                <div className="muted">≈ ${usdEquivalent} USD</div>
               </div>
-              <div className="pv-card">
-                <h4>Total Cash Value</h4>
-                <div className="big">≈ ${usdEquivalent}</div>
-                <div className="muted">USD equivalent (display only)</div>
+              <div className="pv-stat-card">
+                <h4>Withdrawable</h4>
+                <div className="big">${profile?.available_balance.toFixed(2) || '0.00'}</div>
+                <div className="muted">Ready to withdraw</div>
               </div>
-              <div className="pv-card">
-                <h4>Weekly Withdraw Progress</h4>
-                <div className="big">
-                  ${profile?.weekly_withdraw_used || 0} / ${planLimits.weekly}
-                </div>
-                <div className="muted">Plan limits enforced automatically</div>
-              </div>
-              <div className="pv-card">
-                <h4>Subscription</h4>
-                <div className="big">{profile?.subscription_plan || 'Starter'}</div>
-                <div className="muted">Monthly cap: ${planLimits.monthly}</div>
-              </div>
+            </div>
+
+            {/* Legal Notice */}
+            <div style={{ 
+              background: 'rgba(0,191,255,0.08)', 
+              border: '1px solid rgba(0,191,255,0.2)', 
+              borderRadius: '12px', 
+              padding: '16px 20px', 
+              marginBottom: '32px',
+              fontSize: '13px',
+              color: '#E9F0FF'
+            }}>
+              <strong>Legal:</strong> Profitiv is a fintech marketing & promotional rewards platform. Rewards are earned from verified engagement with brand campaigns — not an investment service. Withdrawals and TIV trades require backend payment integration and identity verification.
             </div>
 
             {/* Split Layout */}
