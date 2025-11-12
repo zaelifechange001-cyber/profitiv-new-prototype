@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import Navigation from "@/components/Navigation";
+import { BackgroundAnimation } from "@/components/BackgroundAnimation";
 import { LogOut, Wallet, ArrowUpRight } from "lucide-react";
 
 interface EarnerDashboardProps {
@@ -88,166 +86,141 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   const withdrawable = profile?.available_balance || 0;
 
   return (
-    <div className="min-h-screen" data-role="earner">
-      <Navigation />
+    <div className="min-h-screen bg-background relative" data-role="earner">
+      <BackgroundAnimation />
       
-      <div className="pt-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12">
-            <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2">
-                Your Earning <span className="text-gradient-hero">Dashboard</span>
-              </h1>
-              <p className="text-lg text-foreground/80">
-                Overview of your rewards, tasks, and active campaigns — all in one place.
-              </p>
+      {/* Header */}
+      <header className="relative z-10 border-b border-white/10 bg-background/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-8">
+              <span className="profitiv-wordmark">Profitiv</span>
+              <nav className="hidden md:flex gap-6">
+                <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Home</a>
+                <a href="/dashboard" className="text-sm text-foreground font-medium">Dashboard</a>
+                <a href="/videos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Campaigns</a>
+                <a href="/marketplace" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Marketplace</a>
+                <a href="/payout-settings" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Withdraw</a>
+              </nav>
             </div>
-            <div className="flex gap-3">
-              <Button 
-                variant="gradient" 
-                onClick={() => navigate('/payout-settings')}
-                className="hover-lift"
-              >
-                <Wallet className="w-4 h-4 mr-2" />
-                Withdraw
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={handleLogout}
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-            </div>
+            <Button variant="outline" onClick={handleLogout} size="sm">
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
           </div>
+        </div>
+      </header>
 
-          {/* TIV Balance Card - Featured */}
+      <div className="relative z-10 pt-12 px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="max-w-7xl mx-auto">
+          {/* Title */}
           <div className="mb-8">
-            <Card className="glass-card p-8 hover-lift" style={{
-              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(14, 165, 255, 0.2))',
-              borderColor: 'rgba(124, 58, 237, 0.3)'
-            }}>
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-2" style={{ color: '#a78bfa' }}>Your TIV Balance</h3>
-                  <div className="text-5xl font-bold text-foreground mb-2">
-                    {tivBalance.toLocaleString()} TIVs
-                  </div>
-                  <p className="text-xl text-muted-foreground">≈ ${tivUsdValue.toFixed(2)} USD Value</p>
-                </div>
-                <Button 
-                  variant="glass" 
-                  onClick={() => navigate('/marketplace')}
-                  className="hover:border-profitiv-teal"
-                >
-                  Trade TIV
-                </Button>
-              </div>
-              <Progress value={65} className="mb-4" />
-              <p className="text-sm text-muted-foreground">
-                Goal: 5,000 TIVs • Keep earning to reach your target
-              </p>
-            </Card>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-2">
+              Your Earning <span className="text-gradient-hero">Dashboard</span>
+            </h1>
+            <p className="text-base text-muted-foreground">
+              Overview of your rewards, tasks, and active campaigns.
+            </p>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <Card className="glass-card p-6 hover-lift">
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2">Completed Campaigns</h4>
-              <div className="text-5xl font-bold text-foreground mb-2">18</div>
-              <p className="text-sm text-muted-foreground mb-4">Campaigns Finished</p>
-              <Progress value={90} className="mb-2" />
-              <p className="text-xs text-profitiv-teal">You're in the top 5% of earners!</p>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div className="glass-card p-4 hover-lift">
+              <h4 className="text-xs font-semibold text-muted-foreground mb-1">Total Earned</h4>
+              <div className="text-2xl font-bold text-foreground">${totalEarned.toFixed(2)}</div>
+              <p className="text-xs text-muted-foreground mt-1">All-time earnings</p>
+            </div>
 
-            <Card className="glass-card p-6 hover-lift">
-              <h4 className="text-sm font-semibold text-muted-foreground mb-2">Withdraw Progress</h4>
-              <div className="text-5xl font-bold text-foreground mb-2">${withdrawable.toFixed(2)}</div>
-              <p className="text-sm text-muted-foreground mb-4">Withdrawn This Month</p>
-              <Progress value={50} className="mb-2" />
-              <p className="text-xs text-muted-foreground">
-                {/* TODO: API Integration - Calculate based on plan limits */}
-                Weekly limit: $250 • Monthly cap: $1,000
-              </p>
-            </Card>
+            <div className="glass-card p-4 hover-lift">
+              <h4 className="text-xs font-semibold text-muted-foreground mb-1">TIV Balance</h4>
+              <div className="text-2xl font-bold text-foreground">{tivBalance.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground mt-1">≈ ${tivUsdValue.toFixed(2)} USD</p>
+            </div>
+
+            <div className="glass-card p-4 hover-lift">
+              <h4 className="text-xs font-semibold text-muted-foreground mb-1">Withdrawable</h4>
+              <div className="text-2xl font-bold text-foreground">${withdrawable.toFixed(2)}</div>
+              <p className="text-xs text-muted-foreground mt-1">Ready to withdraw</p>
+            </div>
           </div>
 
-          {/* Active Campaign Card */}
-          <Card className="glass-card p-6 hover-lift mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-foreground">Featured Campaign — 1,000 completions</h3>
-              <span className="text-sm text-profitiv-teal font-semibold">Reward: 15 TIV</span>
+          {/* Featured Campaign */}
+          <div className="glass-card p-5 hover-lift mb-6">
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <h3 className="text-lg font-bold text-foreground mb-1">Featured Campaign</h3>
+                <p className="text-sm text-muted-foreground">1,000 completions needed</p>
+              </div>
+              <span className="text-sm text-profitiv-teal font-semibold">+15 TIV</span>
             </div>
-            <Progress value={56} className="mb-4" />
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-muted-foreground">
-                {/* TODO: API Integration - Fetch from campaigns table */}
-                560 / 1,000 completed • Expected reward upon completion
-              </p>
-              <Button variant="gradient" size="sm" onClick={() => navigate('/videos')}>
-                Watch & Earn
-              </Button>
+            <div className="mb-3">
+              <div className="progress-bar mb-2">
+                <div className="progress-bar-fill" style={{ width: '56%' }}></div>
+              </div>
+              <p className="text-xs text-muted-foreground">560 / 1,000 completed</p>
             </div>
-          </Card>
+            <Button variant="gradient" size="sm" onClick={() => navigate('/videos')} className="w-full">
+              Watch & Earn
+            </Button>
+          </div>
 
           {/* Quick Actions */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card 
-              className="glass-card p-6 hover-lift cursor-pointer group"
+            <div 
+              className="glass-card p-4 hover-lift cursor-pointer group"
               onClick={() => navigate('/videos')}
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-12 h-12 rounded-full bg-profitiv-teal/20 flex items-center justify-center group-hover:bg-profitiv-teal/30 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-10 h-10 rounded-full bg-profitiv-teal/20 flex items-center justify-center group-hover:bg-profitiv-teal/30 transition-colors text-lg">
                   📹
                 </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/40 group-hover:text-profitiv-teal transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-foreground/40 group-hover:text-profitiv-teal transition-colors" />
               </div>
-              <h3 className="font-semibold mb-1">Watch Videos</h3>
-              <p className="text-sm text-foreground/60">Earn TIVs by watching</p>
-            </Card>
+              <h3 className="text-sm font-semibold mb-1">Watch Videos</h3>
+              <p className="text-xs text-foreground/60">Earn TIVs by watching</p>
+            </div>
 
-            <Card 
-              className="glass-card p-6 hover-lift cursor-pointer group"
+            <div 
+              className="glass-card p-4 hover-lift cursor-pointer group"
               onClick={() => navigate('/learn-earn')}
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-12 h-12 rounded-full bg-profitiv-purple/20 flex items-center justify-center group-hover:bg-profitiv-purple/30 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-10 h-10 rounded-full bg-profitiv-purple/20 flex items-center justify-center group-hover:bg-profitiv-purple/30 transition-colors text-lg">
                   📚
                 </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/40 group-hover:text-profitiv-purple transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-foreground/40 group-hover:text-profitiv-purple transition-colors" />
               </div>
-              <h3 className="font-semibold mb-1">Learn & Earn</h3>
-              <p className="text-sm text-foreground/60">Complete courses</p>
-            </Card>
+              <h3 className="text-sm font-semibold mb-1">Learn & Earn</h3>
+              <p className="text-xs text-foreground/60">Complete courses</p>
+            </div>
 
-            <Card 
-              className="glass-card p-6 hover-lift cursor-pointer group"
+            <div 
+              className="glass-card p-4 hover-lift cursor-pointer group"
               onClick={() => navigate('/spin')}
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center group-hover:bg-secondary/30 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center group-hover:bg-secondary/30 transition-colors text-lg">
                   ✨
                 </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/40 group-hover:text-secondary transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-foreground/40 group-hover:text-secondary transition-colors" />
               </div>
-              <h3 className="font-semibold mb-1">Spin to Win</h3>
-              <p className="text-sm text-foreground/60">Daily rewards</p>
-            </Card>
+              <h3 className="text-sm font-semibold mb-1">Spin to Win</h3>
+              <p className="text-xs text-foreground/60">Daily rewards</p>
+            </div>
 
-            <Card 
-              className="glass-card p-6 hover-lift cursor-pointer group"
+            <div 
+              className="glass-card p-4 hover-lift cursor-pointer group"
               onClick={() => navigate('/marketplace')}
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="w-12 h-12 rounded-full bg-success/20 flex items-center justify-center group-hover:bg-success/30 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-10 h-10 rounded-full bg-success/20 flex items-center justify-center group-hover:bg-success/30 transition-colors text-lg">
                   🏪
                 </div>
-                <ArrowUpRight className="w-5 h-5 text-foreground/40 group-hover:text-success transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-foreground/40 group-hover:text-success transition-colors" />
               </div>
-              <h3 className="font-semibold mb-1">Marketplace</h3>
-              <p className="text-sm text-foreground/60">Trade TIVs</p>
-            </Card>
+              <h3 className="text-sm font-semibold mb-1">Marketplace</h3>
+              <p className="text-xs text-foreground/60">Trade TIVs</p>
+            </div>
           </div>
 
           {/* Legal Notice */}
