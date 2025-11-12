@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Coins, DollarSign, TrendingUp, Video, ShoppingCart, Wallet, LogOut } from "lucide-react";
 
 interface EarnerDashboardProps {
   userId: string;
@@ -12,795 +17,430 @@ interface UserProfile {
   tiv_balance: number;
   total_earned: number;
   tiv_to_usd_rate: number;
-  subscription_plan: 'Starter' | 'Builder' | 'Pro' | 'Elite';
-  weekly_withdraw_used: number;
-  monthly_earned: number;
+  first_name: string;
+  email: string;
+}
+
+interface SubscriptionPlan {
+  name: 'Starter' | 'Builder' | 'Pro' | 'Elite';
+  weekly_cap: number;
+  monthly_cap: number;
 }
 
 interface Campaign {
   id: string;
   title: string;
-  creator: string;
-  avatar: string;
-  category: string;
-  length: string;
-  reward: number;
-  viewsSoFar: number;
-  targetViews: number;
-  joined: boolean;
-  status: string;
-  videoUrl?: string;
+  creator_name: string;
+  video_length: string;
+  remaining_quota: number;
+  earned_amount: number;
+  progress: number;
+  reward_type: 'tiv' | 'usd';
 }
 
-interface Reward {
+interface RewardTransaction {
   date: string;
-  campaign: string;
-  reward: string;
-  status: string;
+  campaign_name: string;
+  reward_amount: number;
+  reward_type: 'tiv' | 'usd';
 }
 
-type ViewType = 'dashboard' | 'campaigns' | 'marketplace' | 'withdraw' | 'profile';
-
-const PLAN_LIMITS = {
-  'Starter': { weekly: 125, monthly: 600 },
-  'Builder': { weekly: 250, monthly: 1000 },
-  'Pro': { weekly: 400, monthly: 1750 },
-  'Elite': { weekly: 450, monthly: 2250 }
+const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
+  'Starter': { name: 'Starter', weekly_cap: 100, monthly_cap: 500 },
+  'Builder': { name: 'Builder', weekly_cap: 200, monthly_cap: 1000 },
+  'Pro': { name: 'Pro', weekly_cap: 300, monthly_cap: 1500 },
+  'Elite': { name: 'Elite', weekly_cap: 450, monthly_cap: 2250 }
 };
 
 const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [subscription, setSubscription] = useState<SubscriptionPlan>(SUBSCRIPTION_PLANS['Starter']);
+  const [weeklyUsed, setWeeklyUsed] = useState(0);
+  const [monthlyUsed, setMonthlyUsed] = useState(0);
+  const [activeCampaigns, setActiveCampaigns] = useState<Campaign[]>([]);
+  const [recentRewards, setRecentRewards] = useState<RewardTransaction[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentView, setCurrentView] = useState<ViewType>('dashboard');
-  const [verificationData, setVerificationData] = useState({ name: '', address: '', phone: '' });
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // TODO: API Integration - Replace with real data from backend
-  const [campaigns] = useState<Campaign[]>([
-    { id: 'c1', title: 'GlowDrop Ad', creator: 'GlowDrop', avatar: 'G', category: 'ad', length: '30s', reward: 15, viewsSoFar: 3000, targetViews: 5000, joined: true, status: 'Active', videoUrl: 'https://www.example.com/video' },
-    { id: 'c4', title: 'Skin Serum — Product Review', creator: 'MayaBrand', avatar: 'M', category: 'product', length: '60s', reward: 20, viewsSoFar: 450, targetViews: 2000, joined: true, status: 'Active', videoUrl: 'https://www.example.com/video' }
-  ]);
-
-  const [recentRewards] = useState<Reward[]>([
-    { date: '2025-11-08', campaign: 'Learn: Finance 101', reward: '15 TIV', status: 'Credited' },
-    { date: '2025-11-07', campaign: 'Brand Ad: EcoBottle', reward: '10 TIV', status: 'Credited' },
-  ]);
-
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        // TODO: API Integration - Fetch complete user profile with subscription details
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('available_balance, tiv_balance, total_earned, tiv_to_usd_rate')
-          .eq('user_id', userId)
-          .single();
+    fetchDashboardData();
+  }, [userId]);
 
-        if (error) throw error;
-        
-        if (data) {
-          // TODO: Add subscription_plan, weekly_withdraw_used, monthly_earned to profiles table
-          setProfile({
-            ...data,
-            subscription_plan: 'Builder', // Demo value
-            weekly_withdraw_used: 200, // Demo value
-            monthly_earned: 650 // Demo value
-          });
+  const fetchDashboardData = async () => {
+    try {
+      // Fetch user profile
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('available_balance, tiv_balance, total_earned, tiv_to_usd_rate, first_name, email')
+        .eq('user_id', userId)
+        .single();
+
+      if (profileError) throw profileError;
+      setProfile(profileData);
+
+      // Fetch subscription (TODO: implement actual subscription table query)
+      // For now using default Starter plan
+      setSubscription(SUBSCRIPTION_PLANS['Builder']);
+
+      // Fetch user activities for weekly/monthly usage calculation
+      const startOfWeek = new Date();
+      startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+      startOfWeek.setHours(0, 0, 0, 0);
+
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
+      const { data: weeklyData } = await supabase
+        .from('user_activities')
+        .select('amount')
+        .eq('user_id', userId)
+        .gte('created_at', startOfWeek.toISOString())
+        .in('activity_type', ['course_completion', 'spin_reward']);
+
+      const { data: monthlyData } = await supabase
+        .from('user_activities')
+        .select('amount')
+        .eq('user_id', userId)
+        .gte('created_at', startOfMonth.toISOString())
+        .in('activity_type', ['course_completion', 'spin_reward']);
+
+      setWeeklyUsed(weeklyData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0);
+      setMonthlyUsed(monthlyData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0);
+
+      // Fetch active campaigns (TODO: implement proper campaign participation tracking)
+      // Mock data for now
+      setActiveCampaigns([
+        {
+          id: '1',
+          title: 'Brand Awareness Campaign',
+          creator_name: 'TechBrand Inc.',
+          video_length: '30s',
+          remaining_quota: 2350,
+          earned_amount: 15,
+          progress: 60,
+          reward_type: 'tiv'
+        },
+        {
+          id: '2',
+          title: 'Product Launch Video',
+          creator_name: 'EcoProducts',
+          video_length: '45s',
+          remaining_quota: 1200,
+          earned_amount: 25,
+          progress: 80,
+          reward_type: 'usd'
         }
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-        toast({
-          title: "Error",
-          description: "Failed to load your profile data",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
+      ]);
+
+      // Fetch recent rewards
+      const { data: rewardsData } = await supabase
+        .from('user_activities')
+        .select('created_at, description, amount, activity_type')
+        .eq('user_id', userId)
+        .in('activity_type', ['course_completion', 'spin_reward', 'tiv_conversion'])
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (rewardsData) {
+        setRecentRewards(
+          rewardsData.map(reward => ({
+            date: new Date(reward.created_at).toLocaleDateString(),
+            campaign_name: reward.description,
+            reward_amount: Number(reward.amount),
+            reward_type: reward.activity_type.includes('tiv') ? 'tiv' : 'usd'
+          }))
+        );
       }
-    };
 
-    if (userId) {
-      fetchProfile();
-    }
-  }, [userId, toast]);
-
-  const planLimits = profile ? PLAN_LIMITS[profile.subscription_plan] : PLAN_LIMITS['Starter'];
-
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
       toast({
         title: "Error",
-        description: error.message,
+        description: "Failed to load dashboard data",
         variant: "destructive",
       });
-    } else {
-      navigate("/");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleVerification = () => {
-    // TODO: API Integration - POST /api/verify with name, address, phone
-    if (!verificationData.name || !verificationData.address || !verificationData.phone) {
-      toast({
-        title: "Incomplete",
-        description: "Please complete all verification fields",
-        variant: "destructive"
-      });
-      return;
-    }
-    toast({
-      title: "Verification Submitted",
-      description: "Please wait for approval. This is a demo flow.",
-    });
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
   };
 
   const handleWithdraw = () => {
-    // TODO: API Integration - POST /api/withdraw { userId, amount } -> Stripe payout
-    // Check KYC status and plan limits on backend
-    toast({
-      title: "Withdrawal Requested",
-      description: "Demo mode: Connect Stripe for real payouts",
-    });
-  };
-
-  const handleWatchVideo = (campaignId: string) => {
-    // TODO: API Integration - Open secure video modal, track full watch, verify completion
-    const campaign = campaigns.find(c => c.id === campaignId);
-    if (campaign?.videoUrl) {
-      window.open(campaign.videoUrl, '_blank');
+    if (weeklyUsed >= subscription.weekly_cap) {
       toast({
-        title: "Video Opened",
-        description: "Demo: In production, this opens a secure modal with watch verification",
+        title: "Weekly Limit Reached",
+        description: "Upgrade your plan to earn more",
+        variant: "destructive",
       });
+      return;
     }
+    navigate("/payout-settings");
   };
-
-  const participatingCampaigns = campaigns.filter(c => c.joined);
 
   if (loading) {
     return (
-    <div style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      background: 'linear-gradient(135deg, #0a0514, #180f2e, #291c4b)'
-    }}>
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#00bfff] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-white/60">Loading dashboard...</p>
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-foreground/60">Loading your dashboard...</p>
         </div>
       </div>
     );
   }
 
-  const usdEquivalent = profile ? (profile.tiv_balance * profile.tiv_to_usd_rate).toFixed(2) : '0.00';
+  const weeklyRemaining = subscription.weekly_cap - weeklyUsed;
+  const monthlyRemaining = subscription.monthly_cap - monthlyUsed;
+  const weeklyProgress = (weeklyUsed / subscription.weekly_cap) * 100;
+  const isWeeklyCapped = weeklyUsed >= subscription.weekly_cap;
 
   return (
-    <div id="earner-dashboard" data-theme="profitiv" data-role="earner"
-      style={{
-        color: '#fff',
-        minHeight: '100vh',
-        fontFamily: 'Inter, sans-serif',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden'
-      }}
-    >
-      <style>{`
-        /* PROFITIV EARNER DASHBOARD THEME */
-        #earner-dashboard, #earner-dashboard *, body {
-          box-sizing: border-box !important;
-        }
-
-        #earner-dashboard, body {
-          background: radial-gradient(circle at 30% 30%, #120b25, #080510, #000) !important;
-          background-size: 200% 200% !important;
-          animation: backgroundFlow 20s ease infinite !important;
-          color: #f5f4fb !important;
-          font-family: "Inter", sans-serif !important;
-          min-height: 100vh !important;
-        }
-
-        @keyframes backgroundFlow {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-
-        /* DASHBOARD CARDS */
-        #earner-dashboard .dashboard-card,
-        #earner-dashboard .stat-box,
-        #earner-dashboard .content-box,
-        #earner-dashboard .pv-card,
-        #earner-dashboard .pv-stat-card,
-        #earner-dashboard .card,
-        #earner-dashboard .panel,
-        #earner-dashboard div[class*="card"],
-        #earner-dashboard div[style*="background"] {
-          background: rgba(30, 20, 60, 0.65) !important;
-          border: 1px solid rgba(155, 100, 255, 0.3) !important;
-          border-radius: 16px !important;
-          box-shadow: 0 0 25px rgba(155, 100, 255, 0.25) !important;
-          backdrop-filter: blur(14px) !important;
-          transition: all 0.3s ease-in-out !important;
-          padding: 24px !important;
-        }
-
-        #earner-dashboard .dashboard-card:hover,
-        #earner-dashboard .stat-box:hover,
-        #earner-dashboard .content-box:hover,
-        #earner-dashboard .pv-card:hover,
-        #earner-dashboard .pv-stat-card:hover {
-          transform: translateY(-4px) !important;
-          box-shadow: 0 0 30px rgba(155, 100, 255, 0.45) !important;
-        }
-
-        /* BUTTONS */
-        #earner-dashboard button,
-        #earner-dashboard .btn-primary,
-        #earner-dashboard .pv-btn-primary,
-        #earner-dashboard button[class*="btn"] {
-          background: linear-gradient(135deg, #8b5cf6, #5b21b6) !important;
-          color: white !important;
-          font-weight: 600 !important;
-          border: none !important;
-          border-radius: 10px !important;
-          box-shadow: 0 0 20px rgba(139, 92, 246, 0.5) !important;
-          padding: 12px 20px !important;
-          cursor: pointer !important;
-          transition: all 0.2s !important;
-        }
-
-        #earner-dashboard button:hover,
-        #earner-dashboard .btn-primary:hover,
-        #earner-dashboard .pv-btn-primary:hover {
-          transform: scale(1.04) !important;
-          box-shadow: 0 0 30px rgba(139, 92, 246, 0.7) !important;
-        }
-
-        #earner-dashboard .pv-btn-ghost {
-          background: rgba(255,255,255,0.05) !important;
-          border: 1px solid rgba(255,255,255,0.15) !important;
-          color: #E9F0FF !important;
-          box-shadow: none !important;
-        }
-
-        #earner-dashboard .pv-btn-ghost:hover {
-          background: rgba(255,255,255,0.08) !important;
-          transform: scale(1.04) !important;
-        }
-
-        /* NAVBAR + LOGO */
-        #earner-dashboard .navbar,
-        #earner-dashboard header {
-          background: transparent !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-          position: relative !important;
-        }
-
-        #earner-dashboard .navbar img.logo,
-        #earner-dashboard .navbar-logo {
-          position: absolute !important;
-          top: 18px !important;
-          left: 30px !important;
-          height: 38px !important;
-          color: #8b5cf6 !important;
-          font-weight: 800 !important;
-          font-size: 28px !important;
-          letter-spacing: 1.5px !important;
-          filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6)) !important;
-          text-shadow: 0 0 30px rgba(139, 92, 246, 0.8), 0 0 60px rgba(139, 92, 246, 0.4) !important;
-        }
-        
-        /* Text colors */
-        #earner-dashboard h1,
-        #earner-dashboard h2,
-        #earner-dashboard h3,
-        #earner-dashboard h4 {
-          color: #fff !important;
-        }
-        #earner-dashboard .big {
-          color: #FFFFFF !important;
-          font-weight: 800 !important;
-        }
-        #earner-dashboard .muted {
-          color: #B9C2E6 !important;
-        }
-
-        /* Inputs */
-        #earner-dashboard .pv-input,
-        #earner-dashboard input {
-          background: rgba(255,255,255,0.05) !important;
-          border: 1px solid rgba(155, 100, 255, 0.2) !important;
-          border-radius: 10px !important;
-          padding: 12px !important;
-          color: #fff !important;
-          width: 100% !important;
-        }
-
-        #earner-dashboard .pv-input:focus,
-        #earner-dashboard input:focus {
-          outline: none !important;
-          border-color: rgba(155, 100, 255, 0.5) !important;
-          box-shadow: 0 0 15px rgba(139, 92, 246, 0.3) !important;
-        }
-
-        /* Progress bars */
-        #earner-dashboard .bar {
-          background: rgba(255,255,255,0.08) !important;
-          height: 8px !important;
-          border-radius: 8px !important;
-          overflow: hidden !important;
-        }
-
-        #earner-dashboard .bar-fill {
-          background: linear-gradient(90deg, #8b5cf6, #5b21b6) !important;
-          height: 100% !important;
-          border-radius: 8px !important;
-          transition: width 0.3s ease !important;
-        }
-      `}</style>
-
-      {/* Header - NO HOME LINK for signed-in earners */}
-      <header className="navbar" style={{
-        position: 'relative',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '20px 40px 20px 100px',
-        borderBottom: '1px solid rgba(255,255,255,0.1)',
-        background: 'transparent',
-        backdropFilter: 'blur(10px)'
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h2 className="navbar-logo">Profitiv</h2>
-          <div style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 600, marginTop: '6px' }}>Welcome back</div>
-          <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginTop: '2px' }}>Earner Dashboard</div>
-        </div>
-        <nav style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); setCurrentView('dashboard'); }}
-            style={{
-              color: '#fff',
-              textDecoration: 'none',
-              fontWeight: 500
-            }}
-          >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); setCurrentView('campaigns'); }}
-            style={{
-              color: '#fff',
-              textDecoration: 'none',
-              fontWeight: 500
-            }}
-          >
-            Campaigns
-          </a>
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); setCurrentView('marketplace'); }}
-            style={{
-              color: '#fff',
-              textDecoration: 'none',
-              fontWeight: 500
-            }}
-          >
-            Marketplace
-          </a>
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); setCurrentView('withdraw'); }}
-            style={{
-              color: '#fff',
-              textDecoration: 'none',
-              fontWeight: 500
-            }}
-          >
-            Withdraw
-          </a>
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); setCurrentView('profile'); }}
-            style={{
-              color: '#fff',
-              textDecoration: 'none',
-              fontWeight: 500
-            }}
-          >
-            Profile
-          </a>
-          <button onClick={handleLogout} className="pv-btn-ghost">
+    <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+        <div className="container flex h-16 items-center justify-between">
+          <div className="flex items-center gap-8">
+            <h1 className="text-2xl font-bold text-primary">Profitiv</h1>
+            <div className="hidden md:flex gap-6">
+              <Button variant="ghost" onClick={() => navigate("/dashboard")}>
+                Dashboard
+              </Button>
+              <Button variant="ghost" onClick={() => navigate("/videos")}>
+                Campaigns
+              </Button>
+              <Button variant="ghost" onClick={() => navigate("/marketplace")}>
+                Marketplace
+              </Button>
+              <Button variant="ghost" onClick={() => navigate("/payout-settings")}>
+                Withdraw
+              </Button>
+            </div>
+          </div>
+          <Button variant="ghost" size="sm" onClick={handleLogout}>
+            <LogOut className="w-4 h-4 mr-2" />
             Logout
-          </button>
-        </nav>
-      </header>
+          </Button>
+        </div>
+      </nav>
 
-      {/* Main Content */}
-      <div style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto' }}>
-        
-        {/* DASHBOARD VIEW */}
-        {currentView === 'dashboard' && (
-          <div>
-            {/* Hero Section */}
-            <div style={{ marginBottom: '32px' }}>
-              <h1 style={{ fontSize: '42px', fontWeight: 800, color: '#fff', margin: 0 }}>Your Earning</h1>
-              <p style={{ fontSize: '16px', color: '#B9C2E6', marginTop: '8px' }}>Overview of your rewards, tasks, and active campaigns.</p>
-            </div>
+      <div className="container py-8 space-y-8">
+        {/* Hero Header */}
+        <div>
+          <h2 className="text-3xl font-bold mb-2">
+            Welcome back, {profile?.first_name || 'Earner'}!
+          </h2>
+          <div className="flex items-center gap-4">
+            <Badge variant="secondary" className="text-sm">
+              {subscription.name} Plan
+            </Badge>
+            <p className="text-muted-foreground">
+              ${weeklyRemaining.toFixed(2)} of ${subscription.weekly_cap} weekly limit remaining
+            </p>
+          </div>
+        </div>
 
-            {/* Top Stats Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', marginBottom: '32px' }}>
-              <div className="pv-stat-card">
-                <h4>Total Earned</h4>
-                <div className="big">${profile?.total_earned.toLocaleString() || '0.00'}</div>
-                <div className="muted">All-time earnings</div>
-              </div>
-              <div className="pv-stat-card">
-                <h4>TIV Balance</h4>
-                <div className="big">{profile?.tiv_balance.toLocaleString() || '0'}</div>
-                <div className="muted">≈ ${usdEquivalent} USD</div>
-              </div>
-              <div className="pv-stat-card">
-                <h4>Withdrawable</h4>
-                <div className="big">${profile?.available_balance.toFixed(2) || '0.00'}</div>
-                <div className="muted">Ready to withdraw</div>
-              </div>
-            </div>
+        {/* Stats Grid */}
+        <div className="grid gap-4 md:grid-cols-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total TIVs</CardTitle>
+              <Coins className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{profile?.tiv_balance.toFixed(0) || 0}</div>
+              <p className="text-xs text-muted-foreground">
+                ≈ ${((profile?.tiv_balance || 0) * (profile?.tiv_to_usd_rate || 0.01)).toFixed(2)} USD
+              </p>
+            </CardContent>
+          </Card>
 
-            {/* Legal Notice */}
-            <div style={{ 
-              background: 'rgba(0,191,255,0.08)', 
-              border: '1px solid rgba(0,191,255,0.2)', 
-              borderRadius: '12px', 
-              padding: '16px 20px', 
-              marginBottom: '32px',
-              fontSize: '13px',
-              color: '#E9F0FF'
-            }}>
-              <strong>Legal:</strong> Profitiv is a fintech marketing & promotional rewards platform. Rewards are earned from verified engagement with brand campaigns — not an investment service. Withdrawals and TIV trades require backend payment integration and identity verification.
-            </div>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Cash Balance</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">${profile?.available_balance.toFixed(2) || '0.00'}</div>
+              <p className="text-xs text-muted-foreground">Available to withdraw</p>
+            </CardContent>
+          </Card>
 
-            {/* Split Layout */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '18px', alignItems: 'start' }}>
-              
-              {/* Left: Active Campaigns */}
-              <div>
-                <h3 style={{ margin: '0 0 16px 0', color: '#fff' }}>Active Campaigns You're Participating In</h3>
-                {participatingCampaigns.length === 0 ? (
-                  <div className="pv-card">
-                    <div className="muted">You are not currently participating in any campaigns. Use "Watch a Video" to join active campaigns.</div>
-                  </div>
-                ) : (
-                  participatingCampaigns.map(campaign => {
-                    const percent = Math.min(100, Math.round((campaign.viewsSoFar / campaign.targetViews) * 100));
-                    return (
-                      <div key={campaign.id} className="pv-card" style={{ marginBottom: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '12px' }}>
-                          <div style={{ display: 'flex', gap: '12px' }}>
-                            <div style={{
-                              width: '52px',
-                              height: '52px',
-                              borderRadius: '10px',
-                              background: 'linear-gradient(135deg, #7c3aed, #00bfff)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontWeight: 800,
-                              color: '#fff'
-                            }}>
-                              {campaign.avatar}
-                            </div>
-                            <div>
-                              <div style={{ fontWeight: 800, color: '#fff', fontSize: '16px' }}>{campaign.title}</div>
-                              <div className="muted">{campaign.creator} · {campaign.category} · Length: {campaign.length}</div>
-                            </div>
-                          </div>
-                          <div style={{ textAlign: 'right' }}>
-                            <div className="muted">Reward</div>
-                            <div style={{ fontWeight: 800, color: '#fff' }}>{campaign.reward} TIV</div>
-                          </div>
-                        </div>
-                        <div className="muted" style={{ marginBottom: '8px' }}>
-                          {campaign.viewsSoFar.toLocaleString()} / {campaign.targetViews.toLocaleString()} views
-                        </div>
-                        <div className="bar">
-                          <div className="bar-fill" style={{ width: `${percent}%` }} />
-                        </div>
-                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '10px' }}>
-                          <button className="pv-btn-ghost" onClick={() => toast({ title: "Creator Profile", description: `View ${campaign.creator}'s profile (demo)` })}>
-                            View Creator
-                          </button>
-                          {campaign.videoUrl && (
-                            <button className="pv-btn-primary" onClick={() => handleWatchVideo(campaign.id)}>
-                              ▶ Watch & Earn
-                            </button>
-                          )}
-                        </div>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Weekly Progress</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">${weeklyUsed.toFixed(2)}</div>
+              <Progress value={weeklyProgress} className="mt-2" />
+              <p className="text-xs text-muted-foreground mt-1">
+                {isWeeklyCapped ? 'Limit reached!' : `of $${subscription.weekly_cap}`}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Earned</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">${profile?.total_earned.toFixed(2) || '0.00'}</div>
+              <p className="text-xs text-muted-foreground">All-time earnings</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {/* Active Campaigns Feed */}
+          <Card className="md:col-span-2">
+            <CardHeader>
+              <CardTitle>Active Campaigns You're Participating In</CardTitle>
+              <CardDescription>Your ongoing campaign engagement</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {activeCampaigns.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8">
+                  No active campaigns. Browse available campaigns to start earning!
+                </p>
+              ) : (
+                activeCampaigns.map((campaign) => (
+                  <Card key={campaign.id} className="p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h4 className="font-semibold">{campaign.title}</h4>
+                        <p className="text-sm text-muted-foreground">{campaign.creator_name}</p>
                       </div>
-                    );
-                  })
-                )}
+                      <Badge variant={campaign.reward_type === 'tiv' ? 'secondary' : 'default'}>
+                        {campaign.earned_amount} {campaign.reward_type.toUpperCase()}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Length: {campaign.video_length}</span>
+                        <span className="text-muted-foreground">{campaign.remaining_quota} views left</span>
+                      </div>
+                      <Progress value={campaign.progress} />
+                      <p className="text-xs text-muted-foreground">{campaign.progress}% complete</p>
+                    </div>
+                  </Card>
+                ))
+              )}
+            </CardContent>
+          </Card>
 
-                {/* Recent Rewards Table */}
-                <div className="pv-card" style={{ marginTop: '24px' }}>
-                  <h3 style={{ margin: '0 0 12px 0', color: '#fff' }}>Recent Rewards</h3>
-                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          {/* Quick Actions */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button 
+                className="w-full justify-start" 
+                variant="outline"
+                onClick={() => navigate("/videos")}
+              >
+                <Video className="mr-2 h-4 w-4" />
+                Watch a Video
+              </Button>
+              <Button 
+                className="w-full justify-start" 
+                variant="outline"
+                onClick={() => navigate("/marketplace")}
+              >
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                TIV Marketplace
+              </Button>
+              <Button 
+                className="w-full justify-start" 
+                variant="outline"
+                onClick={handleWithdraw}
+                disabled={isWeeklyCapped}
+              >
+                <Wallet className="mr-2 h-4 w-4" />
+                Withdraw Rewards
+              </Button>
+              {isWeeklyCapped && (
+                <p className="text-xs text-muted-foreground text-center mt-2">
+                  Weekly limit reached. Upgrade to earn more.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Recent Rewards Log */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Rewards</CardTitle>
+            <CardDescription>Your latest earnings and transactions</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {recentRewards.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8">No rewards yet</p>
+              ) : (
+                <div className="rounded-md border">
+                  <table className="w-full">
                     <thead>
-                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                        <th style={{ padding: '10px', textAlign: 'left', fontSize: '14px' }}>Date</th>
-                        <th style={{ padding: '10px', textAlign: 'left', fontSize: '14px' }}>Campaign</th>
-                        <th style={{ padding: '10px', textAlign: 'left', fontSize: '14px' }}>Reward</th>
-                        <th style={{ padding: '10px', textAlign: 'left', fontSize: '14px' }}>Status</th>
+                      <tr className="border-b bg-muted/50">
+                        <th className="p-3 text-left text-sm font-medium">Date</th>
+                        <th className="p-3 text-left text-sm font-medium">Campaign</th>
+                        <th className="p-3 text-right text-sm font-medium">Reward</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {recentRewards.map((reward, idx) => (
-                        <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                          <td style={{ padding: '10px', fontSize: '14px' }}>{reward.date}</td>
-                          <td style={{ padding: '10px', fontSize: '14px' }}>{reward.campaign}</td>
-                          <td style={{ padding: '10px', fontSize: '14px' }}>{reward.reward}</td>
-                          <td style={{ padding: '10px', fontSize: '14px', color: '#00bfff' }}>{reward.status}</td>
+                      {recentRewards.map((reward, index) => (
+                        <tr key={index} className="border-b last:border-0">
+                          <td className="p-3 text-sm">{reward.date}</td>
+                          <td className="p-3 text-sm">{reward.campaign_name}</td>
+                          <td className="p-3 text-sm text-right font-medium">
+                            {reward.reward_amount.toFixed(2)} {reward.reward_type.toUpperCase()}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-              </div>
-
-              {/* Right: Quick Actions */}
-              <aside>
-                <div className="pv-card" style={{ marginBottom: '12px' }}>
-                  <h4 style={{ marginBottom: '12px' }}>Quick Actions</h4>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.02)' }}>
-                      <div>
-                        <div style={{ fontWeight: 700, color: '#fff' }}>Watch a Video</div>
-                        <div className="muted">Open campaigns to watch & earn</div>
-                      </div>
-                      <button className="pv-btn-primary" onClick={() => setCurrentView('campaigns')}>Go</button>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.02)' }}>
-                      <div>
-                        <div style={{ fontWeight: 700, color: '#fff' }}>TIV Marketplace</div>
-                        <div className="muted">View-only (Earners cannot buy)</div>
-                      </div>
-                      <button className="pv-btn-ghost" onClick={() => setCurrentView('marketplace')}>Open</button>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', borderRadius: '10px', background: 'rgba(255,255,255,0.02)' }}>
-                      <div>
-                        <div style={{ fontWeight: 700, color: '#fff' }}>Withdraw Rewards</div>
-                        <div className="muted">Request payout or check limits</div>
-                      </div>
-                      <button className="pv-btn-primary" onClick={() => setCurrentView('withdraw')}>Withdraw</button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Plan Widget */}
-                <div className="pv-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div className="muted">Plan</div>
-                      <div style={{ fontWeight: 800, fontSize: '18px' }}>{profile?.subscription_plan || 'Starter'}</div>
-                    </div>
-                    <button className="pv-btn-ghost" onClick={() => setCurrentView('profile')}>Manage</button>
-                  </div>
-                  <div className="muted" style={{ marginTop: '8px' }}>
-                    Monthly cap: ${planLimits.monthly}
-                  </div>
-                </div>
-              </aside>
+              )}
             </div>
-          </div>
-        )}
+          </CardContent>
+        </Card>
 
-        {/* CAMPAIGNS VIEW */}
-        {currentView === 'campaigns' && (
-          <div>
-            <div className="pv-card" style={{ marginBottom: '24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <h3 style={{ margin: 0, color: '#fff' }}>Campaigns</h3>
-                  <div className="muted">Browse or re-open campaigns you participated in</div>
-                </div>
+        {/* Subscription Info */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Subscription Details</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium">Current Plan</span>
+                <Badge>{subscription.name}</Badge>
               </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Weekly Limit</span>
+                <span className="text-sm font-medium">${subscription.weekly_cap}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Monthly Limit</span>
+                <span className="text-sm font-medium">${subscription.monthly_cap}</span>
+              </div>
+              <Button 
+                className="w-full" 
+                variant="default"
+                onClick={() => navigate("/pricing")}
+              >
+                Upgrade Plan
+              </Button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '12px' }}>
-              {campaigns.map(campaign => {
-                const percent = Math.min(100, Math.round((campaign.viewsSoFar / campaign.targetViews) * 100));
-                return (
-                  <div key={campaign.id} className="pv-card">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                      <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                        <div style={{
-                          width: '40px',
-                          height: '40px',
-                          borderRadius: '8px',
-                          background: 'linear-gradient(135deg, #7c3aed, #00bfff)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontWeight: 800,
-                          color: '#fff'
-                        }}>
-                          {campaign.avatar}
-                        </div>
-                        <div>
-                          <div style={{ fontWeight: 800 }}>{campaign.title}</div>
-                          <div className="muted">{campaign.creator} • {campaign.category} • {campaign.length}</div>
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontWeight: 800 }}>{campaign.reward} TIV</div>
-                        <div style={{ color: '#A6B0D6', fontSize: '13px' }}>{campaign.status}</div>
-                      </div>
-                    </div>
-                    <div className="muted" style={{ marginBottom: '8px' }}>
-                      {campaign.viewsSoFar.toLocaleString()} / {campaign.targetViews.toLocaleString()} views
-                    </div>
-                    <div className="bar">
-                      <div className="bar-fill" style={{ width: `${percent}%` }} />
-                    </div>
-                    {campaign.videoUrl && (
-                      <button className="pv-btn-primary" style={{ width: '100%', marginTop: '10px' }} onClick={() => handleWatchVideo(campaign.id)}>
-                        Watch & Earn
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* MARKETPLACE VIEW - VIEW ONLY FOR EARNERS */}
-        {currentView === 'marketplace' && (
-          <div>
-            <div className="pv-card">
-              <h3 style={{ margin: '0 0 12px 0', color: '#fff' }}>TIV Marketplace (Earners View)</h3>
-              <div className="muted" style={{ marginBottom: '24px' }}>
-                Earners cannot buy TIVs here. Creators buy packs to fund campaigns. Below are public sell orders and buy interest insights.
-              </div>
-              
-              <h4 style={{ margin: '0 0 12px 0', color: '#fff' }}>Public Sell Orders</h4>
-              <div style={{ marginBottom: '24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div>
-                    <strong>Earner_001</strong>
-                    <div className="muted">500 TIV • $18</div>
-                  </div>
-                  <button className="pv-btn-ghost" disabled>Buy (Creators only)</button>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0' }}>
-                  <div>
-                    <strong>Earner_002</strong>
-                    <div className="muted">2500 TIV • $90</div>
-                  </div>
-                  <button className="pv-btn-ghost" disabled>Buy (Creators only)</button>
-                </div>
-              </div>
-
-              <h4 style={{ margin: '0 0 12px 0', color: '#fff' }}>Creator Interest (sample)</h4>
-              <div className="muted">
-                Creators are currently buying TIV packs for campaign funding — this is informational only.
-              </div>
-              <div style={{ marginTop: '12px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
-                High demand for short ad packs (15–30s).
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* WITHDRAW VIEW */}
-        {currentView === 'withdraw' && (
-          <div>
-            <div className="pv-card">
-              <h3 style={{ margin: '0 0 12px 0', color: '#fff' }}>Withdraw Rewards</h3>
-              <div className="muted" style={{ marginBottom: '24px' }}>
-                Before your first withdrawal, verification is required (ID, address, phone). Large withdrawals may trigger additional checks.
-              </div>
-
-              <div style={{ display: 'grid', gap: '16px', maxWidth: '600px' }}>
-                <div>
-                  <label className="muted" style={{ display: 'block', marginBottom: '6px' }}>Full name</label>
-                  <input
-                    type="text"
-                    className="pv-input"
-                    placeholder="Jane Doe"
-                    value={verificationData.name}
-                    onChange={(e) => setVerificationData({ ...verificationData, name: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="muted" style={{ display: 'block', marginBottom: '6px' }}>Address</label>
-                  <input
-                    type="text"
-                    className="pv-input"
-                    placeholder="Street, City, State, Zip"
-                    value={verificationData.address}
-                    onChange={(e) => setVerificationData({ ...verificationData, address: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="muted" style={{ display: 'block', marginBottom: '6px' }}>Phone</label>
-                  <input
-                    type="tel"
-                    className="pv-input"
-                    placeholder="+1 555 555 5555"
-                    value={verificationData.phone}
-                    onChange={(e) => setVerificationData({ ...verificationData, phone: e.target.value })}
-                  />
-                </div>
-                <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '12px' }}>
-                  <button className="pv-btn-ghost" onClick={handleVerification}>Verify</button>
-                  <button className="pv-btn-primary" onClick={handleWithdraw}>Request Withdrawal</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* PROFILE VIEW */}
-        {currentView === 'profile' && (
-          <div>
-            <div className="pv-card">
-              <h3 style={{ margin: '0 0 12px 0', color: '#fff' }}>Profile</h3>
-              <div className="muted" style={{ marginBottom: '24px' }}>
-                Edit your name and password. Verified status appears here.
-              </div>
-
-              <div style={{ display: 'grid', gap: '16px', maxWidth: '600px' }}>
-                <div>
-                  <label className="muted" style={{ display: 'block', marginBottom: '6px' }}>Full name</label>
-                  <input type="text" className="pv-input" placeholder="Your name" />
-                </div>
-                <div>
-                  <label className="muted" style={{ display: 'block', marginBottom: '6px' }}>Email</label>
-                  <input type="email" className="pv-input" disabled placeholder="demo@profitiv.app" />
-                </div>
-                <div>
-                  <label className="muted" style={{ display: 'block', marginBottom: '6px' }}>Current Plan</label>
-                  <div style={{ padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
-                    <div style={{ fontWeight: 800, fontSize: '18px', marginBottom: '8px' }}>
-                      {profile?.subscription_plan || 'Starter'}
-                    </div>
-                    <div className="muted">
-                      Weekly limit: ${planLimits.weekly} | Monthly cap: ${planLimits.monthly}
-                    </div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '12px' }}>
-                  <button className="pv-btn-ghost" onClick={() => toast({ title: "Profile Saved", description: "Demo: Hook to /api/user/profile to persist" })}>
-                    Save
-                  </button>
-                  <button className="pv-btn-primary" onClick={() => toast({ title: "Upgrade Plan", description: "Demo: Hook to subscription checkout" })}>
-                    Upgrade Plan
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-      </div>
-
-      {/* Legal Notice */}
-      <div style={{
-        padding: '20px 40px',
-        textAlign: 'center',
-        borderTop: '1px solid rgba(255,255,255,0.1)',
-        marginTop: '40px'
-      }}>
-        <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', margin: 0 }}>
-          <strong>Legal:</strong> Rewards shown here are earned from verified engagement activity on Profitiv. This platform is a marketing & engagement service — not an investment product.
-          Withdrawals, payouts, and marketplace trades require backend payment integration and verification.
-        </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
