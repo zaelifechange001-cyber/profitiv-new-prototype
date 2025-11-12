@@ -199,7 +199,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
           content: '';
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, #0a0514, #180f2e, #291c4b);
+          background: linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%);
           background-size: 400% 400%;
           animation: profitivPulse 16s ease infinite;
           z-index: 0;
@@ -222,20 +222,20 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
 
         /* Neon glow accents aligned with Creator look */
         .pv-card {
-          background: rgba(22, 15, 40, 0.6);
+          background: rgba(255,255,255,0.03);
           border-radius: 16px;
           padding: 24px;
-          box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
-          border: 1px solid rgba(139, 92, 246, 0.2);
-          backdrop-filter: blur(12px);
+          box-shadow: 0 10px 30px rgba(1,2,6,0.5);
+          border: 1px solid rgba(255,255,255,0.08);
+          backdrop-filter: blur(10px);
         }
         .pv-stat-card {
-          background: linear-gradient(135deg, rgba(124,58,237,0.28) 0%, rgba(0,191,255,0.18) 100%);
+          background: linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(0,191,255,0.2) 100%);
           border-radius: 20px;
           padding: 24px;
-          box-shadow: 0 0 22px rgba(139, 92, 246, 0.25);
-          border: 1px solid rgba(139, 92, 246, 0.22);
-          backdrop-filter: blur(12px);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+          border: 1px solid rgba(255,255,255,0.1);
+          backdrop-filter: blur(10px);
         }
         .pv-card h4 { margin: 0 0 8px; color: #E9F0FF; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; }
         .pv-card .big { font-size: 32px; font-weight: 800; margin-top: 8px; color: #FFFFFF; }
