@@ -179,12 +179,15 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   const usdEquivalent = profile ? (profile.tiv_balance * profile.tiv_to_usd_rate).toFixed(2) : '0.00';
 
   return (
-    <div
+    <div id="profitiv-app" data-theme="custom" data-role="earner"
       style={{
         background: 'linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%)',
+        color: '#fff',
         minHeight: '100vh',
-        color: '#E9F0FF',
-        fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
+        fontFamily: 'Inter, sans-serif',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden'
       }}
     >
       <style>{`
@@ -208,7 +211,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '18px 28px',
+        padding: '20px 40px',
         borderBottom: '1px solid rgba(255,255,255,0.1)',
         background: 'rgba(255,255,255,0.05)',
         backdropFilter: 'blur(10px)'
