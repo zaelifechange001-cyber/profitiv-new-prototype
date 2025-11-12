@@ -199,13 +199,49 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
           content: '';
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%);
+          background: linear-gradient(135deg, #0a0514, #180f2e, #291c4b);
           background-size: 400% 400%;
           animation: profitivPulse 16s ease infinite;
           z-index: 0;
           pointer-events: none;
         }
+        /* Subtle violet halo like Creator */
+        #profitiv-app[data-role='earner']::after {
+          content: '';
+          position: absolute;
+          inset: -10% -10% -25% -10%;
+          background: radial-gradient(60% 50% at 50% 0%, rgba(139,92,246,0.35) 0%, rgba(0,0,0,0) 60%);
+          filter: blur(12px);
+          z-index: 0;
+          pointer-events: none;
+        }
         #profitiv-app[data-role='earner'] > * { position: relative; z-index: 1; }
+
+        /* Frame the header + content as one glass panel like Creator */
+        #profitiv-app[data-role='earner'] header {
+          background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)) !important;
+          border: 1px solid rgba(255,255,255,0.08) !important;
+          border-bottom: 0 !important;
+          border-top-left-radius: 16px;
+          border-top-right-radius: 16px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+        }
+        #profitiv-app[data-role='earner'] > div {
+          background: rgba(12,10,24,0.5);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-top: 0;
+          border-bottom-left-radius: 16px;
+          border-bottom-right-radius: 16px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        #profitiv-app[data-role='earner'] header h2 {
+          color: #00D9FF !important;
+          text-shadow: 0 0 30px rgba(0,217,255,0.9), 0 0 60px rgba(0,217,255,0.45);
+          letter-spacing: 1.5px;
+          font-weight: 800;
+          font-size: 32px;
+        }
+        #profitiv-app[data-role='earner'] header a { color: #fff !important; opacity: 0.95; }
 
         @keyframes profitivPulse {
           0% { background-position: 0% 50%; }
