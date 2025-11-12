@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Progress } from "@/components/ui/progress";
 import { BackgroundAnimation } from "@/components/BackgroundAnimation";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -109,23 +107,22 @@ export default function CreatorsDashboard() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen relative overflow-hidden" data-role="creator">
       <BackgroundAnimation />
+      
       {/* Header */}
-      <div className="border-b">
+      <div className="border-b border-border/50 backdrop-blur-sm bg-background/30 relative z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <a href="/" className="profitiv-logo hidden sm:block" aria-label="Profitiv home" title="Profitiv">
-                <span className="profitiv-wordmark">Profitiv</span>
-              </a>
-              <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
-                P
-              </div>
-              <div>
-                <div className="font-bold">Welcome back, {user.email?.split("@")[0]}</div>
-                <div className="text-sm text-muted-foreground">Creator Dashboard</div>
-              </div>
+          <div className="flex items-center gap-4">
+            <a href="/" className="profitiv-logo" aria-label="Profitiv home" title="Profitiv">
+              <span className="profitiv-wordmark">Profitiv</span>
+            </a>
+            <div className="hidden sm:block h-8 w-px bg-border/50" />
+            <div>
+              <div className="font-bold text-foreground">Welcome back, {user.email?.split("@")[0]}</div>
+              <div className="text-sm text-muted-foreground">Creator Dashboard</div>
             </div>
+          </div>
 
           <div className="flex items-center gap-3">
             <Dialog>
@@ -191,26 +188,26 @@ export default function CreatorsDashboard() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Stats */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card className="p-6 glass-card">
+          <div className="glass-card p-6 hover-lift">
             <div className="text-sm text-muted-foreground mb-2">Available Balance</div>
-            <div className="text-3xl font-bold mb-2">$1,248.50</div>
+            <div className="text-3xl font-bold text-foreground mb-2">$1,248.50</div>
             <div className="text-xs text-muted-foreground">Withdrawable balance (min $1)</div>
-          </Card>
+          </div>
 
-          <Card className="p-6 glass-card">
+          <div className="glass-card p-6 hover-lift">
             <div className="text-sm text-muted-foreground mb-2">Pending Payouts</div>
-            <div className="text-3xl font-bold mb-2">$120.00</div>
+            <div className="text-3xl font-bold text-foreground mb-2">$120.00</div>
             <div className="text-xs text-muted-foreground">Funds awaiting clearance</div>
-          </Card>
+          </div>
 
-          <Card className="p-6 glass-card">
+          <div className="glass-card p-6 hover-lift">
             <div className="text-sm text-muted-foreground mb-2">Total Paid</div>
-            <div className="text-3xl font-bold mb-2">$2,850.00</div>
+            <div className="text-3xl font-bold text-foreground mb-2">$2,850.00</div>
             <div className="text-xs text-muted-foreground">Total payouts to date</div>
-          </Card>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
@@ -223,55 +220,57 @@ export default function CreatorsDashboard() {
 
             <div className="space-y-4">
               {campaigns.map((campaign) => (
-                <Card key={campaign.id} className="p-6 glass-card hover-lift">
+                <div key={campaign.id} className="glass-card p-6 hover-lift">
                   <div className="flex items-center justify-between gap-6">
                     <div className="flex items-center gap-4 min-w-0 flex-1">
-                      <div className="w-20 h-14 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold flex-shrink-0">
+                      <div className="w-20 h-14 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold flex-shrink-0 shadow-lg">
                         {campaign.type}
                       </div>
                       <div className="min-w-0">
-                        <h4 className="font-bold truncate">{campaign.title}</h4>
+                        <h4 className="font-bold text-foreground truncate">{campaign.title}</h4>
                         <p className="text-sm text-muted-foreground mt-1">{campaign.note}</p>
                       </div>
                     </div>
 
                     <div className="w-64 space-y-2">
-                      <Progress value={campaign.percentage} className="h-3" />
+                      <div className="progress-bar">
+                        <div style={{ width: `${campaign.percentage}%` }} />
+                      </div>
                       <div className="text-sm text-muted-foreground text-right">
                         {campaign.current.toLocaleString()} / {campaign.goal.toLocaleString()} ({campaign.percentage}%)
                       </div>
                     </div>
                   </div>
-                </Card>
+                </div>
               ))}
             </div>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <Card className="p-6 glass-card">
-              <h4 className="font-bold mb-4">Payout History</h4>
+            <div className="glass-card p-6">
+              <h4 className="font-bold text-foreground mb-4">Payout History</h4>
               <div className="space-y-3">
                 {[
                   { date: "2025-09-15", amount: "$820.00", status: "Paid" },
                   { date: "2025-09-03", amount: "$640.00", status: "Paid" },
                   { date: "2025-08-22", amount: "$1,390.00", status: "Paid" }
                 ].map((payout, i) => (
-                  <div key={i} className="flex justify-between items-center py-2 border-b last:border-0">
+                  <div key={i} className="flex justify-between items-center py-2 border-b border-border/30 last:border-0">
                     <div>
-                      <div className="text-sm font-medium">{payout.date}</div>
+                      <div className="text-sm font-medium text-foreground">{payout.date}</div>
                       <div className="text-xs text-muted-foreground">{payout.status}</div>
                     </div>
-                    <div className="font-bold">{payout.amount}</div>
+                    <div className="font-bold text-foreground">{payout.amount}</div>
                   </div>
                 ))}
               </div>
-            </Card>
+            </div>
 
-            <Card className="p-6 glass-card">
-              <h4 className="font-bold mb-4">Notifications</h4>
+            <div className="glass-card p-6">
+              <h4 className="font-bold text-foreground mb-4">Notifications</h4>
               <div className="text-sm text-muted-foreground">No unread notifications</div>
-            </Card>
+            </div>
           </div>
         </div>
       </div>
