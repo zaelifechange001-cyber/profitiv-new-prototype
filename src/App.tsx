@@ -3,7 +3,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useMemo } from "react";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import AuthPage from "./pages/AuthPage";
@@ -33,9 +32,9 @@ import SubscriptionsPage from "./pages/SubscriptionsPage";
 import CreatorsLanding from "./pages/creators/CreatorsLanding";
 import CreatorsDashboard from "./pages/creators/CreatorsDashboard";
 
+const queryClient = new QueryClient();
+
 const App = () => {
-  const queryClient = useMemo(() => new QueryClient(), []);
-  
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
