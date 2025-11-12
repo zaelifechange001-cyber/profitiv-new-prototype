@@ -209,7 +209,9 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: '18px 28px',
-        borderBottom: '1px solid rgba(255,255,255,0.04)'
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+        background: 'rgba(255,255,255,0.05)',
+        backdropFilter: 'blur(10px)'
       }}>
         <div>
           <h2 style={{ 
