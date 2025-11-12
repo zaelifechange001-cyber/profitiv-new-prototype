@@ -30,7 +30,7 @@ import LearnEarnPage from "./pages/LearnEarnPage";
 import PoolsPage from "./pages/PoolsPage";
 import SubscriptionsPage from "./pages/SubscriptionsPage";
 import CreatorsLanding from "./pages/creators/CreatorsLanding";
-import CreatorsDashboard from "./pages/creators/CreatorsDashboard";
+import CreatorDashboard from "./pages/creators/CreatorDashboard";
 
 const queryClient = new QueryClient();
 
@@ -60,7 +60,7 @@ const App = () => {
             
             {/* Creators Routes */}
             <Route path="/creators" element={<CreatorsLanding />} />
-            <Route path="/creators/dashboard" element={<CreatorsDashboard />} />
+            <Route path="/creators/dashboard" element={<CreatorDashboard />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>
