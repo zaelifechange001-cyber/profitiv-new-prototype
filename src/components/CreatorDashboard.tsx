@@ -95,7 +95,13 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
 
   if (loading) {
     return (
-      <div id="profitiv-app" data-theme="custom" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0f0f12, #1a1a1f)' }}>
+    <div id="profitiv-app" data-theme="custom" style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      background: 'linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%)' 
+    }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{ width: '64px', height: '64px', border: '4px solid #a259ff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }}></div>
           <p style={{ color: 'rgba(255,255,255,0.6)' }}>Loading dashboard...</p>
@@ -106,7 +112,7 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
 
   return (
     <div id="profitiv-app" data-theme="custom" style={{ 
-      background: 'linear-gradient(135deg, #0f0f12, #1a1a1f)', 
+      background: 'linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%)', 
       color: '#fff', 
       minHeight: '100vh', 
       fontFamily: 'Inter, sans-serif',
@@ -137,10 +143,23 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
         alignItems: 'center',
         padding: '20px 40px',
         borderBottom: '1px solid rgba(255,255,255,0.1)',
-        background: 'linear-gradient(90deg,#1a1a1f,#17171c)'
+        background: 'rgba(255,255,255,0.05)',
+        backdropFilter: 'blur(10px)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <h2 style={{ color: '#a259ff', fontWeight: 700, letterSpacing: '0.5px', margin: 0, fontSize: '24px' }}>Profitiv</h2>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <h2 style={{ 
+            color: '#00D9FF', 
+            fontWeight: 800, 
+            letterSpacing: '1.5px', 
+            margin: 0, 
+            fontSize: '32px',
+            textShadow: '0 0 30px rgba(0,217,255,0.8), 0 0 60px rgba(0,217,255,0.4)',
+            fontFamily: 'Inter, sans-serif'
+          }}>
+            Profitiv
+          </h2>
+          <div style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 600, marginTop: '6px' }}>Welcome back</div>
+          <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginTop: '2px' }}>Creator Dashboard</div>
         </div>
         <nav style={{ display: 'flex', gap: '30px' }}>
           <a href="/" style={{ color: '#fff', textDecoration: 'none', fontWeight: 500 }}>Home</a>
@@ -151,39 +170,45 @@ const CreatorDashboard = ({ userId }: CreatorDashboardProps) => {
       </header>
 
       {/* Stats Section */}
-      <section style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', padding: '40px' }}>
+      <section style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', padding: '40px', gap: '20px' }}>
         <div style={{
-          background: '#17171c',
-          borderRadius: '12px',
-          padding: '25px',
-          width: '220px',
-          boxShadow: '0 0 15px rgba(162,89,255,0.2)',
-          textAlign: 'center'
+          background: 'linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(0,191,255,0.2) 100%)',
+          borderRadius: '20px',
+          padding: '30px',
+          minWidth: '220px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          textAlign: 'center',
+          border: '1px solid rgba(255,255,255,0.1)',
+          backdropFilter: 'blur(10px)'
         }}>
-          <h3 style={{ color: '#a259ff', fontSize: '14px', margin: '0 0 10px 0' }}>Active Campaigns</h3>
-          <p style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>{activeCampaigns}</p>
+          <h3 style={{ color: '#E9F0FF', fontSize: '14px', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>Active Campaigns</h3>
+          <p style={{ fontSize: '36px', fontWeight: 800, margin: 0, color: '#fff' }}>{activeCampaigns}</p>
         </div>
         <div style={{
-          background: '#17171c',
-          borderRadius: '12px',
-          padding: '25px',
-          width: '220px',
-          boxShadow: '0 0 15px rgba(162,89,255,0.2)',
-          textAlign: 'center'
+          background: 'linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(0,191,255,0.2) 100%)',
+          borderRadius: '20px',
+          padding: '30px',
+          minWidth: '220px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          textAlign: 'center',
+          border: '1px solid rgba(255,255,255,0.1)',
+          backdropFilter: 'blur(10px)'
         }}>
-          <h3 style={{ color: '#a259ff', fontSize: '14px', margin: '0 0 10px 0' }}>Total Views</h3>
-          <p style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>{totalViews.toLocaleString()}</p>
+          <h3 style={{ color: '#E9F0FF', fontSize: '14px', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>Total Views</h3>
+          <p style={{ fontSize: '36px', fontWeight: 800, margin: 0, color: '#fff' }}>{totalViews.toLocaleString()}</p>
         </div>
         <div style={{
-          background: '#17171c',
-          borderRadius: '12px',
-          padding: '25px',
-          width: '220px',
-          boxShadow: '0 0 15px rgba(162,89,255,0.2)',
-          textAlign: 'center'
+          background: 'linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(0,191,255,0.2) 100%)',
+          borderRadius: '20px',
+          padding: '30px',
+          minWidth: '220px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          textAlign: 'center',
+          border: '1px solid rgba(255,255,255,0.1)',
+          backdropFilter: 'blur(10px)'
         }}>
-          <h3 style={{ color: '#a259ff', fontSize: '14px', margin: '0 0 10px 0' }}>Earnings</h3>
-          <p style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>{tivBalance.toLocaleString()} TIVs (≈ ${earningsUSD})</p>
+          <h3 style={{ color: '#E9F0FF', fontSize: '14px', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>Earnings</h3>
+          <p style={{ fontSize: '36px', fontWeight: 800, margin: 0, color: '#fff' }}>{tivBalance.toLocaleString()} TIVs (≈ ${earningsUSD})</p>
         </div>
       </section>
 

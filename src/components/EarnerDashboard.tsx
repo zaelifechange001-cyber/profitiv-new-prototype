@@ -161,7 +161,13 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f0f12] via-[#1a1133] to-[#0a1a2b]">
+    <div style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%)'
+    }}>
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#00bfff] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-white/60">Loading dashboard...</p>
@@ -175,7 +181,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   return (
     <div
       style={{
-        background: 'linear-gradient(120deg, #0f0f12 0%, #1a1133 60%, #0a1a2b 100%)',
+        background: 'linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%)',
         minHeight: '100vh',
         color: '#E9F0FF',
         fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
@@ -206,9 +212,19 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         borderBottom: '1px solid rgba(255,255,255,0.04)'
       }}>
         <div>
-          <h2 style={{ color: '#00d9ff', fontWeight: 800, letterSpacing: '1px', margin: 0, fontSize: '28px', textShadow: '0 0 20px rgba(0,217,255,0.5)' }}>Profitiv</h2>
-          <div style={{ color: '#E9F0FF', fontSize: '14px', fontWeight: 500, marginTop: '4px' }}>Welcome back</div>
-          <div className="muted" style={{ fontSize: '13px' }}>Earner Dashboard</div>
+          <h2 style={{ 
+            color: '#00D9FF', 
+            fontWeight: 800, 
+            letterSpacing: '1.5px', 
+            margin: 0, 
+            fontSize: '32px', 
+            textShadow: '0 0 30px rgba(0,217,255,0.8), 0 0 60px rgba(0,217,255,0.4)',
+            fontFamily: 'Inter, sans-serif'
+          }}>
+            Profitiv
+          </h2>
+          <div style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 600, marginTop: '6px' }}>Welcome back</div>
+          <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginTop: '2px' }}>Earner Dashboard</div>
         </div>
         <nav style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
           <a
