@@ -166,7 +166,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%)'
+      background: 'linear-gradient(135deg, #0a0514, #180f2e, #291c4b)'
     }}>
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#00bfff] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -179,9 +179,8 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   const usdEquivalent = profile ? (profile.tiv_balance * profile.tiv_to_usd_rate).toFixed(2) : '0.00';
 
   return (
-    <div id="profitiv-app" data-theme="custom" data-role="earner"
+    <div id="profitiv-earner" data-theme="profitiv" data-role="earner"
       style={{
-        background: 'linear-gradient(135deg, #6B46C1 0%, #7C3AED 25%, #4F46E5 50%, #0EA5E9 75%, #06B6D4 100%)',
         color: '#fff',
         minHeight: '100vh',
         fontFamily: 'Inter, sans-serif',
@@ -191,91 +190,86 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       }}
     >
       <style>{`
-        #profitiv-app, #profitiv-app * { box-sizing: border-box; }
+        #profitiv-earner, #profitiv-earner * { box-sizing: border-box; }
 
-        @keyframes pulseGlow {
-          0% { box-shadow: 0 0 10px rgba(162,89,255,0.5); }
-          50% { box-shadow: 0 0 25px rgba(162,89,255,0.7); }
-          100% { box-shadow: 0 0 10px rgba(162,89,255,0.5); }
+        #profitiv-earner {
+          background: linear-gradient(135deg, #0a0514, #180f2e, #291c4b);
+          background-size: 400% 400%;
+          animation: profitivPulse 16s ease infinite;
+          color: #f4f4f8;
+          font-family: "Inter", sans-serif;
+          min-height: 100vh;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Cards and controls to mirror Creator look */
-        .pv-card {
-          background: rgba(255,255,255,0.03);
-          border-radius: 16px;
-          padding: 24px;
-          box-shadow: 0 10px 30px rgba(1,2,6,0.5);
-          border: 1px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(10px);
+        @keyframes profitivPulse {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
-        .pv-stat-card {
-          background: linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(0,191,255,0.2) 100%);
-          border-radius: 20px;
-          padding: 24px;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-          border: 1px solid rgba(255,255,255,0.1);
-          backdrop-filter: blur(10px);
-        }
-        .pv-card h4 { margin: 0 0 8px; color: #E9F0FF; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; }
-        .pv-card .big { font-size: 32px; font-weight: 800; margin-top: 8px; color: #FFFFFF; }
-        .pv-stat-card .big { font-size: 36px; }
 
-        .pv-btn-primary {
-          padding: 12px 20px;
-          border-radius: 12px;
-          border: 0;
-          cursor: pointer;
-          font-weight: 700;
+        /* Glass cards */
+        #profitiv-earner .dashboard-card,
+        #profitiv-earner .card,
+        #profitiv-earner .panel,
+        #profitiv-earner .pv-card,
+        #profitiv-earner .pv-stat-card {
+          background: rgba(22, 15, 40, 0.65);
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          border-radius: 14px;
+          box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
+          backdrop-filter: blur(12px);
+        }
+
+        /* Buttons */
+        #profitiv-earner button,
+        #profitiv-earner .btn-primary,
+        #profitiv-earner .pv-btn-primary {
           background: #8b5cf6;
+          border: none;
           color: #fff;
-          transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+          box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+          font-weight: 600;
         }
-        .pv-btn-primary:hover {
-          transform: translateY(-2px);
-          background: #9b6df9;
-          box-shadow: 0 0 25px rgba(139, 92, 246, 0.75);
-        }
-        .pv-btn-ghost {
-          padding: 12px 20px;
-          border-radius: 12px;
-          cursor: pointer;
-          font-weight: 700;
+        #profitiv-earner .pv-btn-ghost {
           background: rgba(255,255,255,0.05);
           border: 1px solid rgba(255,255,255,0.15);
           color: #E9F0FF;
-          transition: all 0.2s;
         }
-        .pv-btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
-        .pv-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #E9F0FF; }
-        .bar { height: 12px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; }
-        .bar-fill { display: block; height: 100%; background: linear-gradient(90deg, #00bfff, #7c3aed); transition: width 0.6s ease; box-shadow: 0 0 10px rgba(0,191,255,0.45); }
-        .muted { color: #B9C2E6; font-size: 13px; }
+
+        /* Navbar */
+        #profitiv-earner .navbar,
+        #profitiv-earner header {
+          background: transparent;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+          position: relative;
+        }
+        #profitiv-earner .navbar-logo {
+          position: absolute;
+          top: 18px;
+          left: 30px;
+          height: 38px;
+          color: #00D9FF;
+          font-weight: 800;
+          font-size: 28px;
+          letter-spacing: 1.5px;
+          text-shadow: 0 0 30px rgba(0,217,255,0.8), 0 0 60px rgba(0,217,255,0.4);
+        }
       `}</style>
 
       {/* Header - NO HOME LINK for signed-in earners */}
-      <header style={{
+      <header className="navbar" style={{
+        position: 'relative',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '20px 40px',
+        padding: '20px 40px 20px 100px',
         borderBottom: '1px solid rgba(255,255,255,0.1)',
-        background: 'rgba(255,255,255,0.05)',
+        background: 'transparent',
         backdropFilter: 'blur(10px)'
       }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h2 style={{ 
-            color: '#00D9FF', 
-            fontWeight: 800, 
-            letterSpacing: '1.5px', 
-            margin: 0, 
-            fontSize: '32px', 
-            textShadow: '0 0 30px rgba(0,217,255,0.8), 0 0 60px rgba(0,217,255,0.4)',
-            fontFamily: 'Inter, sans-serif'
-          }}>
-            Profitiv
-          </h2>
+          <h2 className="navbar-logo">Profitiv</h2>
           <div style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 600, marginTop: '6px' }}>Welcome back</div>
           <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginTop: '2px' }}>Earner Dashboard</div>
         </div>
