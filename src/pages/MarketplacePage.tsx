@@ -1,302 +1,377 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import Navigation from "@/components/Navigation";
-import { Button } from "@/components/ui/button";
-import { CoinsIcon, TrendingUp, Users, DollarSign } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
+import profitivLogo from "@/assets/profitiv-logo-glow.png";
 
 const MarketplacePage = () => {
-  const [listings, setListings] = useState<any[]>([]);
-  const [userBalance, setUserBalance] = useState({ tiv: 0, usd: 0 });
-  const [tivRate, setTivRate] = useState(0.02);
-  const [listAmount, setListAmount] = useState("");
-  const [listPrice, setListPrice] = useState("");
-  const [buyAmount, setBuyAmount] = useState("");
-  const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    checkAuth();
-    fetchData();
-  }, []);
+  const [listings, setListings] = useState<any[]>([]);
+  const [tivBalance, setTivBalance] = useState(0);
+  const [usdBalance, setUsdBalance] = useState(0);
+  const [tivRate, setTivRate] = useState(0.02);
+  const [sellAmount, setSellAmount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState<string>("");
+  const [isVerified, setIsVerified] = useState(false);
+  const [recentActivity, setRecentActivity] = useState<any[]>([]);
 
   const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
       navigate("/auth");
+      return null;
     }
+    
+    // Check user role
+    const { data: roleData } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", session.user.id)
+      .single();
+    
+    setUserRole(roleData?.role || "");
+    
+    // Check verification status
+    const { data: verificationData } = await supabase
+      .from("user_verifications")
+      .select("overall_status")
+      .eq("user_id", session.user.id)
+      .single();
+    
+    setIsVerified(verificationData?.overall_status === "approved");
+    
+    return session;
   };
 
   const fetchData = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+    const session = await checkAuth();
+    if (!session) return;
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('tiv_balance, available_balance')
-        .eq('user_id', user.id)
-        .single();
+    // Get user profile
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("tiv_balance, available_balance, tiv_to_usd_rate")
+      .eq("user_id", session.user.id)
+      .single();
 
-      if (profile) {
-        setUserBalance({
-          tiv: profile.tiv_balance || 0,
-          usd: profile.available_balance || 0,
-        });
-      }
-
-      const { data: settings } = await supabase
-        .from('tiv_settings')
-        .select('setting_value')
-        .eq('setting_key', 'tiv_usd_rate')
-        .single();
-
-      if (settings) {
-        setTivRate(settings.setting_value);
-        setListPrice(settings.setting_value.toString());
-      }
-
-      const { data: listingsData } = await supabase
-        .from('tiv_transactions')
-        .select(`
-          *,
-          seller:profiles!tiv_transactions_seller_id_fkey(full_name, email)
-        `)
-        .eq('status', 'pending')
-        .order('created_at', { ascending: false });
-
-      setListings(listingsData || []);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
+    if (profile) {
+      setTivBalance(Number(profile.tiv_balance) || 0);
+      setUsdBalance(Number(profile.available_balance) || 0);
+      setTivRate(Number(profile.tiv_to_usd_rate) || 0.02);
     }
+
+    // Get TIV rate from settings
+    const { data: rateData } = await supabase
+      .from("tiv_settings")
+      .select("setting_value")
+      .eq("setting_key", "tiv_to_usd_rate")
+      .single();
+
+    if (rateData) {
+      setTivRate(Number(rateData.setting_value));
+    }
+
+    // Get pending listings
+    const { data: listingsData } = await supabase
+      .from("tiv_transactions")
+      .select(`
+        *,
+        seller:profiles!tiv_transactions_seller_id_fkey(full_name)
+      `)
+      .eq("status", "pending")
+      .order("created_at", { ascending: false });
+
+    setListings(listingsData || []);
+    
+    // Get recent activity
+    const { data: activityData } = await supabase
+      .from("tiv_transactions")
+      .select(`
+        *,
+        seller:profiles!tiv_transactions_seller_id_fkey(full_name),
+        buyer:profiles!tiv_transactions_buyer_id_fkey(full_name)
+      `)
+      .eq("status", "completed")
+      .order("completed_at", { ascending: false })
+      .limit(5);
+    
+    setRecentActivity(activityData || []);
+    setLoading(false);
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handleListTIV = async () => {
-    const amount = parseFloat(listAmount);
-    const rate = parseFloat(listPrice);
-
-    if (isNaN(amount) || amount <= 0) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid TIV amount",
-        variant: "destructive",
-      });
+    if (!isVerified) {
+      toast.error("Complete verification first to sell TIVs");
+      navigate("/verification");
       return;
     }
 
-    if (isNaN(rate) || rate <= 0) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid price per TIV",
-        variant: "destructive",
-      });
+    if (sellAmount <= 0) {
+      toast.error("Please enter a valid amount");
       return;
     }
 
-    try {
-      const { data, error } = await supabase.rpc('list_tiv_on_marketplace', {
-        _amount: amount,
-        _rate: rate,
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: `Listed ${amount} TIV for sale`,
-      });
-
-      setListAmount("");
-      fetchData();
-    } catch (error: any) {
-      console.error('Error listing TIV:', error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to list TIV",
-        variant: "destructive",
-      });
+    if (sellAmount > tivBalance) {
+      toast.error("Insufficient TIV balance");
+      return;
     }
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+
+    const grossAmount = sellAmount * tivRate;
+    const fee = grossAmount * 0.02;
+    const netAmount = grossAmount - fee;
+
+    const { error } = await supabase.rpc("list_tiv_on_marketplace", {
+      _amount: sellAmount,
+      _rate: tivRate,
+    });
+
+    if (error) {
+      toast.error("Failed to create listing: " + error.message);
+      return;
+    }
+
+    toast.success(`Listed ${sellAmount} TIV for $${netAmount.toFixed(2)}`);
+    setSellAmount(0);
+    fetchData();
+  };
+
+  const handleBuyPack = async (tivAmount: number, price: number) => {
+    if (!isVerified) {
+      toast.error("Complete verification first to buy TIV packs");
+      navigate("/verification");
+      return;
+    }
+    
+    // TODO: Integrate with Stripe Checkout
+    toast.info(`Would redirect to Stripe to purchase ${tivAmount.toLocaleString()} TIV for $${price}`);
   };
 
   const handleBuyTIV = async (listingId: string) => {
-    try {
-      const { data, error } = await supabase.rpc('buy_tiv_from_marketplace', {
-        _listing_id: listingId,
-      });
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
 
-      if (error) throw error;
+    const listing = listings.find(l => l.id === listingId);
+    if (!listing) return;
 
-      const result = data as any;
-
-      toast({
-        title: "Purchase Successful",
-        description: `Purchased ${result.amount} TIV for $${result.total_paid.toFixed(2)}`,
-      });
-
-      fetchData();
-    } catch (error: any) {
-      console.error('Error buying TIV:', error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to buy TIV",
-        variant: "destructive",
-      });
+    if (usdBalance < listing.total_price) {
+      toast.error("Insufficient USD balance");
+      return;
     }
+
+    const { error } = await supabase.rpc("buy_tiv_from_marketplace", {
+      _listing_id: listingId,
+    });
+
+    if (error) {
+      toast.error("Failed to buy TIV: " + error.message);
+      return;
+    }
+
+    toast.success(`Purchased ${listing.amount} TIV for $${listing.total_price.toFixed(2)}`);
+    fetchData();
+  };
+
+  const creatorPacks = [
+    { tiv: 5000, price: 250 },
+    { tiv: 10000, price: 450 },
+    { tiv: 25000, price: 1000 },
+    { tiv: 50000, price: 1800 },
+  ];
+
+  const calculateSellPreview = () => {
+    const gross = sellAmount * tivRate;
+    const fee = gross * 0.02;
+    const net = gross - fee;
+    return { gross, fee, net };
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen">
-        <Navigation />
-        <div className="pt-20 px-4 text-center">
-          <p>Loading marketplace...</p>
-        </div>
-      </div>
-    );
+    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0514] via-[#180f2e] to-[#291c4b]">Loading...</div>;
   }
 
-  const totalTIVsTrading = listings.reduce((sum, l) => sum + l.amount, 0);
-  const volume24h = listings.reduce((sum, l) => sum + l.total_price, 0);
-
   return (
-    <div className="min-h-screen">
-      <Navigation />
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0514] via-[#180f2e] to-[#291c4b] animate-gradient-slow p-6">
+      <style>{`
+        @keyframes gradient-slow {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        .animate-gradient-slow {
+          background-size: 400% 400%;
+          animation: gradient-slow 16s linear infinite;
+        }
+      `}</style>
       
-      <div className="pt-20 px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-              <span className="text-gradient-hero">TIV Marketplace</span>
-            </h1>
-            <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              Trade your TIVs with other users for instant cash. Set your own price and find buyers!
-            </p>
-          </div>
-
-          {/* Market Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-            <div className="glass-card p-6 text-center">
-              <TrendingUp className="w-8 h-8 mx-auto mb-3 text-profitiv-teal" />
-              <div className="text-3xl font-bold text-gradient-hero mb-2">${tivRate.toFixed(4)}</div>
-              <p className="text-foreground/60">Current Price per TIV</p>
-            </div>
-            <div className="glass-card p-6 text-center">
-              <CoinsIcon className="w-8 h-8 mx-auto mb-3 text-profitiv-purple" />
-              <div className="text-3xl font-bold text-gradient-hero mb-2">{totalTIVsTrading.toFixed(0)}</div>
-              <p className="text-foreground/60">TIVs Trading</p>
-            </div>
-            <div className="glass-card p-6 text-center">
-              <Users className="w-8 h-8 mx-auto mb-3 text-secondary" />
-              <div className="text-3xl font-bold text-gradient-hero mb-2">{listings.length}</div>
-              <p className="text-foreground/60">Active Traders</p>
-            </div>
-            <div className="glass-card p-6 text-center">
-              <DollarSign className="w-8 h-8 mx-auto mb-3 text-warning" />
-              <div className="text-3xl font-bold text-gradient-hero mb-2">${volume24h.toFixed(0)}</div>
-              <p className="text-foreground/60">Total Listed Value</p>
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8 p-4">
+          <div className="flex items-center gap-4">
+            <img src={profitivLogo} alt="Profitiv" className="h-10" />
+            <div>
+              <h1 className="text-2xl font-bold text-white">Profitiv Marketplace</h1>
+              <p className="text-sm text-muted-foreground">
+                Buy TIV packs (Creators) • Sell earned TIVs (Earners)
+              </p>
             </div>
           </div>
+          <div className="text-sm text-muted-foreground">
+            Role: <span className="font-semibold text-foreground">{userRole || "Guest"}</span>
+          </div>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-            {/* Your TIVs */}
-            <div className="glass-card p-8">
-              <h2 className="text-2xl font-bold mb-6">Sell Your TIVs</h2>
-              <div className="space-y-6">
-                <div className="flex justify-between items-center p-4 earning-card">
-                  <span className="text-foreground/60">Available TIVs</span>
-                  <span className="text-2xl font-bold text-gradient-hero">{userBalance.tiv.toFixed(0)}</span>
-                </div>
-                <div className="flex justify-between items-center p-4 earning-card">
-                  <span className="text-foreground/60">Est. Value (@ ${tivRate.toFixed(4)})</span>
-                  <span className="text-2xl font-bold text-profitiv-teal">${(userBalance.tiv * tivRate).toFixed(2)}</span>
-                </div>
-                <div className="space-y-3">
-                  <input
-                    type="number"
-                    placeholder="Amount of TIVs to sell"
-                    value={listAmount}
-                    onChange={(e) => setListAmount(e.target.value)}
-                    className="w-full px-4 py-3 bg-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-profitiv-purple"
-                  />
-                  <input
-                    type="number"
-                    step="0.0001"
-                    placeholder="Price per TIV (USD)"
-                    value={listPrice}
-                    onChange={(e) => setListPrice(e.target.value)}
-                    className="w-full px-4 py-3 bg-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-profitiv-purple"
-                  />
-                  {listAmount && listPrice && (
-                    <p className="text-sm text-foreground/60 text-center">
-                      Total: ${(parseFloat(listAmount) * parseFloat(listPrice)).toFixed(2)} (After 2% fee: ${(parseFloat(listAmount) * parseFloat(listPrice) * 0.98).toFixed(2)})
-                    </p>
-                  )}
-                </div>
-                <Button variant="gradient" size="lg" className="w-full" onClick={handleListTIV}>
-                  List TIVs for Sale
-                </Button>
-              </div>
-            </div>
-
-            {/* Quick Buy */}
-            <div className="glass-card p-8">
-              <h2 className="text-2xl font-bold mb-6">Your USD Balance</h2>
-              <div className="space-y-6">
-                <div className="flex justify-between items-center p-4 earning-card">
-                  <span className="text-foreground/60">Available USD</span>
-                  <span className="text-2xl font-bold text-gradient-hero">${userBalance.usd.toFixed(2)}</span>
-                </div>
-                <p className="text-sm text-foreground/60">
-                  Browse the active listings below to buy TIVs from other users
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Buy/Sell */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Buy Packs (Creators Only) */}
+            {userRole === "creator" && (
+              <Card className="glass-card p-6 border-primary/20">
+                <h3 className="text-xl font-bold mb-2">Buy TIV Packs (Creators)</h3>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Buy packs to fund campaign perks. (Creators only)
                 </p>
-              </div>
-            </div>
-          </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  {creatorPacks.map((pack) => (
+                    <div
+                      key={pack.tiv}
+                      className="p-4 rounded-xl bg-gradient-to-b from-white/5 to-white/0 border border-white/10 text-center hover:border-primary/50 transition-all"
+                    >
+                      <div className="text-sm text-muted-foreground mb-2">Pack</div>
+                      <div className="text-2xl font-bold mb-2">{pack.tiv.toLocaleString()} TIV</div>
+                      <div className="text-lg mb-4">${pack.price}</div>
+                      <Button
+                        onClick={() => handleBuyPack(pack.tiv, pack.price)}
+                        className="w-full"
+                        variant="gradient"
+                      >
+                        Buy Pack
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Payments handled via Stripe Checkout (test mode until integration).
+                </p>
+              </Card>
+            )}
 
-          {/* Active Listings */}
-          <div className="glass-card p-8">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Active Listings</h2>
-              <Button variant="glass" size="sm" onClick={fetchData}>
-                Refresh
-              </Button>
-            </div>
-            <div className="space-y-4">
-              {listings.length === 0 ? (
-                <p className="text-center text-foreground/60 py-8">No active listings at the moment</p>
-              ) : (
-                listings.map((listing) => (
-                  <div key={listing.id} className="earning-card p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-bold text-lg mb-1">{listing.seller?.full_name || 'Anonymous User'}</h3>
-                        <p className="text-sm text-foreground/60">
-                          {listing.amount.toFixed(0)} TIVs @ ${listing.rate.toFixed(4)} each
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-gradient-hero mb-2">
-                          ${listing.total_price.toFixed(2)}
-                        </div>
-                        <Button 
-                          variant="earnings" 
-                          size="sm"
-                          onClick={() => handleBuyTIV(listing.id)}
-                          disabled={userBalance.usd < listing.total_price}
-                        >
-                          {userBalance.usd < listing.total_price ? 'Insufficient Balance' : 'Buy Now'}
-                        </Button>
+            {/* Sell TIVs (Earners Only) */}
+            {userRole === "earner" && (
+              <Card className="glass-card p-6 border-primary/20">
+                <h3 className="text-xl font-bold mb-2">Sell Your TIVs (Earners)</h3>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Select how many TIVs to sell. Earners will receive USD (minus 2% fee).
+                </p>
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-sm text-muted-foreground">Available:</div>
+                    <div className="text-3xl font-bold">{tivBalance.toLocaleString()} TIV</div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-4">
+                      <input
+                        type="range"
+                        min="0"
+                        max={tivBalance}
+                        value={sellAmount}
+                        onChange={(e) => setSellAmount(Number(e.target.value))}
+                        className="flex-1 accent-primary"
+                      />
+                      <div className="w-24 text-right font-bold">
+                        {sellAmount} TIV
                       </div>
                     </div>
+                    
+                    <div className="p-4 bg-white/5 rounded-lg border border-white/10">
+                      <div className="text-sm text-muted-foreground">You will receive:</div>
+                      <div className="text-xl font-bold text-primary">
+                        ${calculateSellPreview().net.toFixed(2)}
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        (after 2% fee: ${calculateSellPreview().fee.toFixed(2)})
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => setSellAmount(0)}
+                        variant="outline"
+                        className="flex-1"
+                      >
+                        Reset
+                      </Button>
+                      <Button
+                        onClick={handleListTIV}
+                        disabled={sellAmount <= 0 || sellAmount > tivBalance || !isVerified}
+                        className="flex-1"
+                        variant="gradient"
+                      >
+                        Confirm Sale
+                      </Button>
+                    </div>
+                    
+                    <p className="text-xs text-muted-foreground">
+                      Note: You must be fully verified to sell TIVs or withdraw proceeds.
+                    </p>
                   </div>
-                ))
-              )}
-            </div>
+                </div>
+              </Card>
+            )}
+          </div>
+
+          {/* Right Column - Activity & Info */}
+          <div className="space-y-6">
+            {/* Recent Activity */}
+            <Card className="glass-card p-6 border-primary/20">
+              <h3 className="text-xl font-bold mb-2">Marketplace Activity</h3>
+              <p className="text-sm text-muted-foreground mb-4">Recent buys & sells</p>
+              <div className="space-y-3 max-h-80 overflow-y-auto">
+                {recentActivity.length > 0 ? (
+                  recentActivity.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex justify-between items-start p-3 border-b border-white/5"
+                    >
+                      <div>
+                        <div className="font-semibold text-sm">
+                          {item.buyer?.full_name || "Creator"}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          bought {item.amount} TIV
+                        </div>
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {new Date(item.completed_at).toLocaleDateString()}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-sm text-muted-foreground text-center py-8">
+                    No recent activity
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            {/* How It Works */}
+            <Card className="glass-card p-6 border-primary/20">
+              <h3 className="text-xl font-bold mb-2">How it works</h3>
+              <p className="text-sm text-muted-foreground">
+                TIVs are internal reward credits. Creators buy packs to fund campaigns. 
+                Earners can sell earned TIVs for USD. Profitiv deducts a 2% fee to maintain liquidity.
+              </p>
+            </Card>
           </div>
         </div>
       </div>
