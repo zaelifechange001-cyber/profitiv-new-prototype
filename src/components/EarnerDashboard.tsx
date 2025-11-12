@@ -179,7 +179,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   const usdEquivalent = profile ? (profile.tiv_balance * profile.tiv_to_usd_rate).toFixed(2) : '0.00';
 
   return (
-    <div id="profitiv-earner" data-theme="profitiv" data-role="earner"
+    <div id="earner-dashboard" data-theme="profitiv" data-role="earner"
       style={{
         color: '#fff',
         minHeight: '100vh',
@@ -190,96 +190,157 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       }}
     >
       <style>{`
-        #profitiv-earner, #profitiv-earner * { box-sizing: border-box !important; }
+        /* PROFITIV EARNER DASHBOARD THEME */
+        #earner-dashboard, #earner-dashboard *, body {
+          box-sizing: border-box !important;
+        }
 
-        #profitiv-earner {
-          background: linear-gradient(135deg, #0a0514, #180f2e, #291c4b) !important;
-          background-size: 400% 400% !important;
-          animation: profitivPulse 16s ease infinite !important;
-          color: #f4f4f8 !important;
+        #earner-dashboard, body {
+          background: radial-gradient(circle at 30% 30%, #120b25, #080510, #000) !important;
+          background-size: 200% 200% !important;
+          animation: backgroundFlow 20s ease infinite !important;
+          color: #f5f4fb !important;
           font-family: "Inter", sans-serif !important;
           min-height: 100vh !important;
         }
 
-        @keyframes profitivPulse {
+        @keyframes backgroundFlow {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
 
-        /* Glass cards - FORCE OVERRIDE */
-        #profitiv-earner .dashboard-card,
-        #profitiv-earner .card,
-        #profitiv-earner .panel,
-        #profitiv-earner .pv-card,
-        #profitiv-earner .pv-stat-card,
-        #profitiv-earner div[class*="card"],
-        #profitiv-earner div[style*="background"] {
-          background: rgba(22, 15, 40, 0.65) !important;
-          border: 1px solid rgba(139, 92, 246, 0.2) !important;
-          border-radius: 14px !important;
-          box-shadow: 0 0 18px rgba(139, 92, 246, 0.25) !important;
-          backdrop-filter: blur(12px) !important;
+        /* DASHBOARD CARDS */
+        #earner-dashboard .dashboard-card,
+        #earner-dashboard .stat-box,
+        #earner-dashboard .content-box,
+        #earner-dashboard .pv-card,
+        #earner-dashboard .pv-stat-card,
+        #earner-dashboard .card,
+        #earner-dashboard .panel,
+        #earner-dashboard div[class*="card"],
+        #earner-dashboard div[style*="background"] {
+          background: rgba(30, 20, 60, 0.65) !important;
+          border: 1px solid rgba(155, 100, 255, 0.3) !important;
+          border-radius: 16px !important;
+          box-shadow: 0 0 25px rgba(155, 100, 255, 0.25) !important;
+          backdrop-filter: blur(14px) !important;
+          transition: all 0.3s ease-in-out !important;
           padding: 24px !important;
         }
 
-        /* Buttons - FORCE OVERRIDE */
-        #profitiv-earner button,
-        #profitiv-earner .btn-primary,
-        #profitiv-earner .pv-btn-primary,
-        #profitiv-earner button[class*="btn"] {
-          background: #8b5cf6 !important;
-          border: none !important;
-          color: #fff !important;
-          box-shadow: 0 0 20px rgba(139, 92, 246, 0.6) !important;
+        #earner-dashboard .dashboard-card:hover,
+        #earner-dashboard .stat-box:hover,
+        #earner-dashboard .content-box:hover,
+        #earner-dashboard .pv-card:hover,
+        #earner-dashboard .pv-stat-card:hover {
+          transform: translateY(-4px) !important;
+          box-shadow: 0 0 30px rgba(155, 100, 255, 0.45) !important;
+        }
+
+        /* BUTTONS */
+        #earner-dashboard button,
+        #earner-dashboard .btn-primary,
+        #earner-dashboard .pv-btn-primary,
+        #earner-dashboard button[class*="btn"] {
+          background: linear-gradient(135deg, #8b5cf6, #5b21b6) !important;
+          color: white !important;
           font-weight: 600 !important;
+          border: none !important;
+          border-radius: 10px !important;
+          box-shadow: 0 0 20px rgba(139, 92, 246, 0.5) !important;
           padding: 12px 20px !important;
-          border-radius: 12px !important;
           cursor: pointer !important;
           transition: all 0.2s !important;
         }
-        #profitiv-earner button:hover,
-        #profitiv-earner .pv-btn-primary:hover {
-          transform: translateY(-2px) !important;
-          box-shadow: 0 0 25px rgba(139, 92, 246, 0.75) !important;
+
+        #earner-dashboard button:hover,
+        #earner-dashboard .btn-primary:hover,
+        #earner-dashboard .pv-btn-primary:hover {
+          transform: scale(1.04) !important;
+          box-shadow: 0 0 30px rgba(139, 92, 246, 0.7) !important;
         }
-        #profitiv-earner .pv-btn-ghost {
+
+        #earner-dashboard .pv-btn-ghost {
           background: rgba(255,255,255,0.05) !important;
           border: 1px solid rgba(255,255,255,0.15) !important;
           color: #E9F0FF !important;
           box-shadow: none !important;
         }
 
-        /* Navbar - FORCE OVERRIDE */
-        #profitiv-earner .navbar,
-        #profitiv-earner header {
+        #earner-dashboard .pv-btn-ghost:hover {
+          background: rgba(255,255,255,0.08) !important;
+          transform: scale(1.04) !important;
+        }
+
+        /* NAVBAR + LOGO */
+        #earner-dashboard .navbar,
+        #earner-dashboard header {
           background: transparent !important;
           border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-          box-shadow: 0 0 20px rgba(139, 92, 246, 0.4) !important;
           position: relative !important;
         }
-        #profitiv-earner .navbar-logo {
+
+        #earner-dashboard .navbar img.logo,
+        #earner-dashboard .navbar-logo {
           position: absolute !important;
           top: 18px !important;
           left: 30px !important;
           height: 38px !important;
-          color: #00D9FF !important;
+          color: #8b5cf6 !important;
           font-weight: 800 !important;
           font-size: 28px !important;
           letter-spacing: 1.5px !important;
-          text-shadow: 0 0 30px rgba(0,217,255,0.8), 0 0 60px rgba(0,217,255,0.4) !important;
+          filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6)) !important;
+          text-shadow: 0 0 30px rgba(139, 92, 246, 0.8), 0 0 60px rgba(139, 92, 246, 0.4) !important;
         }
         
         /* Text colors */
-        #profitiv-earner h1, #profitiv-earner h2, #profitiv-earner h3, #profitiv-earner h4 {
+        #earner-dashboard h1,
+        #earner-dashboard h2,
+        #earner-dashboard h3,
+        #earner-dashboard h4 {
           color: #fff !important;
         }
-        #profitiv-earner .big {
+        #earner-dashboard .big {
           color: #FFFFFF !important;
           font-weight: 800 !important;
         }
-        #profitiv-earner .muted {
+        #earner-dashboard .muted {
           color: #B9C2E6 !important;
+        }
+
+        /* Inputs */
+        #earner-dashboard .pv-input,
+        #earner-dashboard input {
+          background: rgba(255,255,255,0.05) !important;
+          border: 1px solid rgba(155, 100, 255, 0.2) !important;
+          border-radius: 10px !important;
+          padding: 12px !important;
+          color: #fff !important;
+          width: 100% !important;
+        }
+
+        #earner-dashboard .pv-input:focus,
+        #earner-dashboard input:focus {
+          outline: none !important;
+          border-color: rgba(155, 100, 255, 0.5) !important;
+          box-shadow: 0 0 15px rgba(139, 92, 246, 0.3) !important;
+        }
+
+        /* Progress bars */
+        #earner-dashboard .bar {
+          background: rgba(255,255,255,0.08) !important;
+          height: 8px !important;
+          border-radius: 8px !important;
+          overflow: hidden !important;
+        }
+
+        #earner-dashboard .bar-fill {
+          background: linear-gradient(90deg, #8b5cf6, #5b21b6) !important;
+          height: 100% !important;
+          border-radius: 8px !important;
+          transition: width 0.3s ease !important;
         }
       `}</style>
 
