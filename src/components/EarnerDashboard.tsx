@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { BackgroundAnimation } from "@/components/BackgroundAnimation";
-import { LogOut, Wallet, ArrowUpRight } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 interface EarnerDashboardProps {
   userId: string;
@@ -91,35 +91,25 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-sm bg-background/30 relative z-10">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <a href="/" className="profitiv-logo" aria-label="Profitiv home" title="Profitiv">
-                <span className="profitiv-wordmark">Profitiv</span>
-              </a>
-              <div className="hidden sm:block h-8 w-px bg-border/50" />
-              <div className="hidden md:block">
-                <div className="font-bold text-foreground">Earner Dashboard</div>
-                <div className="text-sm text-muted-foreground">Watch, Learn & Earn</div>
-              </div>
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <a href="/" className="profitiv-logo" aria-label="Profitiv home" title="Profitiv">
+              <span className="profitiv-wordmark">Profitiv</span>
+            </a>
+            <div className="hidden sm:block h-8 w-px bg-border/50" />
+            <div>
+              <div className="font-bold text-foreground">Welcome back</div>
+              <div className="text-sm text-muted-foreground">Earner Dashboard</div>
             </div>
-            <div className="hidden md:flex items-center gap-6">
-              <a href="/videos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Campaigns</a>
-              <a href="/learn-earn" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Learn & Earn</a>
-              <a href="/spin-to-win" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Spin</a>
-              <a href="/marketplace" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Marketplace</a>
-              <a href="/payout-settings" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Withdraw</a>
-              <Button variant="outline" onClick={handleLogout} size="sm">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-            </div>
-            <div className="md:hidden">
-              <Button variant="outline" onClick={handleLogout} size="sm">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" onClick={() => navigate('/payout-settings')}>
+              Withdraw
+            </Button>
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
           </div>
         </div>
       </header>
@@ -157,25 +147,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             </div>
           </div>
 
-          {/* Featured Campaign */}
-          <div className="glass-card p-5 hover-lift mb-6">
-            <div className="flex justify-between items-start mb-3">
-              <div>
-                <h3 className="text-lg font-bold text-foreground mb-1">Featured Campaign</h3>
-                <p className="text-sm text-muted-foreground">1,000 completions needed</p>
-              </div>
-              <span className="text-sm text-profitiv-teal font-semibold">+15 TIV</span>
-            </div>
-            <div className="mb-3">
-              <div className="progress-bar mb-2">
-                <div className="progress-bar-fill" style={{ width: '56%' }}></div>
-              </div>
-              <p className="text-xs text-muted-foreground">560 / 1,000 completed</p>
-            </div>
-            <Button variant="gradient" size="sm" onClick={() => navigate('/videos')} className="w-full">
-              Watch & Earn
-            </Button>
-          </div>
+          {/* Quick action cards removed per request */}
 
 
           {/* Legal Notice */}
