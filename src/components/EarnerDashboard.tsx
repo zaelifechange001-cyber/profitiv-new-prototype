@@ -193,62 +193,6 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       <style>{`
         #profitiv-app, #profitiv-app * { box-sizing: border-box; }
 
-        /* Animated background layer to match Creator and avoid inline override */
-        #profitiv-app[data-role='earner'] { position: relative; }
-        #profitiv-app[data-role='earner']::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(135deg, #0a0514, #180f2e, #291c4b);
-          background-size: 400% 400%;
-          animation: profitivPulse 16s ease infinite;
-          z-index: 0;
-          pointer-events: none;
-        }
-        /* Subtle violet halo like Creator */
-        #profitiv-app[data-role='earner']::after {
-          content: '';
-          position: absolute;
-          inset: -10% -10% -25% -10%;
-          background: radial-gradient(60% 50% at 50% 0%, rgba(139,92,246,0.35) 0%, rgba(0,0,0,0) 60%);
-          filter: blur(12px);
-          z-index: 0;
-          pointer-events: none;
-        }
-        #profitiv-app[data-role='earner'] > * { position: relative; z-index: 1; }
-
-        /* Frame the header + content as one glass panel like Creator */
-        #profitiv-app[data-role='earner'] header {
-          background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)) !important;
-          border: 1px solid rgba(255,255,255,0.08) !important;
-          border-bottom: 0 !important;
-          border-top-left-radius: 16px;
-          border-top-right-radius: 16px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.45);
-        }
-        #profitiv-app[data-role='earner'] > div {
-          background: rgba(12,10,24,0.5);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-top: 0;
-          border-bottom-left-radius: 16px;
-          border-bottom-right-radius: 16px;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        }
-        #profitiv-app[data-role='earner'] header h2 {
-          color: #00D9FF !important;
-          text-shadow: 0 0 30px rgba(0,217,255,0.9), 0 0 60px rgba(0,217,255,0.45);
-          letter-spacing: 1.5px;
-          font-weight: 800;
-          font-size: 32px;
-        }
-        #profitiv-app[data-role='earner'] header a { color: #fff !important; opacity: 0.95; }
-
-        @keyframes profitivPulse {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-
         @keyframes pulseGlow {
           0% { box-shadow: 0 0 10px rgba(162,89,255,0.5); }
           50% { box-shadow: 0 0 25px rgba(162,89,255,0.7); }
@@ -256,7 +200,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Neon glow accents aligned with Creator look */
+        /* Cards and controls to mirror Creator look */
         .pv-card {
           background: rgba(255,255,255,0.03);
           border-radius: 16px;
