@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===========================================
+   🌐 PROFITIV PULSE SYSTEM — DESIGN TOKENS
+   =========================================== */
+
 /* Profitiv Design System - Modern glass morphism with purple/teal gradients */
 
 @layer base {
@@ -112,11 +116,34 @@
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(-45deg, #0c0c10, #1a0026, #001f3f, #0c0c10);
-    background-size: 400% 400%;
-    animation: pulseGradient 22s ease infinite;
+    background: linear-gradient(135deg, #0b0c10, #16181d);
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Animated gradient wave background */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle at 30% 20%, hsla(270, 100%, 50%, 0.2), transparent 70%),
+                radial-gradient(circle at 70% 80%, hsla(184, 100%, 50%, 0.2), transparent 70%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+    animation: waveMotion 20s ease-in-out infinite;
+    filter: blur(70px);
+    opacity: 0.9;
+  }
+
+  @keyframes waveMotion {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-30px, -40px) scale(1.1); }
+    100% { transform: translate(0, 0) scale(1); }
   }
 
   @keyframes pulseGradient {
@@ -127,6 +154,27 @@
 }
 
 @layer components {
+  /* Dashboard Container - Profitiv Pulse Style */
+  .dashboard-container {
+    background: rgba(20, 20, 30, 0.7);
+    border-radius: 18px;
+    padding: 40px;
+    margin: 50px auto;
+    max-width: 1150px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 25px hsla(270, 100%, 50%, 0.3);
+    animation: pulseFlow 8s ease-in-out infinite;
+    background-image: linear-gradient(145deg, hsla(270, 100%, 24%, 0.3), hsla(180, 100%, 50%, 0.05));
+    background-size: 200% 200%;
+  }
+
+  @keyframes pulseFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
   /* Glass morphism components with card pulse */
   .glass-card {
     background: var(--glass-bg);
@@ -139,6 +187,23 @@
     overflow: hidden;
     transform: translateZ(0);
     will-change: transform, box-shadow;
+  }
+
+  /* Stats card styling - Profitiv Pulse Cards */
+  .card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px hsla(270, 100%, 50%, 0.3);
+    transition: var(--transition-smooth);
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px hsla(270, 100%, 64%, 0.3);
+    border-color: hsla(270, 100%, 64%, 0.4);
   }
 
   /* Holographic sheen effect inside cards */
@@ -199,20 +264,43 @@
     }
   }
 
-  /* Button variants with stronger glow */
-  .btn-gradient {
-    background: var(--gradient-button);
-    transition: var(--transition-smooth);
-    box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
-    animation: btnPulse 3s ease-in-out infinite;
-    transform: translateZ(0);
-    will-change: transform, box-shadow;
+  /* Button variants with stronger glow - Profitiv Pulse Action Buttons */
+  .btn-gradient,
+  .action-btn {
+    background: linear-gradient(90deg, hsl(var(--profitiv-purple)), hsl(var(--profitiv-cyan)));
+    color: #fff;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px hsla(270, 100%, 64%, 0.4);
   }
 
-  .btn-gradient:hover {
-    background: var(--gradient-button-hover);
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
-    transform: translateY(-2px);
+  .btn-gradient::before,
+  .action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-gradient:hover::before,
+  .action-btn:hover::before {
+    left: 100%;
+  }
+
+  .btn-gradient:hover,
+  .action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px hsla(270, 100%, 64%, 0.6);
   }
 
   @keyframes btnPulse {
@@ -223,6 +311,18 @@
       box-shadow: 0 0 25px rgba(138, 43, 226, 0.6), 0 0 35px rgba(0, 255, 255, 0.3); 
       opacity: 0.95;
     }
+  }
+
+  /* Quick Actions Button Grid */
+  .quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 35px;
+  }
+
+  .quick-actions .action-btn {
+    flex: 1;
   }
 
   .btn-glass {
@@ -433,6 +533,135 @@
     }
   }
 
+  @keyframes glowPulse {
+    0% { text-shadow: 0 0 10px hsl(var(--profitiv-purple)), 0 0 20px hsl(var(--profitiv-cyan)); }
+    50% { text-shadow: 0 0 25px hsl(var(--profitiv-cyan)), 0 0 50px hsl(var(--profitiv-purple)); }
+    100% { text-shadow: 0 0 10px hsl(var(--profitiv-purple)), 0 0 20px hsl(var(--profitiv-cyan)); }
+  }
+
+  /* Campaign Cards with enhanced hover effects */
+  .campaign-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .campaign-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, hsla(270, 100%, 64%, 0.1), transparent);
+    animation: shimmer 3s infinite;
+  }
+
+  .campaign-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px hsla(270, 100%, 64%, 0.4);
+    border-color: hsla(270, 100%, 64%, 0.4);
+  }
+
+  .campaign-thumb {
+    width: 110px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+  }
+
+  .campaign-details h3 {
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .campaign-details p {
+    font-size: 0.9rem;
+    color: #b9bbbe;
+  }
+
+  /* Tables styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.95rem;
+  }
+
+  table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+
+  table th {
+    color: hsl(var(--profitiv-purple));
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+
+  table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* TIV Marketplace Tabs */
+  .marketplace-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+
+  .tab-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .tab-btn.active,
+  .tab-btn:hover {
+    background: linear-gradient(90deg, hsl(var(--profitiv-cyan)), hsl(var(--profitiv-purple)));
+    box-shadow: 0 0 10px hsla(270, 100%, 64%, 0.6);
+  }
+
+  .offer-card,
+  .buy-tivs {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px hsla(180, 100%, 50%, 0.2);
+  }
+
+  .offer-card h3 {
+    color: #fff;
+  }
+
+  .tiv-pack-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .tiv-pack-list li {
+    margin: 8px 0;
+    color: #b9bbbe;
+  }
+
   /* Divider with animated flow */
   .divider-glow {
     height: 2px;
@@ -568,5 +797,25 @@
 
   .isolate-blend {
     isolation: isolate;
+  }
+
+  /* Responsive Design - Profitiv Pulse */
+  @media (max-width: 768px) {
+    .quick-actions {
+      flex-direction: column;
+    }
+    
+    .dashboard-container {
+      padding: 25px;
+    }
+    
+    .campaign-card {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .campaign-thumb {
+      margin: 0 0 10px 0;
+    }
   }
 }
