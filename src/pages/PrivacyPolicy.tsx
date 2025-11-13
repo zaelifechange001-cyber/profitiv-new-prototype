@@ -15,7 +15,7 @@ export default function PrivacyPolicy() {
               <strong>Effective Date:</strong> November 13, 2025
             </p>
             <p className="text-muted-foreground mb-8">
-              <strong>Contact:</strong> profitiv001@gmail.com • 4906 Paddock Rd, Cincinnati, OH 45237
+              <strong>Contact:</strong> profitiv001@gmail.com
             </p>
 
             <div className="space-y-6 text-foreground/90">

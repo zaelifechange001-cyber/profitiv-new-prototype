@@ -66,8 +66,6 @@ export function Footer() {
                   profitiv001@gmail.com
                 </a>
               </li>
-              <li>4906 Paddock Rd</li>
-              <li>Cincinnati, OH 45237</li>
             </ul>
           </div>
         </div>
