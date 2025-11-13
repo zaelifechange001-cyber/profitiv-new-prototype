@@ -61,13 +61,15 @@ export default function AdminSettings() {
   const saveSettings = async () => {
     setLoading(true);
     try {
-      // Update TIV settings
-      const { error: tivError } = await supabase
-        .from('tiv_settings')
-        .update({ setting_value: settings.tivValue })
-        .eq('setting_key', 'tiv_to_usd_rate');
+      const { data, error } = await supabase.rpc('admin_update_global_settings', {
+        _settings: {
+          tivToUsdRate: settings.tivValue,
+          marketplaceFee: 0.02, // 2% default
+          withdrawalFee: 0.02   // 2% default
+        }
+      });
 
-      if (tivError) throw tivError;
+      if (error) throw error;
 
       // Update all user profiles with new TIV rate
       const { error: profileError } = await supabase
@@ -76,10 +78,10 @@ export default function AdminSettings() {
 
       if (profileError) throw profileError;
 
-      toast.success('Settings saved successfully');
-    } catch (error) {
+      toast.success((data as any)?.message || 'Settings saved successfully');
+    } catch (error: any) {
       console.error('Error saving settings:', error);
-      toast.error('Failed to save settings');
+      toast.error(error.message || 'Failed to save settings');
     } finally {
       setLoading(false);
     }

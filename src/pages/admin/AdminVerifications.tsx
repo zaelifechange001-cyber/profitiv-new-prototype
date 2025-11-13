@@ -76,36 +76,17 @@ export default function AdminVerifications() {
   const handleApprove = async (userId: string, type: 'id' | 'address') => {
     setActionLoading(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const { data, error } = await supabase.rpc('admin_approve_verification', {
+        _user_id: userId,
+        _verification_type: type
+      });
 
-      const field = type === 'id' ? 'id_verification_status' : 'address_verification_status';
-      const reviewedField = type === 'id' ? 'id_reviewed_at' : 'address_reviewed_at';
-      const reviewerField = type === 'id' ? 'id_reviewed_by' : 'address_reviewed_by';
+      if (error) throw error;
 
-      await supabase
-        .from('user_verifications')
-        .update({
-          [field]: 'approved',
-          [reviewedField]: new Date().toISOString(),
-          [reviewerField]: user.id,
-        })
-        .eq('user_id', userId);
-
-      await supabase
-        .from('verification_logs')
-        .insert({
-          user_id: userId,
-          action: `${type.toUpperCase()} approved by admin`,
-          verification_type: type,
-          status: 'approved',
-          reviewer_id: user.id,
-        });
-
-      toast.success(`${type.toUpperCase()} verification approved`);
+      toast.success((data as any)?.message || `${type.toUpperCase()} verification approved`);
       fetchVerifications();
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.message || 'Failed to approve verification');
     } finally {
       setActionLoading(false);
     }
@@ -119,40 +100,19 @@ export default function AdminVerifications() {
 
     setActionLoading(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const { data, error } = await supabase.rpc('admin_reject_verification', {
+        _user_id: userId,
+        _verification_type: type,
+        _reason: reason
+      });
 
-      const field = type === 'id' ? 'id_verification_status' : 'address_verification_status';
-      const reasonField = type === 'id' ? 'id_rejection_reason' : 'address_rejection_reason';
-      const reviewedField = type === 'id' ? 'id_reviewed_at' : 'address_reviewed_at';
-      const reviewerField = type === 'id' ? 'id_reviewed_by' : 'address_reviewed_by';
+      if (error) throw error;
 
-      await supabase
-        .from('user_verifications')
-        .update({
-          [field]: 'rejected',
-          [reasonField]: reason,
-          [reviewedField]: new Date().toISOString(),
-          [reviewerField]: user.id,
-        })
-        .eq('user_id', userId);
-
-      await supabase
-        .from('verification_logs')
-        .insert({
-          user_id: userId,
-          action: `${type.toUpperCase()} rejected by admin`,
-          verification_type: type,
-          status: 'rejected',
-          reviewer_id: user.id,
-          notes: reason,
-        });
-
-      toast.success(`${type.toUpperCase()} verification rejected`);
+      toast.success((data as any)?.message || `${type.toUpperCase()} verification rejected`);
       setRejectionReason("");
       fetchVerifications();
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.message || 'Failed to reject verification');
     } finally {
       setActionLoading(false);
     }

@@ -985,6 +985,15 @@ export type Database = {
         }
         Returns: Json
       }
+      admin_approve_verification: {
+        Args: { _user_id: string; _verification_type: string }
+        Returns: Json
+      }
+      admin_reject_verification: {
+        Args: { _reason: string; _user_id: string; _verification_type: string }
+        Returns: Json
+      }
+      admin_update_global_settings: { Args: { _settings: Json }; Returns: Json }
       award_course_completion: {
         Args: {
           _course_id: string
