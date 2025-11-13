@@ -29,6 +29,10 @@ import PoolsPage from "./pages/PoolsPage";
 import SubscriptionsPage from "./pages/SubscriptionsPage";
 import CreatorsLanding from "./pages/creators/CreatorsLanding";
 import CreatorDashboard from "./pages/creators/CreatorDashboard";
+import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import PayoutPolicy from "./pages/PayoutPolicy";
+import KYCPolicy from "./pages/KYCPolicy";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +64,12 @@ const App = () => {
             {/* Creators Routes */}
             <Route path="/creators" element={<CreatorsLanding />} />
             <Route path="/creators/dashboard" element={<CreatorDashboard />} />
+            
+            {/* Legal Routes */}
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/payout-policy" element={<PayoutPolicy />} />
+            <Route path="/kyc-policy" element={<KYCPolicy />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminLayout />}>
