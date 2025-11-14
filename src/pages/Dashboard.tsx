@@ -80,14 +80,12 @@ async function fetchUserRoleSafe(userId: string | null) {
 async function fetchSubscriptionForUser(userId: string | null) {
   if (!userId) return null;
   try {
-    // Join user_subscriptions -> subscription_plans via plan_id OR if you store plan_name, adapt accordingly
-    // This assumes user_subscriptions.plan_id exists and subscription_plans.id exists
+    // FIXED: Removed kyc_verified from the select query
     const { data, error } = await supabase
       .from("user_subscriptions")
       .select(
         `
         status,
-        kyc_verified,
         plan_id,
         subscription_plans:subscription_plans!inner(id, name, role, price, weekly_cap, monthly_cap, annual_cap)
       `,
@@ -112,11 +110,7 @@ async function fetchActiveCampaignsForUser(userId: string | null) {
   // Note: This assumes active_campaigns table exists
   // If it doesn't, this will return empty array
   try {
-    const { data } = await supabase
-      .from("user_activities")
-      .select("*")
-      .eq("user_id", userId)
-      .limit(10);
+    const { data } = await supabase.from("user_activities").select("*").eq("user_id", userId).limit(10);
     return data ?? [];
   } catch (e) {
     console.warn("active campaigns fetch error:", e);
@@ -138,14 +132,16 @@ export default function DashboardPage(props: { user?: any }) {
   // Keep listening for auth state changes
   useEffect(() => {
     let mounted = true;
-    
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (mounted && session?.user) {
         setUser(session.user);
       }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
       setUser(session?.user ?? null);
     });
@@ -275,7 +271,7 @@ export default function DashboardPage(props: { user?: any }) {
     );
   }
 
-  // Default: Earner UI
+  // Default: Earner UI - FIXED: Changed logo path
   const weeklyCap = plan?.weekly_cap ?? 0;
   const monthlyCap = plan?.monthly_cap ?? 0;
   const annualCap = plan?.annual_cap ?? 0;
@@ -284,7 +280,8 @@ export default function DashboardPage(props: { user?: any }) {
     <div style={{ minHeight: "100vh", padding: 24, background: "linear-gradient(180deg,#fafafa 0%, #f3f4f6 100%)" }}>
       <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <img src="/profitiv-logo-violet.svg" alt="Profitiv" style={{ height: 36 }} />
+          {/* FIXED: Changed to profitiv-logo-purple.svg which exists */}
+          <img src="/profitiv-logo-purple.svg" alt="Profitiv" style={{ height: 36 }} />
           <h2 style={{ margin: 0, color: "#111" }}>Earner Dashboard</h2>
         </div>
         <div style={{ color: "#333" }}>Plan: {plan?.name ?? "—"}</div>
@@ -298,7 +295,7 @@ export default function DashboardPage(props: { user?: any }) {
 
       <section style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
         <div style={{ padding: 16, borderRadius: 12, background: "#fff", boxShadow: "0 6px 18px rgba(16,24,40,0.06)" }}>
-          <h3>Active Campaigns You’re In</h3>
+          <h3>Active Campaigns You're In</h3>
           {activeCampaigns.length === 0 && <div>No active campaigns. Click "Watch & Earn" to find campaigns.</div>}
           {activeCampaigns.map((a: any) => (
             <div
