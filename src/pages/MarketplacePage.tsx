@@ -27,28 +27,13 @@ const MarketplacePage = () => {
       return null;
     }
 
-    // Check user role
-    // Fetch role safely from user_subscriptions instead of user_roles
-    export async function fetchUserRole(supabase, userId) {
-      try {
-        const { data, error } = await supabase
-          .from("user_subscriptions")
-          .select("role")
-          .eq("user_id", userId)
-          .eq("status", "active")
-          .maybeSingle();
-
-        if (error) {
-          console.log("Role fetch error:", error);
-          return null;
-        }
-
-        return data?.role || null;
-      } catch (err) {
-        console.log("Unexpected role fetch error:", err);
-        return null;
-      }
-    }
+    // Check user role from user_subscriptions
+    const { data: roleData } = await supabase
+      .from("user_subscriptions")
+      .select("role")
+      .eq("user_id", session.user.id)
+      .eq("status", "active")
+      .maybeSingle();
 
     setUserRole(roleData?.role || "");
 
