@@ -1,3 +1,4 @@
+// Creator Dashboard Component
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreator } from "@/hooks/useCreator";
