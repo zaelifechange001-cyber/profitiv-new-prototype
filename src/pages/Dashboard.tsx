@@ -1,7 +1,6 @@
 // src/pages/dashboard/Dashboard.tsx
 import React, { useEffect, useState } from "react";
-// Adjust this import path if your supabase client is elsewhere
-import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "@/integrations/supabase/client";
 
 // Lightweight inline components for demonstration.
 // In your real project you can replace these with your existing components
@@ -75,12 +74,7 @@ async function fetchUserRoleSafe(userId: string | null) {
     console.warn("user_roles fetch error:", e);
   }
 
-  // if still no role, create default earner row and return 'earner'
-  try {
-    await supabase.from("user_roles").insert({ user_id: userId, role: "earner" });
-  } catch (e) {
-    // ignore insert errors
-  }
+  // Default to earner if no role found
   return "earner";
 }
 
@@ -116,11 +110,14 @@ async function fetchSubscriptionForUser(userId: string | null) {
 
 async function fetchActiveCampaignsForUser(userId: string | null) {
   if (!userId) return [];
+  // Note: This assumes active_campaigns table exists
+  // If it doesn't, this will return empty array
   try {
     const { data } = await supabase
-      .from("active_campaigns")
-      .select("*, campaigns(id, title, video_url, requested_views)")
-      .eq("user_id", userId);
+      .from("user_activities")
+      .select("*")
+      .eq("user_id", userId)
+      .limit(10);
     return data ?? [];
   } catch (e) {
     console.warn("active campaigns fetch error:", e);
@@ -142,17 +139,21 @@ export default function DashboardPage(props: { user?: any }) {
   // Keep listening for auth state changes
   useEffect(() => {
     let mounted = true;
-    const session = supabase.auth.session?.() ?? null;
-    if (session?.user) setUser(session.user);
+    
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (mounted && session?.user) {
+        setUser(session.user);
+      }
+    });
 
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
       setUser(session?.user ?? null);
     });
 
     return () => {
       mounted = false;
-      listener?.unsubscribe?.();
+      subscription.unsubscribe();
     };
   }, []);
 
