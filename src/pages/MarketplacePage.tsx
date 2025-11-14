@@ -19,30 +19,48 @@ const MarketplacePage = () => {
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
 
   const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session) {
       navigate("/auth");
       return null;
     }
-    
+
     // Check user role
-    const { data: roleData } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", session.user.id)
-      .single();
-    
+    // Fetch role safely from user_subscriptions instead of user_roles
+    export async function fetchUserRole(supabase, userId) {
+      try {
+        const { data, error } = await supabase
+          .from("user_subscriptions")
+          .select("role")
+          .eq("user_id", userId)
+          .eq("status", "active")
+          .maybeSingle();
+
+        if (error) {
+          console.log("Role fetch error:", error);
+          return null;
+        }
+
+        return data?.role || null;
+      } catch (err) {
+        console.log("Unexpected role fetch error:", err);
+        return null;
+      }
+    }
+
     setUserRole(roleData?.role || "");
-    
+
     // Check verification status
     const { data: verificationData } = await supabase
       .from("user_verifications")
       .select("overall_status")
       .eq("user_id", session.user.id)
       .single();
-    
+
     setIsVerified(verificationData?.overall_status === "approved");
-    
+
     return session;
   };
 
@@ -77,27 +95,31 @@ const MarketplacePage = () => {
     // Get pending listings
     const { data: listingsData } = await supabase
       .from("tiv_transactions")
-      .select(`
+      .select(
+        `
         *,
         seller:profiles!tiv_transactions_seller_id_fkey(full_name)
-      `)
+      `,
+      )
       .eq("status", "pending")
       .order("created_at", { ascending: false });
 
     setListings(listingsData || []);
-    
+
     // Get recent activity
     const { data: activityData } = await supabase
       .from("tiv_transactions")
-      .select(`
+      .select(
+        `
         *,
         seller:profiles!tiv_transactions_seller_id_fkey(full_name),
         buyer:profiles!tiv_transactions_buyer_id_fkey(full_name)
-      `)
+      `,
+      )
       .eq("status", "completed")
       .order("completed_at", { ascending: false })
       .limit(5);
-    
+
     setRecentActivity(activityData || []);
     setLoading(false);
   };
@@ -123,7 +145,9 @@ const MarketplacePage = () => {
       return;
     }
 
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session) return;
 
     const grossAmount = sellAmount * tivRate;
@@ -151,16 +175,18 @@ const MarketplacePage = () => {
       navigate("/verification");
       return;
     }
-    
+
     // TODO: Integrate with Stripe Checkout
     toast.info(`Would redirect to Stripe to purchase ${tivAmount.toLocaleString()} TIV for $${price}`);
   };
 
   const handleBuyTIV = async (listingId: string) => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session) return;
 
-    const listing = listings.find(l => l.id === listingId);
+    const listing = listings.find((l) => l.id === listingId);
     if (!listing) return;
 
     if (usdBalance < listing.total_price) {
@@ -196,7 +222,11 @@ const MarketplacePage = () => {
   };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0514] via-[#180f2e] to-[#291c4b]">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0514] via-[#180f2e] to-[#291c4b]">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -211,7 +241,7 @@ const MarketplacePage = () => {
           animation: gradient-slow 16s linear infinite;
         }
       `}</style>
-      
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8 p-4">
@@ -219,9 +249,7 @@ const MarketplacePage = () => {
             <img src={profitivLogo} alt="Profitiv" className="h-10" />
             <div>
               <h1 className="text-2xl font-bold text-white">Profitiv Marketplace</h1>
-              <p className="text-sm text-muted-foreground">
-                Buy TIV packs (Creators) • Sell earned TIVs (Earners)
-              </p>
+              <p className="text-sm text-muted-foreground">Buy TIV packs (Creators) • Sell earned TIVs (Earners)</p>
             </div>
           </div>
           <div className="text-sm text-muted-foreground">
@@ -237,9 +265,7 @@ const MarketplacePage = () => {
             {userRole === "creator" && (
               <Card className="glass-card p-6 border-primary/20">
                 <h3 className="text-xl font-bold mb-2">Buy TIV Packs (Creators)</h3>
-                <p className="text-sm text-muted-foreground mb-6">
-                  Buy packs to fund campaign perks. (Creators only)
-                </p>
+                <p className="text-sm text-muted-foreground mb-6">Buy packs to fund campaign perks. (Creators only)</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   {creatorPacks.map((pack) => (
                     <div
@@ -249,11 +275,7 @@ const MarketplacePage = () => {
                       <div className="text-sm text-muted-foreground mb-2">Pack</div>
                       <div className="text-2xl font-bold mb-2">{pack.tiv.toLocaleString()} TIV</div>
                       <div className="text-lg mb-4">${pack.price}</div>
-                      <Button
-                        onClick={() => handleBuyPack(pack.tiv, pack.price)}
-                        className="w-full"
-                        variant="gradient"
-                      >
+                      <Button onClick={() => handleBuyPack(pack.tiv, pack.price)} className="w-full" variant="gradient">
                         Buy Pack
                       </Button>
                     </div>
@@ -277,7 +299,7 @@ const MarketplacePage = () => {
                     <div className="text-sm text-muted-foreground">Available:</div>
                     <div className="text-3xl font-bold">{tivBalance.toLocaleString()} TIV</div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex items-center gap-4">
                       <input
@@ -288,27 +310,19 @@ const MarketplacePage = () => {
                         onChange={(e) => setSellAmount(Number(e.target.value))}
                         className="flex-1 accent-primary"
                       />
-                      <div className="w-24 text-right font-bold">
-                        {sellAmount} TIV
-                      </div>
+                      <div className="w-24 text-right font-bold">{sellAmount} TIV</div>
                     </div>
-                    
+
                     <div className="p-4 bg-white/5 rounded-lg border border-white/10">
                       <div className="text-sm text-muted-foreground">You will receive:</div>
-                      <div className="text-xl font-bold text-primary">
-                        ${calculateSellPreview().net.toFixed(2)}
-                      </div>
+                      <div className="text-xl font-bold text-primary">${calculateSellPreview().net.toFixed(2)}</div>
                       <div className="text-xs text-muted-foreground mt-1">
                         (after 2% fee: ${calculateSellPreview().fee.toFixed(2)})
                       </div>
                     </div>
-                    
+
                     <div className="flex gap-2">
-                      <Button
-                        onClick={() => setSellAmount(0)}
-                        variant="outline"
-                        className="flex-1"
-                      >
+                      <Button onClick={() => setSellAmount(0)} variant="outline" className="flex-1">
                         Reset
                       </Button>
                       <Button
@@ -320,7 +334,7 @@ const MarketplacePage = () => {
                         Confirm Sale
                       </Button>
                     </div>
-                    
+
                     <p className="text-xs text-muted-foreground">
                       Note: You must be fully verified to sell TIVs or withdraw proceeds.
                     </p>
@@ -339,17 +353,10 @@ const MarketplacePage = () => {
               <div className="space-y-3 max-h-80 overflow-y-auto">
                 {recentActivity.length > 0 ? (
                   recentActivity.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex justify-between items-start p-3 border-b border-white/5"
-                    >
+                    <div key={item.id} className="flex justify-between items-start p-3 border-b border-white/5">
                       <div>
-                        <div className="font-semibold text-sm">
-                          {item.buyer?.full_name || "Creator"}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          bought {item.amount} TIV
-                        </div>
+                        <div className="font-semibold text-sm">{item.buyer?.full_name || "Creator"}</div>
+                        <div className="text-xs text-muted-foreground">bought {item.amount} TIV</div>
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {new Date(item.completed_at).toLocaleDateString()}
@@ -357,9 +364,7 @@ const MarketplacePage = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="text-sm text-muted-foreground text-center py-8">
-                    No recent activity
-                  </div>
+                  <div className="text-sm text-muted-foreground text-center py-8">No recent activity</div>
                 )}
               </div>
             </Card>
@@ -368,8 +373,8 @@ const MarketplacePage = () => {
             <Card className="glass-card p-6 border-primary/20">
               <h3 className="text-xl font-bold mb-2">How it works</h3>
               <p className="text-sm text-muted-foreground">
-                TIVs are internal reward credits. Creators buy packs to fund campaigns. 
-                Earners can sell earned TIVs for USD. Profitiv deducts a 2% fee to maintain liquidity.
+                TIVs are internal reward credits. Creators buy packs to fund campaigns. Earners can sell earned TIVs for
+                USD. Profitiv deducts a 2% fee to maintain liquidity.
               </p>
             </Card>
           </div>
