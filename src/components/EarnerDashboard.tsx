@@ -26,6 +26,7 @@ interface SubscriptionPlan {
   name: 'Starter' | 'Builder' | 'Pro' | 'Elite';
   weekly_cap: number;
   monthly_cap: number;
+  annual_cap: number;
 }
 
 interface Campaign {
@@ -50,20 +51,15 @@ interface SubscriptionData {
   plan_name: string;
   weekly_cap: number;
   monthly_cap: number;
+  annual_cap: number;
 }
-
-const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
-  'Starter': { name: 'Starter', weekly_cap: 100, monthly_cap: 500 },
-  'Builder': { name: 'Builder', weekly_cap: 200, monthly_cap: 1000 },
-  'Pro': { name: 'Pro', weekly_cap: 300, monthly_cap: 1500 },
-  'Elite': { name: 'Elite', weekly_cap: 450, monthly_cap: 2250 }
-};
 
 const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [subscription, setSubscription] = useState<SubscriptionPlan>(SUBSCRIPTION_PLANS['Starter']);
+  const [subscription, setSubscription] = useState<SubscriptionPlan | null>(null);
   const [weeklyUsed, setWeeklyUsed] = useState(0);
   const [monthlyUsed, setMonthlyUsed] = useState(0);
+  const [annualUsed, setAnnualUsed] = useState(0);
   const [activeCampaigns, setActiveCampaigns] = useState<Campaign[]>([]);
   const [recentRewards, setRecentRewards] = useState<RewardTransaction[]>([]);
   const [loading, setLoading] = useState(true);
@@ -95,6 +91,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             name,
             weekly_cap,
             monthly_cap,
+            annual_cap,
             role
           )
         `)
@@ -108,14 +105,23 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
           ? subData.subscription_plans[0] 
           : subData.subscription_plans;
         
-        const planName = planData.name || 'Starter';
-        setSubscription(SUBSCRIPTION_PLANS[planName] || SUBSCRIPTION_PLANS['Starter']);
+        setSubscription({
+          name: planData.name || 'Starter',
+          weekly_cap: Number(planData.weekly_cap) || 165,
+          monthly_cap: Number(planData.monthly_cap) || 720,
+          annual_cap: Number(planData.annual_cap) || 8300
+        });
       } else {
         // Default to Starter if no subscription
-        setSubscription(SUBSCRIPTION_PLANS['Starter']);
+        setSubscription({
+          name: 'Starter',
+          weekly_cap: 165,
+          monthly_cap: 720,
+          annual_cap: 8300
+        });
       }
 
-      // Fetch user activities for weekly/monthly usage calculation
+      // Fetch user activities for weekly/monthly/annual usage calculation
       const startOfWeek = new Date();
       startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
       startOfWeek.setHours(0, 0, 0, 0);
@@ -123,6 +129,10 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       const startOfMonth = new Date();
       startOfMonth.setDate(1);
       startOfMonth.setHours(0, 0, 0, 0);
+
+      const startOfYear = new Date();
+      startOfYear.setMonth(0, 1);
+      startOfYear.setHours(0, 0, 0, 0);
 
       const { data: weeklyData } = await supabase
         .from('user_activities')
@@ -138,8 +148,16 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         .gte('created_at', startOfMonth.toISOString())
         .in('activity_type', ['course_completion', 'spin_reward']);
 
+      const { data: annualData } = await supabase
+        .from('user_activities')
+        .select('amount')
+        .eq('user_id', userId)
+        .gte('created_at', startOfYear.toISOString())
+        .in('activity_type', ['course_completion', 'spin_reward']);
+
       setWeeklyUsed(weeklyData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0);
       setMonthlyUsed(monthlyData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0);
+      setAnnualUsed(annualData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0);
 
       // Fetch active campaigns (TODO: implement proper campaign participation tracking)
       // Mock data for now
@@ -204,10 +222,10 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
   };
 
   const handleWithdraw = () => {
-    if (weeklyUsed >= subscription.weekly_cap) {
+    if (!subscription || weeklyUsed >= subscription.weekly_cap) {
       toast({
         title: "Weekly Limit Reached",
-        description: "Upgrade your plan to earn more",
+        description: "Upgrade your plan to increase earning potential",
         variant: "destructive",
       });
       return;
@@ -215,7 +233,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
     navigate("/payout-settings");
   };
 
-  if (loading) {
+  if (loading || !subscription) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -228,7 +246,10 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
 
   const weeklyRemaining = subscription.weekly_cap - weeklyUsed;
   const monthlyRemaining = subscription.monthly_cap - monthlyUsed;
+  const annualRemaining = subscription.annual_cap - annualUsed;
   const weeklyProgress = (weeklyUsed / subscription.weekly_cap) * 100;
+  const monthlyProgress = (monthlyUsed / subscription.monthly_cap) * 100;
+  const annualProgress = (annualUsed / subscription.annual_cap) * 100;
   const isWeeklyCapped = weeklyUsed >= subscription.weekly_cap;
 
   return (
@@ -273,8 +294,8 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
             <Badge variant="secondary" className="text-sm">
               {subscription.name} Plan
             </Badge>
-            <p className="text-muted-foreground">
-              ${weeklyRemaining.toFixed(2)} of ${subscription.weekly_cap} weekly limit remaining
+            <p className="text-muted-foreground text-sm">
+              Earning potential varies based on participation.
             </p>
             <Button 
               variant="outline" 
@@ -289,7 +310,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total TIVs</CardTitle>
@@ -313,29 +334,55 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
               <p className="text-xs text-muted-foreground">Available to withdraw</p>
             </CardContent>
           </Card>
+        </div>
 
+        {/* Earning Caps Progress */}
+        <div className="grid gap-4 md:grid-cols-3">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Weekly Progress</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardHeader>
+              <CardTitle className="text-sm font-medium">Weekly Earning Potential</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">${weeklyUsed.toFixed(2)}</div>
-              <Progress value={weeklyProgress} className="mt-2" />
-              <p className="text-xs text-muted-foreground mt-1">
-                {isWeeklyCapped ? 'Limit reached!' : `of $${subscription.weekly_cap}`}
+            <CardContent className="space-y-2">
+              <div className="flex justify-between items-baseline">
+                <span className="text-2xl font-bold">${weeklyUsed.toFixed(2)}</span>
+                <span className="text-sm text-muted-foreground">of ${subscription.weekly_cap}</span>
+              </div>
+              <Progress value={weeklyProgress} className="h-2" />
+              <p className="text-xs text-muted-foreground">
+                {isWeeklyCapped ? 'Weekly cap reached' : `$${weeklyRemaining.toFixed(2)} remaining this week`}
               </p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Earned</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardHeader>
+              <CardTitle className="text-sm font-medium">Monthly Earning Potential</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">${profile?.total_earned.toFixed(2) || '0.00'}</div>
-              <p className="text-xs text-muted-foreground">All-time earnings</p>
+            <CardContent className="space-y-2">
+              <div className="flex justify-between items-baseline">
+                <span className="text-2xl font-bold">${monthlyUsed.toFixed(2)}</span>
+                <span className="text-sm text-muted-foreground">of ${subscription.monthly_cap}</span>
+              </div>
+              <Progress value={monthlyProgress} className="h-2" />
+              <p className="text-xs text-muted-foreground">
+                ${monthlyRemaining.toFixed(2)} remaining this month
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm font-medium">Annual Earning Potential</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="flex justify-between items-baseline">
+                <span className="text-2xl font-bold">${annualUsed.toFixed(2)}</span>
+                <span className="text-sm text-muted-foreground">of ${subscription.annual_cap}</span>
+              </div>
+              <Progress value={annualProgress} className="h-2" />
+              <p className="text-xs text-muted-foreground">
+                ${annualRemaining.toFixed(2)} remaining this year
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -411,7 +458,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
               </Button>
               {isWeeklyCapped && (
                 <p className="text-xs text-muted-foreground text-center mt-2">
-                  Weekly limit reached. Upgrade to earn more.
+                  Weekly cap reached. Upgrade for higher earning potential.
                 </p>
               )}
             </CardContent>
@@ -460,6 +507,7 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
         <Card>
           <CardHeader>
             <CardTitle>Subscription Details</CardTitle>
+            <CardDescription>Your current earning potential caps</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -468,13 +516,20 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
                 <Badge>{subscription.name}</Badge>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Weekly Limit</span>
+                <span className="text-sm text-muted-foreground">Weekly Cap</span>
                 <span className="text-sm font-medium">${subscription.weekly_cap}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Monthly Limit</span>
+                <span className="text-sm text-muted-foreground">Monthly Cap</span>
                 <span className="text-sm font-medium">${subscription.monthly_cap}</span>
               </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Annual Cap</span>
+                <span className="text-sm font-medium">${subscription.annual_cap}</span>
+              </div>
+              <p className="text-xs text-muted-foreground italic">
+                Earning potential varies based on participation.
+              </p>
               <Button 
                 className="w-full" 
                 variant="default"

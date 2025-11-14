@@ -12,6 +12,7 @@ interface SubscriptionPlan {
   price: number;
   weekly_cap?: number;
   monthly_cap?: number;
+  annual_cap?: number;
   max_campaigns?: number;
   max_target_views?: number;
   revenue_share_percent?: number;
@@ -161,8 +162,8 @@ const SubscriptionPlans = ({ role, userId }: SubscriptionPlansProps) => {
                     <span className="text-foreground/60">/month</span>
                   </div>
                   {plan.role === 'earner' && (
-                    <p className="text-foreground/70">
-                      Max: ${plan.weekly_cap}/week or ${plan.monthly_cap}/month
+                    <p className="text-foreground/70 text-sm">
+                      Earning Potential: ${plan.weekly_cap}/week, ${plan.monthly_cap}/month, ${plan.annual_cap}/year
                     </p>
                   )}
                   {plan.role === 'creator' && (
