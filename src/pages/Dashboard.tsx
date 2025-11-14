@@ -1,4 +1,3 @@
-import { fetchUserRole } from "../../utils/fetchUserRole";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,17 +15,19 @@ const Dashboard = () => {
 
   const fetchUserRole = async (userId: string) => {
     try {
-      const role = await fetchUserRole(supabase, user.id);
+      const { data, error } = await supabase.rpc('has_role', {
+        _user_id: userId,
+        _role: 'admin'
+      });
 
       if (error) {
         console.error("Error fetching role:", error);
-        // Default to earner if no role found
         setUserRole("earner");
         return;
       }
 
       // Map role to dashboard type
-      if (data?.role === "admin") {
+      if (data) {
         setUserRole("creator"); // Admins see creator dashboard
       } else {
         setUserRole("earner"); // Default to earner
