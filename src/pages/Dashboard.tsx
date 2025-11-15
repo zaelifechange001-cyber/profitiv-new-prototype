@@ -1,209 +1,125 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-/** SIMPLE LOADING + SIGN IN */
+/**
+ * Diagnostic Dashboard
+ * - Minimal UI
+ * - Fetches raw rows from user_subscriptions and user_roles for the current user
+ * - Prints full error objects to console
+ * Use this to confirm what the front-end sees.
+ */
+
 function Loading() {
-  return <div style={{ padding: 20 }}>Loading dashboard…</div>;
+  return <div style={{ padding: 24 }}>Loading (diagnostic)…</div>;
 }
 
 function SignInPrompt() {
-  return <div style={{ padding: 20 }}>Please sign in to view your dashboard.</div>;
+  return <div style={{ padding: 24 }}>Not signed in — please sign in to test.</div>;
 }
 
-/** SMALL CARD FOR DISPLAY / PROGRESS */
-function CapCard({ label, current, cap }: { label: string; current: number; cap: number }) {
-  const pct = cap > 0 ? Math.min(100, Math.round((current / cap) * 100)) : 0;
-
-  return (
-    <div
-      style={{
-        borderRadius: 12,
-        padding: 14,
-        minWidth: 180,
-        background: "#fff",
-        marginBottom: 12,
-        boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-      }}
-    >
-      <div style={{ fontSize: 12, opacity: 0.9 }}>{label}</div>
-      <div style={{ fontSize: 18, fontWeight: 700 }}>
-        ${current} / ${cap}
-      </div>
-      <div style={{ height: 8, background: "#eee", borderRadius: 6, marginTop: 8 }}>
-        <div
-          style={{
-            width: `${pct}%`,
-            height: "100%",
-            background: "linear-gradient(90deg,#7C3AED,#06B6D4)",
-            borderRadius: 6,
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-/** FETCH USER ROLE FROM user_subscriptions OR user_roles  */
-async function fetchUserRoleSafe(userId: string | null) {
-  if (!userId) return null;
-
-  // Try user_subscriptions first
-  try {
-    const { data } = await supabase
-      .from("user_subscriptions")
-      .select("role")
-      .eq("user_id", userId)
-      .eq("status", "active")
-      .maybeSingle();
-
-    if (data?.role) return data.role;
-  } catch {}
-
-  // fallback to user_roles
-  try {
-    const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId).maybeSingle();
-
-    if (data?.role) return data.role;
-  } catch {}
-
-  return "earner";
-}
-
-/** FETCH SUBSCRIPTION FROM user_subscriptions (NO plan_id) */
-async function fetchSubscriptionForUser(userId: string | null) {
-  if (!userId) return null;
-
-  try {
-    const { data, error } = await supabase
-      .from("user_subscriptions")
-      .select("plan_name, role, weekly_cap, monthly_cap, annual_cap, kyc_verified, status")
-      .eq("user_id", userId)
-      .eq("status", "active")
-      .maybeSingle();
-
-    if (error) return null;
-
-    return data ?? null;
-  } catch (e) {
-    console.warn("subscription error:", e);
-    return null;
-  }
-}
-
-export default function Dashboard() {
+export default function DashboardDiagnostic() {
   const [user, setUser] = useState<any>(null);
-  const [role, setRole] = useState<string | null>(null);
-  const [sub, setSub] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [subRow, setSubRow] = useState<any>(null);
+  const [roleRow, setRoleRow] = useState<any>(null);
+  const [errorInfo, setErrorInfo] = useState<any>(null);
 
-  // placeholder totals (you hook earnings_history later)
-  const [weeklyEarned, setWeeklyEarned] = useState(0);
-  const [monthlyEarned, setMonthlyEarned] = useState(0);
-  const [annualEarned, setAnnualEarned] = useState(0);
-
-  /** AUTH LISTENER */
+  // auth session listener
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       setUser(data?.session?.user ?? null);
     });
-
-    supabase.auth.onAuthStateChange((_, session) => {
+    const { data } = supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
     });
+    return () => data?.subscription?.unsubscribe?.();
   }, []);
 
-  /** LOAD ROLE + SUBSCRIPTION */
+  // fetch minimal diagnostic data
   useEffect(() => {
     let mounted = true;
-
     async function load() {
       setLoading(true);
+      setSubRow(null);
+      setRoleRow(null);
+      setErrorInfo(null);
 
       if (!user?.id) {
-        setRole(null);
-        setSub(null);
         setLoading(false);
         return;
       }
 
-      const r = await fetchUserRoleSafe(user.id);
-      if (!mounted) return;
-      setRole(r);
+      try {
+        // Raw fetch of user_subscriptions (select *)
+        const { data: subs, error: subErr } = await supabase
+          .from("user_subscriptions")
+          .select("*")
+          .eq("user_id", user.id);
 
-      const s = await fetchSubscriptionForUser(user.id);
-      if (!mounted) return;
-      setSub(s);
+        if (!mounted) return;
+        if (subErr) {
+          console.error("user_subscriptions error:", subErr);
+          setErrorInfo((prev: any) => ({ ...prev, user_subscriptions: subErr }));
+        } else {
+          console.log("user_subscriptions result:", subs);
+          setSubRow(subs ?? null);
+        }
 
-      setWeeklyEarned(0);
-      setMonthlyEarned(0);
-      setAnnualEarned(0);
+        // Raw fetch of user_roles
+        const { data: roles, error: roleErr } = await supabase.from("user_roles").select("*").eq("user_id", user.id);
 
-      setLoading(false);
+        if (!mounted) return;
+        if (roleErr) {
+          console.error("user_roles error:", roleErr);
+          setErrorInfo((prev: any) => ({ ...prev, user_roles: roleErr }));
+        } else {
+          console.log("user_roles result:", roles);
+          setRoleRow(roles ?? null);
+        }
+      } catch (e) {
+        console.error("Unexpected diagnostic error:", e);
+        setErrorInfo((prev: any) => ({ ...prev, unexpected: String(e) }));
+      } finally {
+        setLoading(false);
+      }
     }
-
     load();
-    return () => (mounted = false);
+    return () => {
+      mounted = false;
+    };
   }, [user]);
 
   if (loading) return <Loading />;
   if (!user) return <SignInPrompt />;
 
-  /** SUB info */
-  const planName = sub?.plan_name ?? "—";
-  const weeklyCap = sub?.weekly_cap ?? 0;
-  const monthlyCap = sub?.monthly_cap ?? 0;
-  const annualCap = sub?.annual_cap ?? 0;
-
-  /** CREATOR VIEW */
-  if (role === "creator") {
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "linear-gradient(#0b0f1a,#071225)",
-          color: "#fff",
-          padding: 24,
-        }}
-      >
-        <header style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
-          <div style={{ display: "flex", gap: 12 }}>
-            <img src="/profitiv-logo-purple.svg" style={{ height: 36 }} />
-            <h2>Creator Dashboard</h2>
-          </div>
-          <div>Plan: {planName}</div>
-        </header>
-
-        <div>Welcome Creator — your tools go here.</div>
-      </div>
-    );
-  }
-
-  /** EARNER VIEW */
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(#fafafa,#f3f4f6)",
-        padding: 24,
-      }}
-    >
-      <header style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
-        <div style={{ display: "flex", gap: 12 }}>
-          <img src="/profitiv-logo-purple.svg" style={{ height: 36 }} />
-          <h2 style={{ margin: 0 }}>Earner Dashboard</h2>
-        </div>
-        <div>Plan: {planName}</div>
-      </header>
+    <div style={{ padding: 24, fontFamily: "system-ui, Arial", lineHeight: 1.35 }}>
+      <h2>Profitiv — Diagnostic Dashboard</h2>
+      <p style={{ color: "#666" }}>This page only fetches raw rows to show what the app receives.</p>
 
-      <section style={{ display: "flex", gap: 16, marginBottom: 18 }}>
-        <CapCard label="Weekly Earnings" current={weeklyEarned} cap={weeklyCap} />
-        <CapCard label="Monthly Earnings" current={monthlyEarned} cap={monthlyCap} />
-        <CapCard label="Annual Earnings" current={annualEarned} cap={annualCap} />
+      <section style={{ marginTop: 16 }}>
+        <strong>Current user (auth session):</strong>
+        <pre style={{ background: "#f7f7f7", padding: 12 }}>{JSON.stringify(user, null, 2)}</pre>
       </section>
 
-      <div style={{ marginTop: 20 }}>
-        <h3>How it works</h3>
-        <p>Earning potential varies based on participation. KYC is required for payouts.</p>
+      <section style={{ marginTop: 16 }}>
+        <strong>user_subscriptions rows:</strong>
+        <pre style={{ background: "#f7f7f7", padding: 12 }}>{JSON.stringify(subRow, null, 2)}</pre>
+      </section>
+
+      <section style={{ marginTop: 16 }}>
+        <strong>user_roles rows:</strong>
+        <pre style={{ background: "#f7f7f7", padding: 12 }}>{JSON.stringify(roleRow, null, 2)}</pre>
+      </section>
+
+      <section style={{ marginTop: 16 }}>
+        <strong>Any errors (console also):</strong>
+        <pre style={{ background: "#fff1f0", padding: 12, color: "#9b1c1c" }}>{JSON.stringify(errorInfo, null, 2)}</pre>
+      </section>
+
+      <div style={{ marginTop: 18, color: "#333" }}>
+        <strong>Next:</strong> Copy any console errors or the JSON contents you see here and paste them back — I will
+        act on them immediately.
       </div>
     </div>
   );
