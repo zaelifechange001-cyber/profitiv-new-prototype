@@ -52,19 +52,30 @@ export default function AdminVerifications() {
 
   const fetchVerifications = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: verificationData, error } = await supabase
         .from('user_verifications')
-        .select(`
-          *,
-          profiles:user_id (
-            full_name,
-            email
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setVerifications(data as any);
+
+      // Fetch profiles separately
+      if (verificationData && verificationData.length > 0) {
+        const userIds = verificationData.map(v => v.user_id);
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('user_id, full_name, email')
+          .in('user_id', userIds);
+
+        // Merge profiles with verifications
+        const merged = verificationData.map(v => ({
+          ...v,
+          profiles: profileData?.find(p => p.user_id === v.user_id) || { full_name: 'Unknown', email: 'Unknown' }
+        }));
+        setVerifications(merged as any);
+      } else {
+        setVerifications([]);
+      }
     } catch (error) {
       console.error('Error fetching verifications:', error);
       toast.error('Failed to load verifications');
