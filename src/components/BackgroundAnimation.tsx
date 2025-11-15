@@ -1,141 +1,94 @@
 import { memo, useEffect } from "react";
 
 const BackgroundAnimationComponent = () => {
-  // Pause heavy animations during fast scrolling to eliminate jank
+  // Force-disable continuous animations globally while this component is mounted
   useEffect(() => {
-    let t = 0 as unknown as number;
-    const onScroll = () => {
-      document.documentElement.setAttribute("data-scrolling", "true");
-      window.clearTimeout(t);
-      t = window.setTimeout(() => {
-        document.documentElement.removeAttribute("data-scrolling");
-      }, 150);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    document.documentElement.classList.add('profitiv-anim-off');
+    return () => document.documentElement.classList.remove('profitiv-anim-off');
   }, []);
 
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-      {/* Static gradient base */}
-      <div 
+      {/* Static gradient base (no animations) */}
+      <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 1200px 600px at 10% 10%, hsl(270 100% 58% / 0.12), transparent), radial-gradient(ellipse 900px 500px at 85% 85%, hsl(180 100% 50% / 0.06), transparent), linear-gradient(180deg, hsl(220 50% 4%), hsl(220 45% 6%))'
-        }}
-      />
-      
-      {/* Animated gradient overlay - CSS only with will-change */}
-      <div 
-        className="absolute -inset-[10%] profitive-bg-anim"
-        style={{
-          background: 'linear-gradient(120deg, hsl(270 100% 58% / 0.25), hsl(180 100% 50% / 0.18), hsl(330 100% 70% / 0.12))',
-          filter: 'blur(100px) saturate(120%)',
-          mixBlendMode: 'screen' as any,
-          opacity: 0.7,
-          animation: 'slowDrift 22s ease-in-out infinite',
-          willChange: 'transform'
+          background:
+            'radial-gradient(ellipse 1200px 600px at 10% 10%, hsl(var(--primary) / 0.12), transparent), radial-gradient(ellipse 900px 500px at 85% 85%, hsl(var(--secondary) / 0.06), transparent), linear-gradient(180deg, hsl(var(--graphite)), hsl(var(--graphite-2)))',
         }}
       />
 
-      {/* Diagonal stripes - CSS only */}
-      <div 
-        className="absolute -inset-[20%] profitive-stripes"
+      {/* Stripes layer (static) */}
+      <div
+        className="absolute -inset-[20%]"
         style={{
-          background: 'repeating-linear-gradient(135deg, transparent, transparent 12px, hsl(270 100% 58% / 0.04) 12px, hsl(270 100% 58% / 0.04) 24px, hsl(180 100% 50% / 0.04) 24px, hsl(180 100% 50% / 0.04) 36px)',
+          background:
+            'repeating-linear-gradient(135deg, transparent, transparent 12px, hsl(var(--primary) / 0.04) 12px, hsl(var(--primary) / 0.04) 24px, hsl(var(--secondary) / 0.04) 24px, hsl(var(--secondary) / 0.04) 36px)',
           mixBlendMode: 'overlay' as any,
-          opacity: 0.5,
-          animation: 'stripeMove 18s linear infinite',
-          willChange: 'transform'
+          opacity: 0.45,
         }}
       />
 
-      {/* Orb 1 - purple glow */}
-      <div 
-        className="absolute profitive-orb profitive-orb1"
+      {/* Static orbs (no float animations) */}
+      <div
+        className="absolute"
         style={{
           left: '5%',
           top: '8%',
-          width: '600px',
-          height: '600px',
-          background: 'radial-gradient(circle, hsl(270 100% 58% / 0.35), hsl(330 100% 70% / 0.15), transparent)',
+          width: '560px',
+          height: '560px',
+          background:
+            'radial-gradient(circle, hsl(var(--primary) / 0.32), hsl(var(--primary-glow) / 0.14), transparent 70%)',
           filter: 'blur(56px)',
-          animation: 'floatOrb1 25s ease-in-out infinite',
-          willChange: 'transform'
         }}
       />
 
-      {/* Orb 2 - cyan glow */}
-      <div 
-        className="absolute profitive-orb profitive-orb2"
+      <div
+        className="absolute"
         style={{
           right: '5%',
           bottom: '8%',
           width: '500px',
           height: '500px',
-          background: 'radial-gradient(circle, hsl(180 100% 50% / 0.3), hsl(200 100% 50% / 0.12), transparent)',
+          background:
+            'radial-gradient(circle, hsl(var(--secondary) / 0.28), hsl(var(--secondary-glow) / 0.12), transparent 70%)',
           filter: 'blur(56px)',
-          animation: 'floatOrb2 28s ease-in-out infinite',
-          willChange: 'transform'
         }}
       />
 
-      {/* Center pulse */}
-      <div 
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 profitive-center-pulse"
+      {/* Static center glow */}
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: '680px',
-          height: '680px',
-          background: 'radial-gradient(circle, hsl(270 100% 58% / 0.15), transparent 60%)',
+          width: '660px',
+          height: '660px',
+          background: 'radial-gradient(circle, hsl(var(--primary) / 0.14), transparent 60%)',
           filter: 'blur(70px)',
-          animation: 'centerPulse 22s ease-in-out infinite',
-          willChange: 'transform, opacity'
+          opacity: 0.7,
         }}
       />
 
+      {/* Global overrides to disable heavy loops without changing markup */}
       <style>{`
-        @keyframes slowDrift {
-          0% { transform: translate3d(-2%, 0, 0) rotate(0deg) scale(1); }
-          50% { transform: translate3d(3%, 2%, 0) rotate(1deg) scale(1.02); }
-          100% { transform: translate3d(-2%, 0, 0) rotate(0deg) scale(1); }
+        :root.profitiv-anim-off .animate-pulse,
+        :root.profitiv-anim-off .marketplace-card,
+        :root.profitiv-anim-off .profitiv-wordmark,
+        :root.profitiv-anim-off .glass-shimmer,
+        :root.profitiv-anim-off .bg-motion,
+        :root.profitiv-anim-off .hero-glow,
+        :root.profitiv-anim-off [style*="animation:"] {
+          animation: none !important;
         }
-        
-        @keyframes stripeMove {
-          0% { transform: translateX(-30%) rotate(0deg); }
-          100% { transform: translateX(10%) rotate(0deg); }
-        }
-        
-        @keyframes floatOrb1 {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(20px, 30px); }
-        }
-        
-        @keyframes floatOrb2 {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(-25px, -20px); }
-        }
-        
-        @keyframes centerPulse {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-          50% { transform: translate(-50%, -50%) scale(1.12); opacity: 0.78; }
-        }
-
-        /* Pause animations while user is actively scrolling to avoid jank */
-        :root[data-scrolling] .profitive-bg-anim,
-        :root[data-scrolling] .profitive-stripes,
-        :root[data-scrolling] .profitive-orb,
-        :root[data-scrolling] .profitive-center-pulse,
-        :root[data-scrolling] .animate-pulse,
-        :root[data-scrolling] .marketplace-card {
-          animation-play-state: paused !important;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          * {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-          }
+        /* Keep interactive accordions/menus intact */
+        :root.profitiv-anim-off .animate-accordion-down,
+        :root.profitiv-anim-off .animate-accordion-up,
+        :root.profitiv-anim-off .animate-fade-in,
+        :root.profitiv-anim-off .animate-fade-out,
+        :root.profitiv-anim-off .animate-scale-in,
+        :root.profitiv-anim-off .animate-scale-out,
+        :root.profitiv-anim-off .animate-slide-in-right,
+        :root.profitiv-anim-off .animate-slide-out-right {
+          animation: none !important;
         }
       `}</style>
     </div>
