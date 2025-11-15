@@ -32,7 +32,7 @@ export default function DashboardDiagnostic() {
     const { data } = supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
     });
-    return () => data?.subscription?.unsubscribe?.();
+    return () => { data?.subscription?.unsubscribe?.(); };
   }, []);
 
   // fetch minimal diagnostic data
