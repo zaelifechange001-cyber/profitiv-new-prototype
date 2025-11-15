@@ -111,25 +111,24 @@ const CreatorDashboard = () => {
         });
       }
 
-      // Fetch campaigns
+      // Fetch campaigns created by this creator
       const { data: campaignsData } = await supabase
-        .from('investment_videos')
+        .from('campaigns')
         .select('*')
-        .eq('status', 'active')
-        .order('created_at', { ascending: false })
-        .limit(5);
+        .eq('creator_id', user.id)
+        .order('created_at', { ascending: false });
 
       if (campaignsData) {
         setActiveCampaigns(campaignsData.map(campaign => ({
           id: campaign.id,
           title: campaign.title,
-          video_length: '30s', // Could be calculated from video_url
+          video_length: '30-60s',
           current_views: campaign.current_views || 0,
-          goal_views: campaign.goal_views,
+          goal_views: campaign.requested_views,
           status: campaign.status,
-          investment_amount: campaign.investment_amount
+          investment_amount: campaign.total_budget
         })));
-        setCampaignCount(campaignsData.length);
+        setCampaignCount(campaignsData.filter(c => c.status === 'published').length);
         setTotalViews(campaignsData.reduce((sum, c) => sum + (c.current_views || 0), 0));
       }
 
@@ -193,21 +192,29 @@ const CreatorDashboard = () => {
               <Button variant="ghost" onClick={() => navigate("/creators/dashboard")}>
                 Dashboard
               </Button>
-              <Button variant="ghost" onClick={() => navigate("/admin/campaigns")}>
-                Campaigns
+              <Button variant="ghost" onClick={() => navigate("/campaigns")}>
+                Browse Campaigns
               </Button>
-              <Button variant="ghost" onClick={() => navigate("/admin/financial")}>
-                Financials
-              </Button>
-              <Button variant="ghost" onClick={() => navigate("/payout-settings")}>
-                Withdraw
+              <Button variant="ghost" onClick={() => navigate("/marketplace")}>
+                Marketplace
               </Button>
             </div>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleLogout}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button 
+              variant="default" 
+              size="sm"
+              onClick={() => navigate("/creators/create-campaign")}
+              disabled={!canCreateCampaign}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Create Campaign
+            </Button>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </nav>
 
@@ -322,7 +329,7 @@ const CreatorDashboard = () => {
               {activeCampaigns.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-muted-foreground mb-4">No active campaigns yet</p>
-                  <Button onClick={() => navigate("/admin/campaigns")}>
+                  <Button onClick={() => navigate("/creators/create-campaign")}>
                     <Plus className="w-4 h-4 mr-2" />
                     Create Your First Campaign
                   </Button>
