@@ -159,47 +159,61 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
       setMonthlyUsed(monthlyData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0);
       setAnnualUsed(annualData?.reduce((sum, item) => sum + Number(item.amount), 0) || 0);
 
-      // Fetch active campaigns (TODO: implement proper campaign participation tracking)
-      // Mock data for now
-      setActiveCampaigns([
-        {
-          id: '1',
-          title: 'Brand Awareness Campaign',
-          creator_name: 'TechBrand Inc.',
-          video_length: '30s',
-          remaining_quota: 2350,
-          earned_amount: 15,
-          progress: 60,
-          reward_type: 'tiv'
-        },
-        {
-          id: '2',
-          title: 'Product Launch Video',
-          creator_name: 'EcoProducts',
-          video_length: '45s',
-          remaining_quota: 1200,
-          earned_amount: 25,
-          progress: 80,
-          reward_type: 'usd'
-        }
-      ]);
-
-      // Fetch recent rewards
-      const { data: rewardsData } = await supabase
-        .from('user_activities')
-        .select('created_at, description, amount, activity_type')
+      // Fetch active campaigns (user's participations)
+      const { data: participationsData } = await supabase
+        .from('campaign_participants')
+        .select(`
+          campaign_id,
+          progress,
+          completed,
+          total_earned_tiv,
+          total_earned_usd,
+          campaigns (
+            id,
+            title,
+            description,
+            requested_views,
+            reward_per_view,
+            reward_type
+          )
+        `)
         .eq('user_id', userId)
-        .in('activity_type', ['course_completion', 'spin_reward', 'tiv_conversion'])
+        .eq('completed', false);
+
+      if (participationsData) {
+        const campaignsWithProgress = participationsData
+          .filter(p => p.campaigns)
+          .map(p => {
+            const campaign = Array.isArray(p.campaigns) ? p.campaigns[0] : p.campaigns;
+            return {
+              id: campaign.id,
+              title: campaign.title,
+              creator_name: 'Campaign Creator',
+              video_length: '30-60s',
+              remaining_quota: campaign.requested_views - p.progress,
+              earned_amount: campaign.reward_type === 'tiv' ? p.total_earned_tiv : p.total_earned_usd,
+              progress: Math.round((p.progress / campaign.requested_views) * 100),
+              reward_type: campaign.reward_type as 'tiv' | 'usd'
+            };
+          });
+        setActiveCampaigns(campaignsWithProgress);
+      }
+
+      // Fetch recent rewards from earnings_history
+      const { data: earningsData } = await supabase
+        .from('earnings_history')
+        .select('created_at, description, amount_tiv, amount_usd, activity_type')
+        .eq('user_id', userId)
         .order('created_at', { ascending: false })
         .limit(10);
 
-      if (rewardsData) {
+      if (earningsData) {
         setRecentRewards(
-          rewardsData.map(reward => ({
+          earningsData.map(reward => ({
             date: new Date(reward.created_at).toLocaleDateString(),
             campaign_name: reward.description,
-            reward_amount: Number(reward.amount),
-            reward_type: reward.activity_type.includes('tiv') ? 'tiv' : 'usd'
+            reward_amount: reward.amount_tiv > 0 ? Number(reward.amount_tiv) : Number(reward.amount_usd),
+            reward_type: reward.amount_tiv > 0 ? 'tiv' : 'usd'
           }))
         );
       }
@@ -434,10 +448,10 @@ const EarnerDashboard = ({ userId }: EarnerDashboardProps) => {
               <Button 
                 className="w-full justify-start" 
                 variant="outline"
-                onClick={() => navigate("/videos")}
+                onClick={() => navigate("/campaigns")}
               >
                 <Video className="mr-2 h-4 w-4" />
-                Watch a Video
+                Watch Campaigns
               </Button>
               <Button 
                 className="w-full justify-start" 

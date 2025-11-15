@@ -71,6 +71,113 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_participants: {
+        Row: {
+          campaign_id: string
+          completed: boolean | null
+          completed_at: string | null
+          id: string
+          last_activity_at: string
+          progress: number
+          started_at: string
+          total_earned_tiv: number | null
+          total_earned_usd: number | null
+          user_id: string
+        }
+        Insert: {
+          campaign_id: string
+          completed?: boolean | null
+          completed_at?: string | null
+          id?: string
+          last_activity_at?: string
+          progress?: number
+          started_at?: string
+          total_earned_tiv?: number | null
+          total_earned_usd?: number | null
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string
+          completed?: boolean | null
+          completed_at?: string | null
+          id?: string
+          last_activity_at?: string
+          progress?: number
+          started_at?: string
+          total_earned_tiv?: number | null
+          total_earned_usd?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_participants_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          creator_id: string
+          current_views: number
+          description: string | null
+          id: string
+          published_at: string | null
+          remaining_budget: number
+          requested_views: number
+          reward_per_view: number
+          reward_type: string
+          status: string
+          target_audience: Json | null
+          title: string
+          total_budget: number
+          updated_at: string
+          video_url: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          creator_id: string
+          current_views?: number
+          description?: string | null
+          id?: string
+          published_at?: string | null
+          remaining_budget?: number
+          requested_views?: number
+          reward_per_view?: number
+          reward_type?: string
+          status?: string
+          target_audience?: Json | null
+          title: string
+          total_budget?: number
+          updated_at?: string
+          video_url: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          creator_id?: string
+          current_views?: number
+          description?: string | null
+          id?: string
+          published_at?: string | null
+          remaining_budget?: number
+          requested_views?: number
+          reward_per_view?: number
+          reward_type?: string
+          status?: string
+          target_audience?: Json | null
+          title?: string
+          total_budget?: number
+          updated_at?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
       community_pools: {
         Row: {
           created_at: string | null
@@ -169,6 +276,50 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      earnings_history: {
+        Row: {
+          activity_type: string
+          amount_tiv: number | null
+          amount_usd: number | null
+          campaign_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          activity_type: string
+          amount_tiv?: number | null
+          amount_usd?: number | null
+          campaign_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          activity_type?: string
+          amount_tiv?: number | null
+          amount_usd?: number | null
+          campaign_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "earnings_history_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       investment_videos: {
         Row: {
@@ -524,6 +675,39 @@ export type Database = {
         }
         Relationships: []
       }
+      tiv_packs: {
+        Row: {
+          active: boolean | null
+          amount_tiv: number
+          created_at: string
+          description: string | null
+          featured: boolean | null
+          id: string
+          pack_name: string
+          price_usd: number
+        }
+        Insert: {
+          active?: boolean | null
+          amount_tiv: number
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          pack_name: string
+          price_usd: number
+        }
+        Update: {
+          active?: boolean | null
+          amount_tiv?: number
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          pack_name?: string
+          price_usd?: number
+        }
+        Relationships: []
+      }
       tiv_settings: {
         Row: {
           id: string
@@ -688,6 +872,7 @@ export type Database = {
           created_at: string | null
           expires_at: string | null
           id: string
+          kyc_verified: boolean | null
           plan_id: string | null
           role: string | null
           started_at: string | null
@@ -698,6 +883,7 @@ export type Database = {
           created_at?: string | null
           expires_at?: string | null
           id?: string
+          kyc_verified?: boolean | null
           plan_id?: string | null
           role?: string | null
           started_at?: string | null
@@ -708,6 +894,7 @@ export type Database = {
           created_at?: string | null
           expires_at?: string | null
           id?: string
+          kyc_verified?: boolean | null
           plan_id?: string | null
           role?: string | null
           started_at?: string | null
@@ -926,11 +1113,14 @@ export type Database = {
           created_at: string | null
           fee: number
           id: string
+          kyc_verified: boolean | null
           method: string
           net_amount: number
           payout_method_id: string | null
           processing_error: string | null
           status: string
+          stripe_account_id: string | null
+          stripe_transfer_id: string | null
           updated_at: string | null
           user_id: string
         }
@@ -941,11 +1131,14 @@ export type Database = {
           created_at?: string | null
           fee?: number
           id?: string
+          kyc_verified?: boolean | null
           method: string
           net_amount: number
           payout_method_id?: string | null
           processing_error?: string | null
           status?: string
+          stripe_account_id?: string | null
+          stripe_transfer_id?: string | null
           updated_at?: string | null
           user_id: string
         }
@@ -956,11 +1149,14 @@ export type Database = {
           created_at?: string | null
           fee?: number
           id?: string
+          kyc_verified?: boolean | null
           method?: string
           net_amount?: number
           payout_method_id?: string | null
           processing_error?: string | null
           status?: string
+          stripe_account_id?: string | null
+          stripe_transfer_id?: string | null
           updated_at?: string | null
           user_id?: string
         }
@@ -1007,6 +1203,7 @@ export type Database = {
         Returns: Json
       }
       buy_tiv_from_marketplace: { Args: { _listing_id: string }; Returns: Json }
+      complete_campaign_view: { Args: { _campaign_id: string }; Returns: Json }
       convert_tiv_to_usd: {
         Args: { _tiv_amount: number; _user_id: string }
         Returns: Json
@@ -1027,6 +1224,7 @@ export type Database = {
         Args: { _amount: number; _rate: number }
         Returns: Json
       }
+      participate_in_campaign: { Args: { _campaign_id: string }; Returns: Json }
       process_auto_payout: { Args: { _user_id: string }; Returns: Json }
       spin_wheel: { Args: never; Returns: Json }
       submit_quiz_answers: {

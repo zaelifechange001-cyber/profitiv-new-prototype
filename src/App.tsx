@@ -33,6 +33,9 @@ import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import PayoutPolicy from "./pages/PayoutPolicy";
 import KYCPolicy from "./pages/KYCPolicy";
+import CampaignsPage from "./pages/CampaignsPage";
+import CreateCampaignPage from "./pages/CreateCampaignPage";
+import StripeOnboardingPage from "./pages/StripeOnboardingPage";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +53,7 @@ const App = () => {
             <Route path="/dashboard" element={<CreatorDashboard />} />
             <Route path="/debug" element={<Diagnostic />} />
             <Route path="/earn" element={<EarnPage />} />
+            <Route path="/campaigns" element={<CampaignsPage />} />
             <Route path="/videos" element={<VideosPage />} />
             <Route path="/spin-to-win" element={<SpinToWinPage />} />
             <Route path="/learn-earn" element={<LearnEarnPage />} />
@@ -65,6 +69,8 @@ const App = () => {
             {/* Creators Routes */}
             <Route path="/creators" element={<CreatorsLanding />} />
             <Route path="/creators/dashboard" element={<CreatorDashboard />} />
+            <Route path="/creators/create-campaign" element={<CreateCampaignPage />} />
+            <Route path="/stripe-onboarding" element={<StripeOnboardingPage />} />
             
             {/* Legal Routes */}
             <Route path="/terms" element={<TermsOfService />} />
