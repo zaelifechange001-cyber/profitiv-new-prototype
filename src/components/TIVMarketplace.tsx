@@ -29,7 +29,7 @@ const TIVMarketplace = ({ role }: TIVMarketplaceProps) => {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Inside the TIV <span className="text-gradient-hero">Marketplace</span>
+            The <span className="text-gradient-hero">Inside the TIV</span> Marketplace
           </h2>
           <p className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
             {isCreator 
