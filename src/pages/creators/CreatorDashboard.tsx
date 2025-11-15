@@ -88,7 +88,7 @@ const CreatorDashboard = () => {
         .eq('user_id', user.id)
         .eq('role', 'creator')
         .eq('status', 'active')
-        .single();
+        .maybeSingle();
 
       if (subData?.subscription_plans) {
         const planData = Array.isArray(subData.subscription_plans) 

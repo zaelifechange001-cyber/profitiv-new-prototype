@@ -20,13 +20,31 @@ export default function AdminTIVMarket() {
 
       const { data: txns } = await supabase
         .from('tiv_transactions')
-        .select(`
-          *,
-          seller:profiles!tiv_transactions_seller_id_fkey(full_name, email),
-          buyer:profiles!tiv_transactions_buyer_id_fkey(full_name, email)
-        `)
+        .select('*')
         .order('created_at', { ascending: false })
         .limit(20);
+
+      // Fetch seller and buyer profiles separately
+      if (txns && txns.length > 0) {
+        const sellerIds = [...new Set(txns.map(t => t.seller_id))];
+        const buyerIds = [...new Set(txns.filter(t => t.buyer_id).map(t => t.buyer_id))];
+        const allUserIds = [...new Set([...sellerIds, ...buyerIds])];
+
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('user_id, full_name, email')
+          .in('user_id', allUserIds);
+
+        // Merge profiles with transactions
+        const mergedTxns = txns.map(t => ({
+          ...t,
+          seller: profiles?.find(p => p.user_id === t.seller_id) || { full_name: 'Unknown', email: 'Unknown' },
+          buyer: t.buyer_id ? profiles?.find(p => p.user_id === t.buyer_id) || { full_name: 'Unknown', email: 'Unknown' } : null
+        }));
+        setTransactions(mergedTxns);
+      } else {
+        setTransactions([]);
+      }
 
       const soldToday = txns?.filter(t => 
         new Date(t.created_at) >= today && t.status === 'completed'
