@@ -1,6 +1,20 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
 const BackgroundAnimationComponent = () => {
+  // Pause heavy animations during fast scrolling to eliminate jank
+  useEffect(() => {
+    let t = 0 as unknown as number;
+    const onScroll = () => {
+      document.documentElement.setAttribute("data-scrolling", "true");
+      window.clearTimeout(t);
+      t = window.setTimeout(() => {
+        document.documentElement.removeAttribute("data-scrolling");
+      }, 150);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
       {/* Static gradient base */}
@@ -13,11 +27,11 @@ const BackgroundAnimationComponent = () => {
       
       {/* Animated gradient overlay - CSS only with will-change */}
       <div 
-        className="absolute -inset-[10%]"
+        className="absolute -inset-[10%] profitive-bg-anim"
         style={{
           background: 'linear-gradient(120deg, hsl(270 100% 58% / 0.25), hsl(180 100% 50% / 0.18), hsl(330 100% 70% / 0.12))',
-          filter: 'blur(120px) saturate(120%)',
-          mixBlendMode: 'screen',
+          filter: 'blur(100px) saturate(120%)',
+          mixBlendMode: 'screen' as any,
           opacity: 0.7,
           animation: 'slowDrift 22s ease-in-out infinite',
           willChange: 'transform'
@@ -26,10 +40,10 @@ const BackgroundAnimationComponent = () => {
 
       {/* Diagonal stripes - CSS only */}
       <div 
-        className="absolute -inset-[20%]"
+        className="absolute -inset-[20%] profitive-stripes"
         style={{
           background: 'repeating-linear-gradient(135deg, transparent, transparent 12px, hsl(270 100% 58% / 0.04) 12px, hsl(270 100% 58% / 0.04) 24px, hsl(180 100% 50% / 0.04) 24px, hsl(180 100% 50% / 0.04) 36px)',
-          mixBlendMode: 'overlay',
+          mixBlendMode: 'overlay' as any,
           opacity: 0.5,
           animation: 'stripeMove 18s linear infinite',
           willChange: 'transform'
@@ -38,14 +52,14 @@ const BackgroundAnimationComponent = () => {
 
       {/* Orb 1 - purple glow */}
       <div 
-        className="absolute"
+        className="absolute profitive-orb profitive-orb1"
         style={{
           left: '5%',
           top: '8%',
           width: '600px',
           height: '600px',
           background: 'radial-gradient(circle, hsl(270 100% 58% / 0.35), hsl(330 100% 70% / 0.15), transparent)',
-          filter: 'blur(60px)',
+          filter: 'blur(56px)',
           animation: 'floatOrb1 25s ease-in-out infinite',
           willChange: 'transform'
         }}
@@ -53,14 +67,14 @@ const BackgroundAnimationComponent = () => {
 
       {/* Orb 2 - cyan glow */}
       <div 
-        className="absolute"
+        className="absolute profitive-orb profitive-orb2"
         style={{
           right: '5%',
           bottom: '8%',
           width: '500px',
           height: '500px',
           background: 'radial-gradient(circle, hsl(180 100% 50% / 0.3), hsl(200 100% 50% / 0.12), transparent)',
-          filter: 'blur(60px)',
+          filter: 'blur(56px)',
           animation: 'floatOrb2 28s ease-in-out infinite',
           willChange: 'transform'
         }}
@@ -68,12 +82,12 @@ const BackgroundAnimationComponent = () => {
 
       {/* Center pulse */}
       <div 
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 profitive-center-pulse"
         style={{
-          width: '700px',
-          height: '700px',
+          width: '680px',
+          height: '680px',
           background: 'radial-gradient(circle, hsl(270 100% 58% / 0.15), transparent 60%)',
-          filter: 'blur(80px)',
+          filter: 'blur(70px)',
           animation: 'centerPulse 22s ease-in-out infinite',
           willChange: 'transform, opacity'
         }}
@@ -103,7 +117,17 @@ const BackgroundAnimationComponent = () => {
         
         @keyframes centerPulse {
           0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-          50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.8; }
+          50% { transform: translate(-50%, -50%) scale(1.12); opacity: 0.78; }
+        }
+
+        /* Pause animations while user is actively scrolling to avoid jank */
+        :root[data-scrolling] .profitive-bg-anim,
+        :root[data-scrolling] .profitive-stripes,
+        :root[data-scrolling] .profitive-orb,
+        :root[data-scrolling] .profitive-center-pulse,
+        :root[data-scrolling] .animate-pulse,
+        :root[data-scrolling] .marketplace-card {
+          animation-play-state: paused !important;
         }
 
         @media (prefers-reduced-motion: reduce) {
