@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profitiv - Complete Product Documentation & Design System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.8;
+            color: #1a1a1a;
+            background: #ffffff;
+            padding: 0;
+        }
+        
+        .cover-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0b0c10, #16181d);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-page::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(108,99,255,0.2) 0%, transparent 70%),
+                        radial-gradient(circle at 80% 80%, rgba(0,229,255,0.15) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .logo-glow {
+            position: relative;
+            z-index: 2;
+            font-size: 6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, hsl(270 100% 58%), hsl(180 100% 50%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 40px rgba(108,99,255,0.8)) drop-shadow(0 0 80px rgba(0,229,255,0.6));
+            margin-bottom: 2rem;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 40px rgba(108,99,255,0.8)) drop-shadow(0 0 80px rgba(0,229,255,0.6)); }
+            50% { filter: drop-shadow(0 0 60px rgba(108,99,255,1)) drop-shadow(0 0 120px rgba(0,229,255,0.8)); }
+        }
+        
+        .cover-subtitle {
+            position: relative;
+            z-index: 2;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+        
+        .cover-meta {
+            position: relative;
+            z-index: 2;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+        
+        .content-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 3rem;
+            page-break-after: always;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #6C63FF;
+            border-bottom: 4px solid #00E5FF;
+            padding-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 3rem 0 1.5rem;
+            color: #6C63FF;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: #00E5FF;
+        }
+        
+        h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem;
+            color: #333;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .color-swatch {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin: 0.5rem;
+            border: 2px solid #ddd;
+            vertical-align: middle;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .color-item {
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+        
+        .code-block {
+            background: #0b0c10;
+            color: #00E5FF;
+            padding: 2rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .pricing-card {
+            background: linear-gradient(180deg, rgba(108,99,255,0.05), rgba(0,229,255,0.05));
+            border: 2px solid #6C63FF;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .pricing-card h4 {
+            color: #6C63FF;
+            margin-top: 0;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00E5FF;
+            margin: 1rem 0;
+        }
+        
+        .feature-list {
+            text-align: left;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-list li {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00E5FF;
+            font-weight: 700;
+        }
+        
+        .gradient-box {
+            background: linear-gradient(135deg, #6C63FF, #00E5FF);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background: #6C63FF;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .toc {
+            background: #f5f5f5;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+        
+        .toc li {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .toc a {
+            color: #6C63FF;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .toc a:hover {
+            color: #00E5FF;
+        }
+        
+        @media print {
+            .content-page {
+                page-break-after: always;
+            }
+            .code-block {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-page">
+    <div class="logo-glow">PROFITIV</div>
+    <div class="cover-subtitle">Complete Product Documentation & Design System</div>
+    <div class="cover-meta">
+        <p>Two-Sided Engagement Platform</p>
+        <p>Creators • Brands • Earners</p>
+        <p style="margin-top: 2rem; font-size: 1rem;">Version 2.0 • 2025</p>
+    </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="content-page">
+    <h1>Table of Contents</h1>
+    <div class="toc">
+        <ul>
+            <li><a href="#executive-summary">1. Executive Summary</a></li>
+            <li><a href="#product-overview">2. Product Overview</a></li>
+            <li><a href="#pricing">3. Pricing & Subscription Plans</a></li>
+            <li><a href="#revenue">4. Revenue Share Model</a></li>
+            <li><a href="#design-system">5. Profitiv Pulse Design System</a></li>
+            <li><a href="#logo">6. Logo & Brand Identity</a></li>
+            <li><a href="#colors">7. Color Palette & Specifications</a></li>
+            <li><a href="#components">8. UI Components & Patterns</a></li>
+            <li><a href="#backend">9. Backend Architecture</a></li>
+            <li><a href="#stripe">10. Stripe Integration</a></li>
+            <li><a href="#templates">11. Complete HTML Templates</a></li>
+            <li><a href="#launch">12. Launch Checklist</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="content-page" id="executive-summary">
+    <h1>1. Executive Summary</h1>
+    
+    <div class="gradient-box">
+        <h3 style="color: white; margin-top: 0;">Profitiv: Where Money Meets Motion</h3>
+        <p style="font-size: 1.2rem; margin-bottom: 0;">Profitiv is a revolutionary two-sided engagement and earnings platform that connects Creators & Brands with Earners through verified, rewarding digital interactions.</p>
+    </div>
+    
+    <h2>Platform Vision</h2>
+    <p>Profitiv transforms the creator economy by enabling:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Creators & Brands:</strong> Launch verified campaigns with predictable costs and real engagement from authenticated users</li>
+        <li><strong>Earners:</strong> Generate controlled income through watching videos, completing courses, and brand interactions</li>
+        <li><strong>Platform:</strong> Sustainable revenue through subscriptions, access fees, and marketplace transactions</li>
+    </ul>
+    
+    <h2>Core Value Propositions</h2>
+    
+    <h3>For Creators & Brands</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Real engagement from verified users, not bots</li>
+        <li>Predictable campaign costs with templates and analytics</li>
+        <li>Revenue sharing model - use earnings to fund next campaigns</li>
+        <li>Comprehensive dashboard with live performance tracking</li>
+        <li>Stripe Connect integration for seamless payouts</li>
+    </ul>
+    
+    <h3>For Earners</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Multiple earning methods: videos, games, courses, brand tasks</li>
+        <li>Transparent subscription plans with clear earning caps</li>
+        <li>TIV token system convertible to USD or tradeable on marketplace</li>
+        <li>KYC-protected withdrawals via Stripe</li>
+        <li>Weekly, monthly, and annual earning limits prevent system abuse</li>
+    </ul>
+    
+    <h2>Market Positioning</h2>
+    <p>Profitiv occupies a unique position at the intersection of:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Creator Economy:</strong> Empowering content creators with monetization tools</li>
+        <li><strong>Gig Economy:</strong> Providing flexible earning opportunities</li>
+        <li><strong>Performance Marketing:</strong> Verified, measurable engagement</li>
+        <li><strong>FinTech:</strong> Modern payment rails and token economics</li>
+    </ul>
+</div>
+
+<!-- PRODUCT OVERVIEW -->
+<div class="content-page" id="product-overview">
+    <h1>2. Product Overview</h1>
+    
+    <h2>Platform Architecture</h2>
+    <p>Profitiv operates as a <strong>two-sided marketplace</strong> with three key stakeholders:</p>
+    
+    <h3>1. Creators & Brands (Supply Side)</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Create video campaigns with target view counts</li>
+        <li>Purchase TIV packs to fund rewards</li>
+        <li>Set campaign parameters (reward per view, audience targeting)</li>
+        <li>Monitor campaign performance in real-time</li>
+        <li>Receive revenue share from access fees</li>
+    </ul>
+    
+    <h3>2. Earners (Demand Side)</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Subscribe to a plan ($25-$100/month)</li>
+        <li>Complete verified tasks to earn TIVs</li>
+        <li>Convert TIVs to USD at platform rate</li>
+        <li>Sell TIVs on marketplace for potentially higher rates</li>
+        <li>Withdraw earnings via Stripe (requires KYC)</li>
+    </ul>
+    
+    <h3>3. Profitiv Platform</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Facilitates all transactions and verifications</li>
+        <li>Manages subscription billing and payouts</li>
+        <li>Operates TIV marketplace with transaction fees</li>
+        <li>Ensures compliance and prevents fraud</li>
+        <li>Provides analytics and reporting</li>
+    </ul>
+    
+    <h2>Core Features</h2>
+    
+    <h3>Campaign Management</h3>
+    <p><strong>Campaign Creation Flow:</strong></p>
+    <ol style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Creator uploads video and sets parameters</li>
+        <li>Defines target views and reward per view (in TIVs)</li>
+        <li>Purchases TIV packs to fund the campaign</li>
+        <li>Sets optional audience targeting criteria</li>
+        <li>Publishes campaign to active earners</li>
+    </ol>
+    
+    <p><strong>Campaign Tracking:</strong></p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Real-time view count and completion rate</li>
+        <li>Average watch duration analytics</li>
+        <li>Remaining budget and TIV pool</li>
+        <li>Engagement metrics and user feedback</li>
+    </ul>
+    
+    <h3>TIV Token Economics</h3>
+    <p><strong>TIV (Time Investment Value)</strong> is Profitiv's internal currency:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Acquisition:</strong> Creators purchase TIV packs ($100-$10,000 packages)</li>
+        <li><strong>Distribution:</strong> TIVs awarded to earners for completed tasks</li>
+        <li><strong>Conversion:</strong> Platform rate typically 1 TIV = $2 USD</li>
+        <li><strong>Trading:</strong> Marketplace allows peer-to-peer TIV trading</li>
+        <li><strong>Withdrawal:</strong> Convert to USD and withdraw via Stripe</li>
+    </ul>
+    
+    <h3>Subscription System</h3>
+    <p>Both Creators and Earners operate on subscription plans that define:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Earning Caps:</strong> Maximum earnings per period (weekly/monthly/annual)</li>
+        <li><strong>Campaign Limits:</strong> Number of active campaigns (Creators)</li>
+        <li><strong>Feature Access:</strong> Premium features and priority support</li>
+        <li><strong>Marketplace Perks:</strong> Reduced fees or better rates</li>
+    </ul>
+    
+    <h3>KYC & Verification</h3>
+    <p>Multi-tier verification system:</p>
+    <ol style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Email Verification:</strong> Required for account creation</li>
+        <li><strong>Phone Verification:</strong> SMS OTP for enhanced security</li>
+        <li><strong>Identity Verification:</strong> Photo ID + selfie (required for withdrawals)</li>
+        <li><strong>Address Verification:</strong> Proof of address document (for higher limits)</li>
+    </ol>
+    
+    <h2>Technology Stack</h2>
+    <table>
+        <tr>
+            <th>Layer</th>
+            <th>Technology</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td>Frontend</td>
+            <td>React + TypeScript + Vite</td>
+            <td>Modern SPA with type safety</td>
+        </tr>
+        <tr>
+            <td>Styling</td>
+            <td>Tailwind CSS + CSS Variables</td>
+            <td>Utility-first with design tokens</td>
+        </tr>
+        <tr>
+            <td>Backend</td>
+            <td>Supabase (PostgreSQL)</td>
+            <td>Database, auth, realtime, storage</td>
+        </tr>
+        <tr>
+            <td>Payments</td>
+            <td>Stripe Connect</td>
+            <td>Creator payouts & marketplace</td>
+        </tr>
+        <tr>
+            <td>Deployment</td>
+            <td>Lovable / Vercel</td>
+            <td>CI/CD and hosting</td>
+        </tr>
+    </table>
+</div>
+
+<!-- PRICING -->
+<div class="content-page" id="pricing">
+    <h1>3. Pricing & Subscription Plans</h1>
+    
+    <h2>Earner Subscription Plans</h2>
+    <p>Earners pay monthly subscriptions to access the platform and earn within defined caps:</p>
+    
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <h4>Starter</h4>
+            <div class="price">$25/mo</div>
+            <ul class="feature-list">
+                <li>Weekly Cap: $165</li>
+                <li>Monthly Cap: $720</li>
+                <li>Annual Cap: $8,300</li>
+                <li>Basic campaigns access</li>
+                <li>Standard marketplace rates</li>
+                <li>Email support</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <h4>Builder</h4>
+            <div class="price">$50/mo</div>
+            <ul class="feature-list">
+                <li>Weekly Cap: $340</li>
+                <li>Monthly Cap: $1,450</li>
+                <li>Annual Cap: $16,800</li>
+                <li>Priority campaign access</li>
+                <li>Better marketplace rates</li>
+                <li>Priority support</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <h4>Pro</h4>
+            <div class="price">$75/mo</div>
+            <ul class="feature-list">
+                <li>Weekly Cap: $560</li>
+                <li>Monthly Cap: $2,350</li>
+                <li>Annual Cap: $28,100</li>
+                <li>Exclusive campaigns</li>
+                <li>Premium marketplace rates</li>
+                <li>Dedicated support</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <h4>Elite</h4>
+            <div class="price">$100/mo</div>
+            <ul class="feature-list">
+                <li>Weekly Cap: $760</li>
+                <li>Monthly Cap: $3,350</li>
+                <li>Annual Cap: $39,900</li>
+                <li>All campaigns + early access</li>
+                <li>Best marketplace rates</li>
+                <li>VIP support + manager</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Creator Subscription Plans</h2>
+    <p>Creators subscribe to launch campaigns and access platform features:</p>
+    
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <h4>Starter</h4>
+            <div class="price">$35/mo</div>
+            <ul class="feature-list">
+                <li>3 active campaigns</li>
+                <li>Max 10K views/campaign</li>
+                <li>Basic analytics</li>
+                <li>Standard TIV pack rates</li>
+                <li>Email support</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <h4>Builder</h4>
+            <div class="price">$70/mo</div>
+            <ul class="feature-list">
+                <li>10 active campaigns</li>
+                <li>Max 50K views/campaign</li>
+                <li>Advanced analytics</li>
+                <li>Discounted TIV packs</li>
+                <li>Priority support</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <h4>Pro</h4>
+            <div class="price">$105/mo</div>
+            <ul class="feature-list">
+                <li>25 active campaigns</li>
+                <li>Max 200K views/campaign</li>
+                <li>Real-time analytics</li>
+                <li>Better TIV pack rates</li>
+                <li>Dedicated support</li>
+            </ul>
+        </div>
+        
+        <div class="pricing-card">
+            <h4>Elite</h4>
+            <div class="price">$140/mo</div>
+            <ul class="feature-list">
+                <li>Unlimited campaigns</li>
+                <li>Unlimited views/campaign</li>
+                <li>Custom analytics</li>
+                <li>Best TIV pack rates</li>
+                <li>Account manager</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Plan Design Philosophy</h2>
+    <p><strong>Key Principles:</strong></p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Sustainable Caps:</strong> Earning limits prevent system abuse and ensure platform sustainability</li>
+        <li><strong>Progressive Value:</strong> Higher tiers offer significantly better earning potential/campaign limits</li>
+        <li><strong>Transparent Communication:</strong> All caps displayed clearly - "earning potential varies based on participation"</li>
+        <li><strong>No Guarantees:</strong> Never promise "guaranteed earnings" - only "earning potential"</li>
+    </ul>
+    
+    <div class="gradient-box">
+        <h3 style="color: white; margin-top: 0;">Important Legal Language</h3>
+        <p style="margin-bottom: 0;">All user-facing language must state: <em>"Earning potential varies based on participation. Profitiv does not guarantee specific earnings amounts."</em></p>
+    </div>
+</div>
+
+<!-- REVENUE MODEL -->
+<div class="content-page" id="revenue">
+    <h1>4. Revenue Share Model</h1>
+    
+    <h2>Platform Revenue Streams</h2>
+    
+    <h3>1. Subscription Revenue (Primary)</h3>
+    <p>Recurring monthly income from both Earners and Creators:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Earner subscriptions: $25-$100/month per user</li>
+        <li>Creator subscriptions: $35-$140/month per creator</li>
+        <li><strong>Target:</strong> 10,000 earners + 1,000 creators = $450K-$1.14M MRR</li>
+    </ul>
+    
+    <h3>2. Marketplace Fees</h3>
+    <p>Transaction fees on TIV pack purchases and peer-to-peer trading:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>TIV Pack Sales:</strong> 5-10% platform fee on creator purchases</li>
+        <li><strong>P2P Trading:</strong> 3-5% fee on marketplace transactions</li>
+        <li><strong>Example:</strong> $1M in monthly TIV sales = $50K-$100K platform revenue</li>
+    </ul>
+    
+    <h3>3. Access Fees (Campaign Participation)</h3>
+    <p>Small fees for earners to participate in premium campaigns:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Optional per-campaign access fees ($1-$5)</li>
+        <li>Portion funds TIV reward pools</li>
+        <li>Revenue split: 30% Creator, 40% Rewards, 30% Platform</li>
+    </ul>
+    
+    <h2>Revenue Distribution Model</h2>
+    
+    <h3>Access Fee Distribution Example</h3>
+    <p>When an earner pays $5 to access a high-value campaign:</p>
+    <table>
+        <tr>
+            <th>Recipient</th>
+            <th>Amount</th>
+            <th>Percentage</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td>Campaign Creator</td>
+            <td>$1.50</td>
+            <td>30%</td>
+            <td>Reward for quality content</td>
+        </tr>
+        <tr>
+            <td>TIV Reward Pool</td>
+            <td>$2.00</td>
+            <td>40%</td>
+            <td>Funds earner rewards</td>
+        </tr>
+        <tr>
+            <td>Profitiv Platform</td>
+            <td>$1.50</td>
+            <td>30%</td>
+            <td>Platform operations</td>
+        </tr>
+    </table>
+    
+    <h3>TIV Pack Revenue Example</h3>
+    <p>When a creator purchases a $1,000 TIV pack:</p>
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Amount</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>TIV Value</td>
+            <td>$900</td>
+            <td>500 TIVs @ $1.80 each (discounted)</td>
+        </tr>
+        <tr>
+            <td>Platform Fee (10%)</td>
+            <td>$100</td>
+            <td>Profitiv revenue</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td>$1,000</td>
+            <td>Creator investment</td>
+        </tr>
+    </table>
+    
+    <h2>Sustainability Model</h2>
+    
+    <div class="gradient-box">
+        <h3 style="color: white; margin-top: 0;">How Profitiv Sustains Operations</h3>
+        <p>Profitiv is built on a balanced ecosystem where:</p>
+        <ul style="margin-left: 1rem;">
+            <li>Brands grow through verified engagement</li>
+            <li>Creators expand their reach and earn revenue share</li>
+            <li>Earners are rewarded for authentic participation</li>
+            <li>Platform maintains sustainability through subscriptions and fees</li>
+        </ul>
+        <p style="margin-top: 1rem;"><strong>Key:</strong> Revenue comes from recurring subscriptions and transaction fees, NOT from investments or pooled funds. This ensures long-term platform independence and transparency.</p>
+    </div>
+    
+    <h2>Financial Projections (Year 1)</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Conservative</th>
+            <th>Moderate</th>
+            <th>Aggressive</th>
+        </tr>
+        <tr>
+            <td>Active Earners</td>
+            <td>2,500</td>
+            <td>10,000</td>
+            <td>25,000</td>
+        </tr>
+        <tr>
+            <td>Active Creators</td>
+            <td>250</td>
+            <td>1,000</td>
+            <td>2,500</td>
+        </tr>
+        <tr>
+            <td>Monthly Subscription Revenue</td>
+            <td>$71K</td>
+            <td>$450K</td>
+            <td>$1.4M</td>
+        </tr>
+        <tr>
+            <td>Monthly Marketplace Revenue</td>
+            <td>$10K</td>
+            <td>$75K</td>
+            <td>$250K</td>
+        </tr>
+        <tr>
+            <td>Total Monthly Revenue</td>
+            <td>$81K</td>
+            <td>$525K</td>
+            <td>$1.65M</td>
+        </tr>
+        <tr>
+            <td>Annual Revenue</td>
+            <td>$972K</td>
+            <td>$6.3M</td>
+            <td>$19.8M</td>
+        </tr>
+    </table>
+</div>
+
+<!-- DESIGN SYSTEM -->
+<div class="content-page" id="design-system">
+    <h1>5. Profitiv Pulse Design System</h1>
+    
+    <h2>Design Philosophy</h2>
+    <p><strong>Theme:</strong> Futuristic FinTech × Creator Economy — "Where Money Meets Motion"</p>
+    
+    <div class="gradient-box">
+        <h3 style="color: white; margin-top: 0;">Core Design Principles</h3>
+        <ul style="margin-left: 1rem;">
+            <li><strong>Motion & Energy:</strong> Subtle animations convey activity and value generation</li>
+            <li><strong>Glassmorphism:</strong> Frosted glass effects create depth and modern aesthetics</li>
+            <li><strong>Neon Accents:</strong> Electric purple and cyan create futuristic feel</li>
+            <li><strong>Dark Foundation:</strong> Deep carbon base allows neon elements to pop</li>
+            <li><strong>Clarity:</strong> Despite visual richness, information hierarchy stays clear</li>
+        </ul>
+    </div>
+    
+    <h2>Visual Elements</h2>
+    
+    <h3>1. Motion Background</h3>
+    <p>Slowly drifting gradient background (15-25 second loop):</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Creates sense of constant activity</li>
+        <li>Subtle enough not to distract from content</li>
+        <li>Radial gradients positioned strategically</li>
+        <li>Low opacity to maintain readability</li>
+    </ul>
+    
+    <h3>2. Glow Effects</h3>
+    <p>Two-layer glow system for depth:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Brighter Inner Glow:</strong> More saturated, tighter radius</li>
+        <li><strong>Darker Outer Glow:</strong> Less saturated, wider radius</li>
+        <li>Applied to cards, buttons, and interactive elements</li>
+        <li>Intensifies on hover/active states</li>
+    </ul>
+    
+    <h3>3. Glass Cards</h3>
+    <p>Signature component style:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Semi-transparent background with backdrop blur</li>
+        <li>Border with subtle white/color tint</li>
+        <li>Inner shadow for depth</li>
+        <li>Hover state increases brightness slightly</li>
+    </ul>
+    
+    <h3>4. Typography</h3>
+    <p><strong>Font Family:</strong> Poppins (or similar geometric sans-serif)</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Headings:</strong> 600-700 weight, tight letter-spacing</li>
+        <li><strong>Body:</strong> 400-500 weight, comfortable line-height (1.6-1.8)</li>
+        <li><strong>Numbers/Stats:</strong> 700 weight, larger size, gradient fills</li>
+        <li><strong>Micro-copy:</strong> 400 weight, reduced opacity (0.7-0.8)</li>
+    </ul>
+    
+    <h3>5. Buttons & CTAs</h3>
+    <p>Gradient-filled buttons with hover effects:</p>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Primary: Gradient fill (purple → cyan)</li>
+        <li>Secondary: Transparent with colored border</li>
+        <li>Rounded corners (999px for pill shape)</li>
+        <li>Gentle pulse animation on primary CTAs</li>
+        <li>Shadow glow increases on hover</li>
+    </ul>
+    
+    <h2>Dual Identity System</h2>
+    
+    <h3>Earner Interface</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Color Emphasis:</strong> Brighter cyan accents</li>
+        <li><strong>Mood:</strong> Energetic, action-oriented</li>
+        <li><strong>Higher neon contrast for engagement prompts</li>
+        <li><strong>Focus:</strong> Earning opportunities, progress tracking</li>
+    </ul>
+    
+    <h3>Creator Interface</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Color Emphasis:</strong> More purple tones</li>
+        <li><strong>Mood:</strong> Professional, analytical</li>
+        <li><strong>Slightly calmer but still energetic</li>
+        <li><strong>Focus:</strong> Campaign performance, ROI metrics</li>
+    </ul>
+    
+    <h2>Accessibility</h2>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Contrast Ratios:</strong> All text meets WCAG AA standards (4.5:1 minimum)</li>
+        <li><strong>Motion:</strong> Respect prefers-reduced-motion media query</li>
+        <li><strong>Focus States:</strong> Clear keyboard navigation indicators</li>
+        <li><strong>Screen Readers:</strong> Semantic HTML and ARIA labels</li>
+    </ul>
+</div>
+
+<!-- LOGO SPECIFICATIONS -->
+<div class="content-page" id="logo">
+    <h1>6. Logo & Brand Identity</h1>
+    
+    <h2>Primary Logo Mark</h2>
+    
+    <div style="background: #0b0c10; padding: 3rem; border-radius: 12px; text-align: center; margin: 2rem 0;">
+        <div style="font-size: 4rem; font-weight: 700; background: linear-gradient(135deg, hsl(270 100% 58%), hsl(180 100% 50%)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(108,99,255,0.8)) drop-shadow(0 0 60px rgba(0,229,255,0.6));">
+            PROFITIV
+        </div>
+    </div>
+    
+    <h2>Logo Specifications</h2>
+    
+    <h3>Wordmark Construction</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Text:</strong> "PROFITIV" or "Profitiv" (all caps preferred for logo)</li>
+        <li><strong>Font:</strong> Poppins Bold (700 weight) or similar geometric sans</li>
+        <li><strong>Treatment:</strong> Gradient fill with glow effect</li>
+        <li><strong>No Icon:</strong> Text-only mark for clean, modern look</li>
+    </ul>
+    
+    <h3>Gradient Fill Specifications</h3>
+    <div class="code-block">
+/* Primary Gradient (Left to Right) */
+linear-gradient(135deg, 
+  hsl(270 100% 58%) 0%,    /* Electric Violet */
+  hsl(180 100% 50%) 100%   /* Bright Cyan */
+)
+
+/* Alternative: Sharper Diagonal */
+linear-gradient(90deg, 
+  hsl(270 100% 58%), 
+  hsl(180 100% 50%)
+)
+    </div>
+    
+    <h3>Glow Effect Specifications</h3>
+    <div class="code-block">
+/* Two-layer drop shadow for depth */
+filter: 
+  drop-shadow(0 0 40px rgba(108, 99, 255, 0.8))
+  drop-shadow(0 0 80px rgba(0, 229, 255, 0.6));
+
+/* Optional: Animated pulse */
+@keyframes logoPulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 40px rgba(108,99,255,0.8))
+            drop-shadow(0 0 80px rgba(0,229,255,0.6));
+  }
+  50% { 
+    filter: drop-shadow(0 0 60px rgba(108,99,255,1))
+            drop-shadow(0 0 120px rgba(0,229,255,0.8));
+  }
+}
+animation: logoPulse 3s ease-in-out infinite;
+    </div>
+    
+    <h2>Logo Variants</h2>
+    
+    <h3>1. Color Gradient (Primary)</h3>
+    <p>Use on dark backgrounds (#0b0c10 or darker)</p>
+    <ul style="margin-left: 2rem;">
+        <li>Full gradient with glow effects</li>
+        <li>Highest visual impact</li>
+        <li>Primary usage for headers, hero sections</li>
+    </ul>
+    
+    <h3>2. White on Dark</h3>
+    <p>Simplified version for small sizes or contexts</p>
+    <ul style="margin-left: 2rem;">
+        <li>Solid white (#FFFFFF) with subtle glow</li>
+        <li>Better readability at small sizes</li>
+        <li>Use in navigation, footers</li>
+    </ul>
+    
+    <h3>3. Dark on Light (When Necessary)</h3>
+    <p>For light backgrounds (avoid if possible)</p>
+    <ul style="margin-left: 2rem;">
+        <li>Dark purple (#6C63FF) solid color</li>
+        <li>No glow effects</li>
+        <li>Use sparingly, platform is dark-themed</li>
+    </ul>
+    
+    <h2>Clear Space & Sizing</h2>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Minimum Clear Space:</strong> 0.5× logo height on all sides</li>
+        <li><strong>Minimum Size:</strong> 120px width for digital use</li>
+        <li><strong>Maximum Size:</strong> No limit, scales beautifully</li>
+        <li><strong>Aspect Ratio:</strong> Maintain original proportions always</li>
+    </ul>
+    
+    <h2>Usage Guidelines</h2>
+    
+    <h3>✅ DO</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Use on dark backgrounds for maximum impact</li>
+        <li>Maintain gradient direction (left to right)</li>
+        <li>Keep glow effects subtle and tasteful</li>
+        <li>Ensure sufficient contrast with background</li>
+        <li>Use as primary brand identifier across all touchpoints</li>
+    </ul>
+    
+    <h3>❌ DON'T</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Don't add additional effects or modifications</li>
+        <li>Don't change gradient colors or direction</li>
+        <li>Don't place on busy backgrounds</li>
+        <li>Don't stretch or distort proportions</li>
+        <li>Don't create icon-only versions</li>
+    </ul>
+</div>
+
+<!-- COLOR PALETTE -->
+<div class="content-page" id="colors">
+    <h1>7. Color Palette & Specifications</h1>
+    
+    <h2>Core Brand Colors</h2>
+    
+    <div class="color-grid">
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(270 100% 58%);"></div>
+            <h4>Electric Violet</h4>
+            <p><strong>HSL:</strong> 270 100% 58%</p>
+            <p><strong>Hex:</strong> #9F61FF</p>
+            <p><strong>Usage:</strong> Primary actions, headings</p>
+        </div>
+        
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(180 100% 50%);"></div>
+            <h4>Bright Cyan</h4>
+            <p><strong>HSL:</strong> 180 100% 50%</p>
+            <p><strong>Hex:</strong> #00FFFF</p>
+            <p><strong>Usage:</strong> Secondary actions, accents</p>
+        </div>
+        
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(220 50% 6%);"></div>
+            <h4>Deep Carbon</h4>
+            <p><strong>HSL:</strong> 220 50% 6%</p>
+            <p><strong>Hex:</strong> #0B0C10</p>
+            <p><strong>Usage:</strong> Background base</p>
+        </div>
+        
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(220 45% 8%); border: 1px solid white;"></div>
+            <h4>Graphite</h4>
+            <p><strong>HSL:</strong> 220 45% 8%</p>
+            <p><strong>Hex:</strong> #16181D</p>
+            <p><strong>Usage:</strong> Card backgrounds</p>
+        </div>
+    </div>
+    
+    <h2>Extended Palette</h2>
+    
+    <h3>Purple Variants</h3>
+    <div class="color-grid">
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(270 100% 70%);"></div>
+            <p><strong>Light Purple</strong></p>
+            <p>270 100% 70%</p>
+            <p>Hover states, glows</p>
+        </div>
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(270 100% 58%);"></div>
+            <p><strong>Primary Purple</strong></p>
+            <p>270 100% 58%</p>
+            <p>Main brand color</p>
+        </div>
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(270 100% 46%);"></div>
+            <p><strong>Dark Purple</strong></p>
+            <p>270 100% 46%</p>
+            <p>Pressed states</p>
+        </div>
+    </div>
+    
+    <h3>Cyan Variants</h3>
+    <div class="color-grid">
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(180 100% 65%);"></div>
+            <p><strong>Light Cyan</strong></p>
+            <p>180 100% 65%</p>
+            <p>Highlights, glows</p>
+        </div>
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(180 100% 50%);"></div>
+            <p><strong>Primary Cyan</strong></p>
+            <p>180 100% 50%</p>
+            <p>Secondary brand color</p>
+        </div>
+        <div class="color-item">
+            <div class="color-swatch" style="background: hsl(180 100% 40%);"></div>
+            <p><strong>Dark Cyan</strong></p>
+            <p>180 100% 40%</p>
+            <p>Borders, depth</p>
+        </div>
+    </div>
+    
+    <h2>Semantic Colors</h2>
+    
+    <table>
+        <tr>
+            <th>Purpose</th>
+            <th>Color</th>
+            <th>HSL</th>
+            <th>Usage</th>
+        </tr>
+        <tr>
+            <td>Success</td>
+            <td><span class="color-swatch" style="background: hsl(142 76% 36%); width: 30px; height: 30px;"></span></td>
+            <td>142 76% 36%</td>
+            <td>Completed actions, positive states</td>
+        </tr>
+        <tr>
+            <td>Warning</td>
+            <td><span class="color-swatch" style="background: hsl(38 92% 50%); width: 30px; height: 30px;"></span></td>
+            <td>38 92% 50%</td>
+            <td>Caution messages, pending states</td>
+        </tr>
+        <tr>
+            <td>Error</td>
+            <td><span class="color-swatch" style="background: hsl(0 84% 60%); width: 30px; height: 30px;"></span></td>
+            <td>0 84% 60%</td>
+            <td>Errors, destructive actions</td>
+        </tr>
+        <tr>
+            <td>Foreground</td>
+            <td><span class="color-swatch" style="background: hsl(0 0% 100%); width: 30px; height: 30px;"></span></td>
+            <td>0 0% 100%</td>
+            <td>Primary text color</td>
+        </tr>
+        <tr>
+            <td>Muted</td>
+            <td><span class="color-swatch" style="background: hsl(220 20% 60%); width: 30px; height: 30px;"></span></td>
+            <td>220 20% 60%</td>
+            <td>Secondary text, disabled states</td>
+        </tr>
+    </table>
+    
+    <h2>CSS Variables (Complete List)</h2>
+    
+    <div class="code-block">
+:root {
+  /* Base Colors */
+  --graphite: 220 50% 6%;
+  --graphite-2: 220 45% 8%;
+  --background: 220 50% 6%;
+  --foreground: 0 0% 100%;
+  
+  /* Cards & Surfaces */
+  --card: 220 45% 8%;
+  --card-foreground: 0 0% 100%;
+  --card-glass: 255 255 255 / 0.05;
+  --glass: 255 255 255 / 0.05;
+  
+  /* Brand Colors - Primary */
+  --holo-purple: 270 100% 58%;
+  --primary: 270 100% 58%;
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 270 100% 70%;
+  
+  /* Brand Colors - Secondary */
+  --holo-cyan: 180 100% 50%;
+  --secondary: 180 100% 50%;
+  --secondary-foreground: 220 50% 6%;
+  --secondary-glow: 180 100% 65%;
+  
+  /* Profitiv Specific */
+  --profitiv-purple: 270 100% 58%;
+  --profitiv-purple-light: 270 100% 70%;
+  --profitiv-purple-dark: 270 100% 46%;
+  --profitiv-cyan: 180 100% 50%;
+  --profitiv-cyan-light: 180 100% 65%;
+  --profitiv-cyan-dark: 180 100% 40%;
+  --profitiv-violet: 270 100% 65%;
+  --profitiv-aqua: 180 100% 50%;
+  
+  /* Status Colors */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --success: 142 76% 36%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 220 50% 6%;
+  
+  /* Muted Colors */
+  --muted: 220 20% 60%;
+  --muted-foreground: 220 15% 70%;
+  
+  /* Accent */
+  --accent: 180 100% 50%;
+  --accent-foreground: 220 50% 6%;
+  
+  /* Borders */
+  --border: 255 255 255 / 0.15;
+  --input: 220 45% 10%;
+  --ring: 180 100% 50%;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, 
+    hsl(270 100% 58%), hsl(180 100% 50%));
+  --gradient-secondary: linear-gradient(90deg, 
+    hsl(270 100% 58%), hsl(180 100% 50%));
+  --gradient-hero: linear-gradient(-45deg, 
+    #0c0c10, #1a0026, #001f3f, #0c0c10);
+  --gradient-card: linear-gradient(180deg, 
+    rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  
+  /* Glass Effects */
+  --glass-bg: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.15);
+  --glass-blur: blur(12px);
+  
+  /* Shadows & Glows */
+  --shadow-glow: 0 0 40px hsl(270 100% 58% / 0.5), 
+    0 0 60px hsl(180 100% 50% / 0.3);
+  --shadow-card: 0 0 25px rgba(138, 43, 226, 0.25);
+  --shadow-button: 0 0 30px hsl(180 100% 50% / 0.6);
+  --shadow-elegant: 0 0 35px rgba(0, 255, 255, 0.4);
+  
+  /* Animations */
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease: cubic-bezier(0.16, 0.84, 0.24, 1);
+  
+  /* Sizing */
+  --radius: 1rem;
+}
+    </div>
+    
+    <h2>Color Usage Guidelines</h2>
+    
+    <h3>Backgrounds</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Main Background:</strong> Deep Carbon (220 50% 6%) with gradient overlay</li>
+        <li><strong>Card Backgrounds:</strong> Graphite (220 45% 8%) with glass effect</li>
+        <li><strong>Elevated Elements:</strong> Slightly lighter with border glow</li>
+    </ul>
+    
+    <h3>Text</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Primary Text:</strong> White (100% opacity)</li>
+        <li><strong>Secondary Text:</strong> White (70-85% opacity)</li>
+        <li><strong>Disabled Text:</strong> Muted (60% opacity)</li>
+        <li><strong>Accent Text:</strong> Gradient fill or brand colors</li>
+    </ul>
+    
+    <h3>Interactive Elements</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Primary CTA:</strong> Gradient purple→cyan with glow</li>
+        <li><strong>Secondary CTA:</strong> Transparent with cyan border</li>
+        <li><strong>Hover:</strong> Increase brightness 10-20%, intensify glow</li>
+        <li><strong>Active/Pressed:</strong> Reduce brightness 10%, shadow inset</li>
+    </ul>
+</div>
+
+<!-- COMPONENTS -->
+<div class="content-page" id="components">
+    <h1>8. UI Components & Patterns</h1>
+    
+    <h2>Glass Card Component</h2>
+    <p>Foundational UI element for Profitiv:</p>
+    
+    <div class="code-block">
+.glass-card {
+  background: var(--glass-bg); /* rgba(255,255,255,0.05) */
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border); /* rgba(255,255,255,0.15) */
+  border-radius: var(--radius); /* 1rem */
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+}
+
+.glass-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.25);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+/* With neon edge accent */
+.glass-card.neon-edge::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, 
+    hsl(270 100% 58%), 
+    hsl(180 100% 50%));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0.6;
+}
+    </div>
+    
+    <h2>Gradient Button Component</h2>
+    
+    <div class="code-block">
+.btn-gradient {
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-button);
+  transition: var(--transition-smooth);
+}
+
+.btn-gradient:hover {
+  background: var(--gradient-primary);
+  filter: brightness(1.2);
+  box-shadow: 0 0 45px hsl(180 100% 50% / 0.8);
+  transform: translateY(-2px);
+}
+
+.btn-gradient:active {
+  transform: translateY(0);
+  box-shadow: 0 0 20px hsl(180 100% 50% / 0.4);
+}
+
+/* Pulse animation for high-priority CTAs */
+.btn-gradient.pulse {
+  animation: buttonPulse 3s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: 0 0 30px hsl(180 100% 50% / 0.6);
+  }
+  50% {
+    box-shadow: 0 0 50px hsl(180 100% 50% / 0.9);
+  }
+}
+    </div>
+    
+    <h2>Stat Display Component</h2>
+    <p>For showing earnings, balances, metrics:</p>
+    
+    <div class="code-block">
+.stat-display {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.stat-subtext {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
+}
+    </div>
+    
+    <h2>Progress Bar Component</h2>
+    
+    <div class="code-block">
+.progress-container {
+  width: 100%;
+  height: 8px;
+  background: var(--glass-bg);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 20px hsl(180 100% 50% / 0.5);
+  position: relative;
+}
+
+/* Animated shimmer effect */
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255,255,255,0.4), 
+    transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  to { left: 100%; }
+}
+    </div>
+    
+    <h2>Navigation Component</h2>
+    <p>Consistent header navigation across all pages:</p>
+    
+    <div class="code-block">
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(108,99,255,0.6));
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--foreground);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  opacity: 0.8;
+}
+
+.nav-link:hover {
+  opacity: 1;
+  color: hsl(var(--profitiv-cyan));
+}
+
+.nav-link.active {
+  opacity: 1;
+  color: hsl(var(--profitiv-purple));
+  position: relative;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+}
+    </div>
+    
+    <h2>Dashboard Card Grid</h2>
+    <p>Responsive grid layout for dashboard metrics:</p>
+    
+    <div class="code-block">
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.dashboard-card {
+  /* Extends glass-card */
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: var(--transition-smooth);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Card with accent border */
+.dashboard-card.accent-purple {
+  border-top: 3px solid hsl(var(--profitiv-purple));
+}
+
+.dashboard-card.accent-cyan {
+  border-top: 3px solid hsl(var(--profitiv-cyan));
+}
+    </div>
+    
+    <h2>Campaign Card Component</h2>
+    <p>Display campaign information in lists:</p>
+    
+    <div class="code-block">
+.campaign-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.75rem;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.campaign-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: hsl(var(--profitiv-cyan) / 0.5);
+}
+
+.campaign-thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  border: 2px solid var(--glass-border);
+}
+
+.campaign-info {
+  flex: 1;
+}
+
+.campaign-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--foreground);
+  margin-bottom: 0.25rem;
+}
+
+.campaign-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.campaign-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.campaign-status.active {
+  background: hsl(var(--success) / 0.2);
+  color: hsl(var(--success));
+}
+
+.campaign-status.pending {
+  background: hsl(var(--warning) / 0.2);
+  color: hsl(var(--warning));
+}
+    </div>
+    
+    <h2>Animation Utilities</h2>
+    
+    <div class="code-block">
+/* Fade in on load */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Stagger children */
+.stagger-children > * {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Pulse glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(270 100% 58% / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(270 100% 58% / 0.6),
+                0 0 60px hsl(180 100% 50% / 0.4);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+    </div>
+</div>
+
+<!-- BACKEND ARCHITECTURE -->
+<div class="content-page" id="backend">
+    <h1>9. Backend Architecture</h1>
+    
+    <h2>Technology Stack</h2>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li><strong>Database:</strong> Supabase (PostgreSQL)</li>
+        <li><strong>Authentication:</strong> Supabase Auth</li>
+        <li><strong>Storage:</strong> Supabase Storage</li>
+        <li><strong>Real-time:</strong> Supabase Realtime</li>
+        <li><strong>Edge Functions:</strong> Supabase/Deno</li>
+    </ul>
+    
+    <h2>Core Database Tables</h2>
+    
+    <h3>subscription_plans</h3>
+    <p>Defines available subscription tiers and their limits:</p>
+    <div class="code-block">
+CREATE TABLE subscription_plans (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  role TEXT NOT NULL, -- 'earner' or 'creator'
+  price DECIMAL(10,2) NOT NULL,
+  weekly_cap BIGINT,
+  monthly_cap BIGINT,
+  annual_cap BIGINT,
+  max_campaigns INTEGER,
+  max_target_views INTEGER,
+  revenue_share_percent DECIMAL(5,2),
+  features JSONB,
+  payout_delay_days INTEGER,
+  active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+    </div>
+    
+    <h3>user_subscriptions</h3>
+    <p>Tracks user subscription status and caps:</p>
+    <div class="code-block">
+CREATE TABLE user_subscriptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id),
+  plan_id UUID REFERENCES subscription_plans(id),
+  role TEXT NOT NULL,
+  status TEXT DEFAULT 'active',
+  kyc_verified BOOLEAN DEFAULT false,
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  expires_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- RLS Policy
+ALTER TABLE user_subscriptions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own subscription"
+  ON user_subscriptions FOR SELECT
+  USING (auth.uid() = user_id);
+    </div>
+    
+    <h3>campaigns</h3>
+    <p>Creator-posted video campaigns:</p>
+    <div class="code-block">
+CREATE TABLE campaigns (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  creator_id UUID REFERENCES auth.users(id),
+  title TEXT NOT NULL,
+  description TEXT,
+  video_url TEXT NOT NULL,
+  requested_views INTEGER DEFAULT 1000,
+  current_views INTEGER DEFAULT 0,
+  reward_per_view DECIMAL(10,2) DEFAULT 0.50,
+  reward_type TEXT DEFAULT 'TIV',
+  total_budget DECIMAL(10,2),
+  remaining_budget DECIMAL(10,2),
+  status TEXT DEFAULT 'draft',
+  target_audience JSONB,
+  published_at TIMESTAMPTZ,
+  completed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- RLS Policies
+ALTER TABLE campaigns ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view active campaigns"
+  ON campaigns FOR SELECT
+  USING (status = 'active');
+
+CREATE POLICY "Creators manage own campaigns"
+  ON campaigns FOR ALL
+  USING (auth.uid() = creator_id);
+    </div>
+    
+    <h3>campaign_participants</h3>
+    <p>Tracks user participation in campaigns:</p>
+    <div class="code-block">
+CREATE TABLE campaign_participants (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  campaign_id UUID REFERENCES campaigns(id),
+  user_id UUID REFERENCES auth.users(id),
+  progress INTEGER DEFAULT 0,
+  completed BOOLEAN DEFAULT false,
+  total_earned_tiv DECIMAL(10,2) DEFAULT 0,
+  total_earned_usd DECIMAL(10,2) DEFAULT 0,
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ,
+  last_activity_at TIMESTAMPTZ DEFAULT NOW()
+);
+    </div>
+    
+    <h3>earnings_history</h3>
+    <p>Detailed log of all earnings:</p>
+    <div class="code-block">
+CREATE TABLE earnings_history (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id),
+  campaign_id UUID REFERENCES campaigns(id),
+  activity_type TEXT NOT NULL,
+  amount_tiv DECIMAL(10,2),
+  amount_usd DECIMAL(10,2),
+  description TEXT,
+  metadata JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- RLS Policy
+ALTER TABLE earnings_history ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users view own earnings"
+  ON earnings_history FOR SELECT
+  USING (auth.uid() = user_id);
+    </div>
+    
+    <h3>tiv_packs</h3>
+    <p>Marketplace TIV pack offerings:</p>
+    <div class="code-block">
+CREATE TABLE tiv_packs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pack_name TEXT NOT NULL,
+  amount_tiv DECIMAL(10,2) NOT NULL,
+  price_usd DECIMAL(10,2) NOT NULL,
+  description TEXT,
+  featured BOOLEAN DEFAULT false,
+  active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+    </div>
+    
+    <h3>withdrawal_requests</h3>
+    <p>Payout requests and processing:</p>
+    <div class="code-block">
+CREATE TABLE withdrawal_requests (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id),
+  amount DECIMAL(10,2) NOT NULL,
+  fee DECIMAL(10,2) DEFAULT 0,
+  net_amount DECIMAL(10,2) NOT NULL,
+  method TEXT NOT NULL,
+  status TEXT DEFAULT 'pending',
+  kyc_verified BOOLEAN DEFAULT false,
+  stripe_account_id TEXT,
+  stripe_transfer_id TEXT,
+  processing_error TEXT,
+  auto_processed BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+    </div>
+    
+    <h2>Key PostgreSQL Functions</h2>
+    
+    <h3>participate_in_campaign</h3>
+    <div class="code-block">
+CREATE OR REPLACE FUNCTION participate_in_campaign(
+  _campaign_id UUID
+)
+RETURNS JSON AS $$
+DECLARE
+  _user_id UUID;
+  _existing_participation UUID;
+BEGIN
+  _user_id := auth.uid();
+  
+  -- Check if already participating
+  SELECT id INTO _existing_participation
+  FROM campaign_participants
+  WHERE campaign_id = _campaign_id 
+    AND user_id = _user_id;
+  
+  IF _existing_participation IS NOT NULL THEN
+    RETURN json_build_object(
+      'success', false,
+      'message', 'Already participating in this campaign'
+    );
+  END IF;
+  
+  -- Create participation record
+  INSERT INTO campaign_participants (
+    campaign_id, user_id, progress, started_at
+  ) VALUES (
+    _campaign_id, _user_id, 0, NOW()
+  );
+  
+  RETURN json_build_object(
+    'success', true,
+    'message', 'Successfully joined campaign'
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+    </div>
+    
+    <h3>complete_campaign_view</h3>
+    <div class="code-block">
+CREATE OR REPLACE FUNCTION complete_campaign_view(
+  _campaign_id UUID
+)
+RETURNS JSON AS $$
+DECLARE
+  _user_id UUID;
+  _reward_per_view DECIMAL(10,2);
+  _campaign_status TEXT;
+  _remaining_budget DECIMAL(10,2);
+BEGIN
+  _user_id := auth.uid();
+  
+  -- Get campaign details
+  SELECT status, remaining_budget, reward_per_view
+  INTO _campaign_status, _remaining_budget, _reward_per_view
+  FROM campaigns
+  WHERE id = _campaign_id;
+  
+  -- Verify campaign is active and has budget
+  IF _campaign_status != 'active' OR _remaining_budget < _reward_per_view THEN
+    RETURN json_build_object(
+      'success', false,
+      'message', 'Campaign not available'
+    );
+  END IF;
+  
+  -- Update participant progress
+  UPDATE campaign_participants
+  SET progress = progress + 1,
+      total_earned_tiv = total_earned_tiv + _reward_per_view,
+      total_earned_usd = total_earned_usd + (_reward_per_view * 2),
+      last_activity_at = NOW()
+  WHERE campaign_id = _campaign_id 
+    AND user_id = _user_id;
+  
+  -- Update campaign stats
+  UPDATE campaigns
+  SET current_views = current_views + 1,
+      remaining_budget = remaining_budget - _reward_per_view
+  WHERE id = _campaign_id;
+  
+  -- Log earnings
+  INSERT INTO earnings_history (
+    user_id, campaign_id, activity_type, 
+    amount_tiv, amount_usd
+  ) VALUES (
+    _user_id, _campaign_id, 'video_view',
+    _reward_per_view, _reward_per_view * 2
+  );
+  
+  RETURN json_build_object(
+    'success', true,
+    'earned_tiv', _reward_per_view,
+    'earned_usd', _reward_per_view * 2
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+    </div>
+    
+    <h2>Seeding Data</h2>
+    
+    <h3>Seed Subscription Plans</h3>
+    <div class="code-block">
+-- Earner Plans
+INSERT INTO subscription_plans (
+  name, role, price, 
+  weekly_cap, monthly_cap, annual_cap
+) VALUES
+  ('Starter', 'earner', 25, 165, 720, 8300),
+  ('Builder', 'earner', 50, 340, 1450, 16800),
+  ('Pro', 'earner', 75, 560, 2350, 28100),
+  ('Elite', 'earner', 100, 760, 3350, 39900);
+
+-- Creator Plans
+INSERT INTO subscription_plans (
+  name, role, price, 
+  max_campaigns, max_target_views
+) VALUES
+  ('Starter', 'creator', 35, 3, 10000),
+  ('Builder', 'creator', 70, 10, 50000),
+  ('Pro', 'creator', 105, 25, 200000),
+  ('Elite', 'creator', 140, NULL, NULL);
+    </div>
+    
+    <h3>Seed TIV Packs</h3>
+    <div class="code-block">
+INSERT INTO tiv_packs (
+  pack_name, amount_tiv, price_usd, featured
+) VALUES
+  ('Starter Pack', 50, 100, false),
+  ('Growth Pack', 150, 280, false),
+  ('Pro Pack', 500, 900, true),
+  ('Elite Pack', 1500, 2500, true),
+  ('Enterprise Pack', 5000, 8000, false);
+    </div>
+</div>
+
+<!-- STRIPE INTEGRATION -->
+<div class="content-page" id="stripe">
+    <h1>10. Stripe Integration Guide</h1>
+    
+    <h2>Overview</h2>
+    <p>Profitiv uses <strong>Stripe Connect</strong> for creator payouts and standard Stripe for earner withdrawals.</p>
+    
+    <h2>Setup Steps</h2>
+    
+    <h3>1. Create Stripe Account</h3>
+    <ol style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Sign up at <a href="https://stripe.com">stripe.com</a></li>
+        <li>Complete account verification</li>
+        <li>Get API keys from Dashboard → Developers → API keys</li>
+        <li>Use Test mode keys for development</li>
+    </ol>
+    
+    <h3>2. Enable Stripe Connect</h3>
+    <ol style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Dashboard → Connect → Get Started</li>
+        <li>Choose "Standard" accounts (recommended)</li>
+        <li>Configure branding and settings</li>
+        <li>Set up webhooks endpoint</li>
+    </ol>
+    
+    <h3>3. Environment Variables</h3>
+    <div class="code-block">
+# Add to .env file (NEVER commit this file)
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_CONNECT_CLIENT_ID=ca_...
+    </div>
+    
+    <h2>Implementation Code</h2>
+    
+    <h3>Stripe Client Setup</h3>
+    <div class="code-block">
+// src/lib/stripe.ts
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2023-10-16',
+});
+
+export default stripe;
+    </div>
+    
+    <h3>Creator Connect Onboarding</h3>
+    <div class="code-block">
+// Initialize Stripe Connect for creator
+export async function initializeStripeConnect(userId: string) {
+  try {
+    const account = await stripe.accounts.create({
+      type: 'standard',
+      metadata: {
+        profitiv_user_id: userId
+      }
+    });
+    
+    const accountLink = await stripe.accountLinks.create({
+      account: account.id,
+      refresh_url: `${BASE_URL}/stripe-onboarding`,
+      return_url: `${BASE_URL}/dashboard`,
+      type: 'account_onboarding',
+    });
+    
+    // Save account ID to database
+    await supabase
+      .from('profiles')
+      .update({ stripe_account_id: account.id })
+      .eq('user_id', userId);
+    
+    return accountLink.url;
+  } catch (error) {
+    console.error('Stripe Connect error:', error);
+    throw error;
+  }
+}
+    </div>
+    
+    <h3>TIV Pack Checkout</h3>
+    <div class="code-block">
+// Create checkout session for TIV pack purchase
+export async function createTIVPackCheckout(
+  packId: string,
+  userId: string
+) {
+  const { data: pack } = await supabase
+    .from('tiv_packs')
+    .select('*')
+    .eq('id', packId)
+    .single();
+    
+  if (!pack) throw new Error('Pack not found');
+  
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: pack.pack_name,
+            description: `${pack.amount_tiv} TIVs`,
+          },
+          unit_amount: Math.round(pack.price_usd * 100),
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: `${BASE_URL}/marketplace?success=true`,
+    cancel_url: `${BASE_URL}/marketplace?canceled=true`,
+    metadata: {
+      user_id: userId,
+      pack_id: packId,
+      amount_tiv: pack.amount_tiv.toString(),
+    },
+  });
+  
+  return session.url;
+}
+    </div>
+    
+    <h3>Process Withdrawal</h3>
+    <div class="code-block">
+// Process earner withdrawal via Stripe
+export async function processWithdrawal(
+  withdrawalId: string
+) {
+  const { data: withdrawal } = await supabase
+    .from('withdrawal_requests')
+    .select('*, profiles(stripe_account_id)')
+    .eq('id', withdrawalId)
+    .single();
+    
+  if (!withdrawal) throw new Error('Withdrawal not found');
+  
+  if (!withdrawal.kyc_verified) {
+    throw new Error('KYC verification required');
+  }
+  
+  const transfer = await stripe.transfers.create({
+    amount: Math.round(withdrawal.net_amount * 100),
+    currency: 'usd',
+    destination: withdrawal.profiles.stripe_account_id,
+    metadata: {
+      withdrawal_id: withdrawalId,
+      user_id: withdrawal.user_id,
+    },
+  });
+  
+  // Update withdrawal status
+  await supabase
+    .from('withdrawal_requests')
+    .update({
+      status: 'completed',
+      stripe_transfer_id: transfer.id,
+      completed_at: new Date().toISOString(),
+    })
+    .eq('id', withdrawalId);
+    
+  return transfer;
+}
+    </div>
+    
+    <h3>Webhook Handler</h3>
+    <div class="code-block">
+// Handle Stripe webhooks
+export async function handleStripeWebhook(
+  body: string,
+  signature: string
+) {
+  const event = stripe.webhooks.constructEvent(
+    body,
+    signature,
+    process.env.STRIPE_WEBHOOK_SECRET!
+  );
+  
+  switch (event.type) {
+    case 'checkout.session.completed':
+      const session = event.data.object;
+      await handleSuccessfulCheckout(session);
+      break;
+      
+    case 'transfer.paid':
+      const transfer = event.data.object;
+      await handleTransferCompleted(transfer);
+      break;
+      
+    case 'account.updated':
+      const account = event.data.object;
+      await handleAccountUpdated(account);
+      break;
+  }
+}
+
+async function handleSuccessfulCheckout(session: any) {
+  const { user_id, pack_id, amount_tiv } = session.metadata;
+  
+  // Credit TIVs to user
+  await supabase.rpc('credit_user_tiv', {
+    _user_id: user_id,
+    _amount: parseFloat(amount_tiv),
+    _source: 'pack_purchase',
+  });
+  
+  // Log transaction
+  await supabase.from('tiv_transactions').insert({
+    user_id,
+    pack_id,
+    amount_tiv: parseFloat(amount_tiv),
+    amount_usd: session.amount_total / 100,
+    stripe_session_id: session.id,
+    status: 'completed',
+  });
+}
+    </div>
+    
+    <h2>Security Considerations</h2>
+    
+    <div class="gradient-box">
+        <h3 style="color: white; margin-top: 0;">Critical Security Practices</h3>
+        <ul style="margin-left: 1rem;">
+            <li><strong>Never expose secret keys:</strong> Keep in .env, never commit</li>
+            <li><strong>Verify webhooks:</strong> Always validate signature</li>
+            <li><strong>KYC before payouts:</strong> Require full verification</li>
+            <li><strong>Rate limiting:</strong> Prevent abuse of payment endpoints</li>
+            <li><strong>Transaction logging:</strong> Audit trail for all financial ops</li>
+        </ul>
+    </div>
+    
+    <h2>Testing</h2>
+    
+    <h3>Test Cards</h3>
+    <table>
+        <tr>
+            <th>Card Number</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>4242 4242 4242 4242</td>
+            <td>Successful payment</td>
+        </tr>
+        <tr>
+            <td>4000 0000 0000 0002</td>
+            <td>Card declined</td>
+        </tr>
+        <tr>
+            <td>4000 0000 0000 9995</td>
+            <td>Insufficient funds</td>
+        </tr>
+    </table>
+    
+    <p>Use any future expiration date and any 3-digit CVC.</p>
+    
+    <h2>Going Live</h2>
+    <ol style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>Complete Stripe account verification</li>
+        <li>Request production access if needed</li>
+        <li>Switch to live API keys</li>
+        <li>Update webhook endpoints to production URLs</li>
+        <li>Test small transactions first</li>
+        <li>Monitor Stripe dashboard for issues</li>
+    </ol>
+</div>
+
+<!-- COMPLETE HTML TEMPLATES -->
+<div class="content-page" id="templates">
+    <h1>11. Complete HTML Templates</h1>
+    
+    <p><strong>Note:</strong> The following templates are production-ready HTML/CSS/JS files. Each can be saved as a separate file and used directly. They include all Profitiv Pulse styling and are fully responsive.</p>
+    
+    <h2>File Structure</h2>
+    <div class="code-block">
+profitiv-templates/
+├── styles.css (shared design system)
+├── app.js (shared JavaScript)
+├── index-creator.html (creator homepage)
+├── index-earner.html (earner homepage)
+├── dashboard-creator.html (creator dashboard)
+└── dashboard-earner.html (earner dashboard)
+    </div>
+    
+    <h2>Complete Template Files</h2>
+    <p>Due to length, the complete templates are provided in the repository. Each file includes:</p>
+    
+    <h3>styles.css</h3>
+    <ul style="margin-left: 2rem;">
+        <li>Full Profitiv Pulse design system</li>
+        <li>Animated background (gradient + stripe motion)</li>
+        <li>Glass card components</li>
+        <li>Button variants</li>
+        <li>Navigation styles</li>
+        <li>Responsive breakpoints</li>
+    </ul>
+    
+    <h3>app.js</h3>
+    <ul style="margin-left: 2rem;">
+        <li>Background animation initialization</li>
+        <li>Demo API placeholders (replace with Supabase)</li>
+        <li>Dashboard data loading</li>
+        <li>UI helper functions</li>
+    </ul>
+    
+    <h3>Homepage Templates</h3>
+    <ul style="margin-left: 2rem;">
+        <li><strong>index-creator.html:</strong> Full creator landing page with hero, features, dashboard preview</li>
+        <li><strong>index-earner.html:</strong> Full earner landing page with earning methods, plans, testimonials</li>
+    </ul>
+    
+    <h3>Dashboard Templates</h3>
+    <ul style="margin-left: 2rem;">
+        <li><strong>dashboard-creator.html:</strong> Campaign management, earnings, analytics</li>
+        <li><strong>dashboard-earner.html:</strong> Active campaigns, TIV balance, earnings history, caps</li>
+    </ul>
+    
+    <h2>Integration Instructions</h2>
+    
+    <h3>Replace Demo Data with Supabase</h3>
+    <div class="code-block">
+// In app.js, replace DemoAPI methods:
+
+const DemoAPI = {
+  getUserSession: async function() {
+    // Replace with:
+    const { data } = await supabase.auth.getSession();
+    return data.session?.user || null;
+  },
+  
+  getSubscriptionForUser: async function(userId) {
+    // Replace with:
+    const { data } = await supabase
+      .from('user_subscriptions')
+      .select(`
+        *,
+        subscription_plans (*)
+      `)
+      .eq('user_id', userId)
+      .eq('status', 'active')
+      .maybeSingle();
+    return data;
+  },
+  
+  getActiveCampaigns: async function(userId) {
+    // Replace with:
+    const { data } = await supabase
+      .from('campaign_participants')
+      .select(`
+        *,
+        campaigns (*)
+      `)
+      .eq('user_id', userId)
+      .eq('completed', false);
+    return data;
+  }
+};
+    </div>
+    
+    <h3>Add Logo Asset</h3>
+    <p>Replace all instances of <code>src="/profitiv-logo-purple.svg"</code> with your actual logo file path.</p>
+    
+    <h3>Connect Navigation</h3>
+    <p>Update all href attributes to match your React Router routes:</p>
+    <div class="code-block">
+<!-- Update these hrefs -->
+<a href="/dashboard">Dashboard</a>
+<a href="/campaigns">Campaigns</a>
+<a href="/marketplace">Marketplace</a>
+<a href="/auth">Sign In</a>
+    </div>
+</div>
+
+<!-- LAUNCH CHECKLIST -->
+<div class="content-page" id="launch">
+    <h1>12. Launch Checklist</h1>
+    
+    <h2>Pre-Launch (Development)</h2>
+    
+    <h3>✅ Database Setup</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] All tables created with proper schema</li>
+        <li>[ ] RLS policies enabled and tested</li>
+        <li>[ ] Subscription plans seeded</li>
+        <li>[ ] TIV packs seeded</li>
+        <li>[ ] Database functions deployed</li>
+        <li>[ ] Test data created for QA</li>
+    </ul>
+    
+    <h3>✅ Authentication</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Email/password signup working</li>
+        <li>[ ] Email verification enabled</li>
+        <li>[ ] Password reset flow tested</li>
+        <li>[ ] Session management working</li>
+        <li>[ ] Role assignment on signup</li>
+    </ul>
+    
+    <h3>✅ Subscription System</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Plan selection page functional</li>
+        <li>[ ] Subscription creation working</li>
+        <li>[ ] Caps properly enforced</li>
+        <li>[ ] Plan upgrades/downgrades working</li>
+        <li>[ ] Billing integration complete</li>
+    </ul>
+    
+    <h3>✅ Campaign Management</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Campaign creation flow complete</li>
+        <li>[ ] Video upload/embedding working</li>
+        <li>[ ] Campaign publishing functional</li>
+        <li>[ ] View tracking accurate</li>
+        <li>[ ] Reward distribution working</li>
+        <li>[ ] Campaign completion detection</li>
+    </ul>
+    
+    <h3>✅ TIV Marketplace</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Pack listing displayed correctly</li>
+        <li>[ ] Purchase flow working</li>
+        <li>[ ] TIV balance updates correctly</li>
+        <li>[ ] Transaction history logging</li>
+        <li>[ ] Marketplace fees calculated</li>
+    </ul>
+    
+    <h3>✅ Withdrawals & Payouts</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] KYC verification flow complete</li>
+        <li>[ ] Stripe Connect integration working</li>
+        <li>[ ] Withdrawal requests processing</li>
+        <li>[ ] Fee calculations correct</li>
+        <li>[ ] Payout notifications sent</li>
+        <li>[ ] Error handling for failed payouts</li>
+    </ul>
+    
+    <h2>Security & Compliance</h2>
+    
+    <h3>✅ KYC/AML</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] ID verification system implemented</li>
+        <li>[ ] Document upload and review</li>
+        <li>[ ] Fraud detection measures</li>
+        <li>[ ] Sanctions screening (if applicable)</li>
+        <li>[ ] Audit trail for all verifications</li>
+    </ul>
+    
+    <h3>✅ Legal</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Terms of Service finalized</li>
+        <li>[ ] Privacy Policy complete</li>
+        <li>[ ] Cookie policy if applicable</li>
+        <li>[ ] Payout policy documented</li>
+        <li>[ ] All disclaimers in place ("earning potential varies")</li>
+        <li>[ ] Legal review completed</li>
+    </ul>
+    
+    <h3>✅ Data Protection</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] SSL/TLS certificates installed</li>
+        <li>[ ] Sensitive data encrypted</li>
+        <li>[ ] PII handling compliant</li>
+        <li>[ ] Data retention policies set</li>
+        <li>[ ] Backup strategy implemented</li>
+    </ul>
+    
+    <h2>Testing</h2>
+    
+    <h3>✅ Functional Testing</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] User registration → subscription → earning → withdrawal (full flow)</li>
+        <li>[ ] Creator registration → campaign creation → analytics</li>
+        <li>[ ] All payment flows tested with Stripe test mode</li>
+        <li>[ ] Error states handled gracefully</li>
+        <li>[ ] Edge cases tested (zero balance, max caps, etc.)</li>
+    </ul>
+    
+    <h3>✅ Performance Testing</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Load time under 3 seconds</li>
+        <li>[ ] Database queries optimized</li>
+        <li>[ ] Image assets compressed</li>
+        <li>[ ] API responses cached where appropriate</li>
+        <li>[ ] Tested with 100+ concurrent users</li>
+    </ul>
+    
+    <h3>✅ Browser/Device Testing</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Chrome (latest)</li>
+        <li>[ ] Firefox (latest)</li>
+        <li>[ ] Safari (latest)</li>
+        <li>[ ] Edge (latest)</li>
+        <li>[ ] Mobile iOS Safari</li>
+        <li>[ ] Mobile Android Chrome</li>
+        <li>[ ] Tablet devices</li>
+    </ul>
+    
+    <h2>Deployment</h2>
+    
+    <h3>✅ Infrastructure</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Production database created</li>
+        <li>[ ] Production Supabase project configured</li>
+        <li>[ ] Domain purchased and DNS configured</li>
+        <li>[ ] SSL certificate active</li>
+        <li>[ ] CDN configured (if using)</li>
+        <li>[ ] Monitoring tools set up</li>
+    </ul>
+    
+    <h3>✅ Environment Variables</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] All secrets moved to production environment</li>
+        <li>[ ] Stripe live keys configured</li>
+        <li>[ ] Supabase production keys set</li>
+        <li>[ ] No test credentials in production</li>
+        <li>[ ] .env files excluded from version control</li>
+    </ul>
+    
+    <h3>✅ Stripe Configuration</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Stripe account fully verified</li>
+        <li>[ ] Business details complete</li>
+        <li>[ ] Bank account connected</li>
+        <li>[ ] Live API keys obtained</li>
+        <li>[ ] Webhook endpoints updated to production URLs</li>
+        <li>[ ] Test transactions completed in live mode</li>
+    </ul>
+    
+    <h2>Launch Day</h2>
+    
+    <h3>✅ Final Checks</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] All features tested in production</li>
+        <li>[ ] Monitoring dashboards reviewed</li>
+        <li>[ ] Error tracking active (Sentry, etc.)</li>
+        <li>[ ] Support email/system ready</li>
+        <li>[ ] Social media accounts ready</li>
+        <li>[ ] Marketing materials prepared</li>
+    </ul>
+    
+    <h3>✅ Soft Launch</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Invite 10-20 beta users</li>
+        <li>[ ] Monitor for 24-48 hours</li>
+        <li>[ ] Collect feedback</li>
+        <li>[ ] Fix critical issues</li>
+        <li>[ ] Verify payments processing correctly</li>
+    </ul>
+    
+    <h3>✅ Public Launch</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Announce on social media</li>
+        <li>[ ] Send email to waitlist</li>
+        <li>[ ] Press release (if applicable)</li>
+        <li>[ ] Monitor metrics closely</li>
+        <li>[ ] Respond to support requests quickly</li>
+    </ul>
+    
+    <h2>Post-Launch (First 30 Days)</h2>
+    
+    <h3>✅ Monitoring</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Daily review of error logs</li>
+        <li>[ ] Payment processing verification</li>
+        <li>[ ] User feedback collection</li>
+        <li>[ ] Fraud/abuse monitoring</li>
+        <li>[ ] Performance metrics tracking</li>
+    </ul>
+    
+    <h3>✅ Iteration</h3>
+    <ul style="margin-left: 2rem; font-size: 1.1rem;">
+        <li>[ ] Address critical bugs immediately</li>
+        <li>[ ] Plan feature improvements</li>
+        <li>[ ] Optimize based on usage data</li>
+        <li>[ ] Refine pricing if needed</li>
+        <li>[ ] Enhance onboarding based on drop-off rates</li>
+    </ul>
+    
+    <h2>Key Metrics to Track</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Target</th>
+            <th>How to Measure</th>
+        </tr>
+        <tr>
+            <td>User Signups</td>
+            <td>50+ first week</td>
+            <td>Supabase auth logs</td>
+        </tr>
+        <tr>
+            <td>Paid Subscribers</td>
+            <td>10+ first week</td>
+            <td>user_subscriptions table</td>
+        </tr>
+        <tr>
+            <td>Campaign Creations</td>
+            <td>5+ first week</td>
+            <td>campaigns table count</td>
+        </tr>
+        <tr>
+            <td>Total Platform Revenue</td>
+            <td>$500+ first month</td>
+            <td>Stripe dashboard</td>
+        </tr>
+        <tr>
+            <td>Avg Session Duration</td>
+            <td>10+ minutes</td>
+            <td>Analytics tool</td>
+        </tr>
+        <tr>
+            <td>Support Tickets</td>
+            <td>< 10% of users</td>
+            <td>Support system</td>
+        </tr>
+    </table>
+    
+    <div class="gradient-box">
+        <h3 style="color: white; margin-top: 0;">🚀 Ready to Launch!</h3>
+        <p>Once all checklist items are complete, you're ready to connect Stripe and launch Profitiv. Remember: start small, monitor closely, and iterate based on real user feedback.</p>
+        <p style="margin-bottom: 0;"><strong>The only thing left is connecting Stripe!</strong></p>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="content-page" style="text-align: center; border-top: 2px solid #6C63FF; padding-top: 3rem; margin-top: 3rem;">
+    <div style="font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, hsl(270 100% 58%), hsl(180 100% 50%)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;">
+        PROFITIV
+    </div>
+    <p style="color: #666; font-size: 1rem;">Complete Product Documentation & Design System</p>
+    <p style="color: #999; font-size: 0.875rem; margin-top: 2rem;">© 2025 Profitiv LLC. All rights reserved.</p>
+    <p style="color: #999; font-size: 0.875rem;">Where Money Meets Motion</p>
+</div>
+
+</body>
+</html>
