@@ -476,6 +476,7 @@ export type Database = {
       subscription_plans: {
         Row: {
           active: boolean | null
+          annual_cap: number | null
           created_at: string | null
           features: Json | null
           id: string
@@ -491,6 +492,7 @@ export type Database = {
         }
         Insert: {
           active?: boolean | null
+          annual_cap?: number | null
           created_at?: string | null
           features?: Json | null
           id?: string
@@ -506,6 +508,7 @@ export type Database = {
         }
         Update: {
           active?: boolean | null
+          annual_cap?: number | null
           created_at?: string | null
           features?: Json | null
           id?: string
