@@ -45,6 +45,7 @@ export default function AdminVerifications() {
   const [selectedVerification, setSelectedVerification] = useState<VerificationRecord | null>(null);
   const [rejectionReason, setRejectionReason] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
+  const [documentUrls, setDocumentUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetchVerifications();
@@ -126,6 +127,56 @@ export default function AdminVerifications() {
       toast.error(error.message || 'Failed to reject verification');
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  const getSignedDocumentUrl = async (path: string, userId: string, docType: string) => {
+    try {
+      if (!path || path.startsWith('placeholder_')) {
+        return null; // Skip placeholder URLs
+      }
+
+      // Check if we already have a valid cached URL
+      if (documentUrls[path]) {
+        return documentUrls[path];
+      }
+
+      // Generate signed URL (15 minute expiry)
+      const { data, error } = await supabase.storage
+        .from('verification-documents')
+        .createSignedUrl(path, 900);
+
+      if (error) throw error;
+
+      // Log document access
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase
+          .from('verification_access_log')
+          .insert({
+            user_id: userId,
+            accessed_by: user.id,
+            document_type: docType,
+            document_path: path
+          });
+      }
+
+      // Cache the URL
+      setDocumentUrls(prev => ({ ...prev, [path]: data.signedUrl }));
+      
+      return data.signedUrl;
+    } catch (error) {
+      console.error('Error generating signed URL:', error);
+      return null;
+    }
+  };
+
+  const viewDocument = async (path: string, userId: string, docType: string) => {
+    const url = await getSignedDocumentUrl(path, userId, docType);
+    if (url) {
+      window.open(url, '_blank');
+    } else {
+      toast.error('Unable to view document');
     }
   };
 
@@ -258,13 +309,55 @@ export default function AdminVerifications() {
                                         <Clock className="h-5 w-5 text-yellow-500" />
                                         ID Verification
                                       </h3>
-                                      <div className="space-y-2 text-sm">
-                                        <p className="text-white/60">Documents uploaded (placeholder URLs):</p>
-                                        <ul className="list-disc list-inside text-white/80 space-y-1">
-                                          <li>Front: {selectedVerification.id_document_front_url}</li>
-                                          <li>Back: {selectedVerification.id_document_back_url}</li>
-                                          <li>Selfie: {selectedVerification.id_selfie_url}</li>
-                                        </ul>
+                                      <div className="space-y-2">
+                                        <p className="text-sm text-white/60 mb-3">Review uploaded documents:</p>
+                                        <div className="flex flex-col gap-2">
+                                          {selectedVerification.id_document_front_url && (
+                                            <Button
+                                              variant="outline"
+                                              size="sm"
+                                              onClick={() => viewDocument(
+                                                selectedVerification.id_document_front_url,
+                                                selectedVerification.user_id,
+                                                'id_front'
+                                              )}
+                                              className="justify-start"
+                                            >
+                                              <Eye className="h-4 w-4 mr-2" />
+                                              View ID Front
+                                            </Button>
+                                          )}
+                                          {selectedVerification.id_document_back_url && (
+                                            <Button
+                                              variant="outline"
+                                              size="sm"
+                                              onClick={() => viewDocument(
+                                                selectedVerification.id_document_back_url,
+                                                selectedVerification.user_id,
+                                                'id_back'
+                                              )}
+                                              className="justify-start"
+                                            >
+                                              <Eye className="h-4 w-4 mr-2" />
+                                              View ID Back
+                                            </Button>
+                                          )}
+                                          {selectedVerification.id_selfie_url && (
+                                            <Button
+                                              variant="outline"
+                                              size="sm"
+                                              onClick={() => viewDocument(
+                                                selectedVerification.id_selfie_url,
+                                                selectedVerification.user_id,
+                                                'selfie'
+                                              )}
+                                              className="justify-start"
+                                            >
+                                              <Eye className="h-4 w-4 mr-2" />
+                                              View Selfie
+                                            </Button>
+                                          )}
+                                        </div>
                                       </div>
                                       <div className="space-y-2">
                                         <Label htmlFor="id-reason">Rejection Reason (if rejecting)</Label>

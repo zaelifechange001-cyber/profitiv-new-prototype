@@ -159,8 +159,30 @@ export function VerificationWizard() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      // TODO: Upload to Supabase Storage
-      // For now, just update the status
+      const file = files[0];
+      
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+      if (!allowedTypes.includes(file.type)) {
+        throw new Error('Invalid file type. Only JPEG, PNG, and PDF files are allowed.');
+      }
+
+      // Validate file size (10MB max)
+      if (file.size > 10485760) {
+        throw new Error('File size must be less than 10MB');
+      }
+
+      // Upload to Supabase Storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${type}_${Date.now()}.${fileExt}`;
+      
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('verification-documents')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      // Store file path (not URL) in database
       const field = type === 'front' ? 'id_document_front_url' : 
                     type === 'back' ? 'id_document_back_url' : 
                     'id_selfie_url';
@@ -168,7 +190,7 @@ export function VerificationWizard() {
       await supabase
         .from('user_verifications')
         .update({
-          [field]: `placeholder_${type}_${Date.now()}`,
+          [field]: uploadData.path,
           id_verification_status: 'pending',
           id_submitted_at: new Date().toISOString(),
         })
