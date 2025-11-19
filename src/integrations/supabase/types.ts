@@ -1034,6 +1034,33 @@ export type Database = {
         }
         Relationships: []
       }
+      verification_access_log: {
+        Row: {
+          accessed_at: string | null
+          accessed_by: string
+          document_path: string
+          document_type: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          accessed_at?: string | null
+          accessed_by: string
+          document_path: string
+          document_type: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          accessed_at?: string | null
+          accessed_by?: string
+          document_path?: string
+          document_type?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       verification_logs: {
         Row: {
           action: string
